@@ -252,6 +252,7 @@ button {
 .loginContainer button {
   background-color: dodgerblue;
   color: white;
+  cursor: pointer
 }
 
 .loginContainer input {
