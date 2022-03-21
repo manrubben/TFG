@@ -11,6 +11,8 @@ const db = require("./models");
 // Routers
 const userRouter = require("./routes/Users");
 app.use("/users", userRouter);
+const personaRouter = require("./routes/PersonasDependientes");
+app.use("/personas", personaRouter);
 
 
 db.sequelize.sync().then(() => {
@@ -18,4 +20,5 @@ db.sequelize.sync().then(() => {
         console.log("Server running on port 3001");
     });
 });
+
 
