@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Users, PersonasDependientes } = require("../models");
+const { Users, PersonasDependientes, UserPersonaDependiente } = require("../models");
 const bcrypt = require("bcryptjs");
 const {Router} = require("express");
 const {sign} = require("jsonwebtoken")
@@ -56,25 +56,6 @@ router.get("/auth", validateToken, (req, res) => {
     res.json(req.user);
 })
 
-//Add user to a personaDependiente
-router.post("/add", async (req, res) => {
-    const { userId, personaDependienteId } = req.body;
-
-    const user = await Users.findByPk(userId);
-    const personaDependiente = await PersonasDependientes.findByPk(personaDependienteId);
-
-    if(!user) {
-        res.json({error: "User doesn't exist"});
-    } else {
-        if(!personaDependiente) {
-            res.json({error: "Persona dependiente doesn't exist"});
-        } else {
-            await user.addModel(personaDependiente);
-            res.json("SUCCESS")
-        }
-    }
-
-})
 
 
 

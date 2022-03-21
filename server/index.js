@@ -13,6 +13,8 @@ const userRouter = require("./routes/Users");
 app.use("/users", userRouter);
 const personaRouter = require("./routes/PersonasDependientes");
 app.use("/personas", personaRouter);
+userPersonaDependienteRouter = require("./routes/UserPersonaDependiente");
+app.use("/userPersonaDependiente", userPersonaDependienteRouter)
 
 
 db.sequelize.sync().then(() => {
