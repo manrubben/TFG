@@ -15,11 +15,13 @@ router.get("/list", async (req, res) => {
 
 //Registrar un usuario
 router.post("/create", async (req, res) => {
-    const { nombre, apellidos, username, password } = req.body;
+    const { nombre, apellidos, telefono, rol, username, password } = req.body;
     bcrypt.hash(password, 10).then((hash) => {
         Users.create({
             nombre: nombre,
             apellidos: apellidos,
+            telefono: telefono,
+            rol: rol,
             username: username,
             password: hash,
         });

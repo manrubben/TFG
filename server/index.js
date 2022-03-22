@@ -12,7 +12,7 @@ const db = require("./models");
 const userRouter = require("./routes/Users");
 app.use("/users", userRouter);
 const personaRouter = require("./routes/PersonasDependientes");
-app.use("/personas", personaRouter);
+app.use("/personasDependientes", personaRouter);
 userPersonaDependienteRouter = require("./routes/UserPersonaDependiente");
 app.use("/userPersonaDependiente", userPersonaDependienteRouter)
 
