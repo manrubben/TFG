@@ -17,7 +17,7 @@ function Login() {
                 alert(response.data.error);
             } else {
                 localStorage.setItem("accessToken", response.data.token);
-                setAuthState({username: response.data.username, id: response.data.id, status: true});
+                setAuthState({username: response.data.username, id: response.data.id, rol: response.data.rol, status: true});
                 navigate("/home");
             }
         });

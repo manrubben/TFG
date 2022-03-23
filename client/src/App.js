@@ -3,14 +3,17 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { AuthContext } from "./helpers/AuthContext"
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
+import Coordinador from "./pages/Coordinador";
+
 
 function App() {
 
     const [authState, setAuthState] = useState({
         username: "",
         id: 0,
+        rol: "",
         status: false,
     });
 
@@ -28,9 +31,10 @@ function App() {
                     setAuthState({
                         username: response.data.username,
                         id: response.data.id,
+                        rol: response.data.rol,
                         status: true,
                     });
-                    console.log(response.data.username)
+                    console.log(response.data.rol)
                 }
             });
     }, []);
@@ -40,6 +44,7 @@ function App() {
         setAuthState({
             username: "",
             id: 0,
+            rol: "",
             status: false,
         })
     }
@@ -51,6 +56,11 @@ function App() {
               <Router>
                   <div className="navbar">
                       <label><Link to='/home'>Home</Link></label>
+                      {authState.rol === "COORDINADOR" &&
+                          <>
+                              <label><Link to='/coordinador'>Añadir persona dependiente</Link></label>
+                          </>
+                      }
                       {!authState.status ? (
                           <>
                               <label><Link to='/login'>Login</Link></label>
@@ -61,10 +71,12 @@ function App() {
                       <div className="loggedInContainer">
                           <h1>{authState.username}</h1>
                       </div>
+
                   </div>
                   <Routes>
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
+                      <Route path='/coordinador' element={<Coordinador/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>

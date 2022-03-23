@@ -16,7 +16,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        pastillas: {
+        pastillasDia: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        pastillasTarde: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        pastillasNoche: {
             type: DataTypes.STRING,
             allowNull: false,
         },
