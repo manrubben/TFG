@@ -14,7 +14,7 @@ router.get("/list", async (req, res) => {
 
 
 //Registrar un usuario
-router.post("/create", async (req, res) => {
+router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
     bcrypt.hash(password, 10).then((hash) => {
         Users.create({
