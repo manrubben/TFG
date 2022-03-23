@@ -6,6 +6,7 @@ import { AuthContext } from "./helpers/AuthContext"
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Coordinador from "./pages/Coordinador";
+import Auxiliar from "./pages/Auxiliar";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
                       {authState.rol === "COORDINADOR" &&
                           <>
                               <label><Link to='/coordinador'>Añadir persona dependiente</Link></label>
+                              <label><Link to='/auxiliar'>Añadir auxiliar</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -77,6 +79,7 @@ function App() {
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador' element={<Coordinador/>} />
+                      <Route path='/auxiliar' element={<Auxiliar/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
