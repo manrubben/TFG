@@ -8,6 +8,7 @@ import axios from "axios";
 import Coordinador from "./pages/Coordinador";
 import Auxiliar from "./pages/Auxiliar";
 import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes";
+import ShowPersonaDependiente from "./pages/ShowPersonaDependiente"
 
 
 function App() {
@@ -60,8 +61,8 @@ function App() {
                       <label><Link to='/home'>Home</Link></label>
                       {authState.rol === "COORDINADOR" &&
                           <>
-                              <label><Link to='/coordinador'>Gestionar personas dependientes</Link></label>
-                              <label><Link to='/auxiliar'>Añadir auxiliar</Link></label>
+                              <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
+                              <label><Link to='/coordinador/auxiliar'>Añadir auxiliar</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -79,8 +80,9 @@ function App() {
                   <Routes>
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
-                      <Route path='/coordinador' element={<GestionarPersonasDependientes/>} />
-                      <Route path='/auxiliar' element={<Auxiliar/>} />
+                      <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
+                      <Route path='/coordinador/auxiliar' element={<Auxiliar/>} />
+                      <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>

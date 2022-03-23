@@ -5,9 +5,17 @@ const { validateToken } = require("../middlewares/AuthMiddleware");
 
 
 //Listar personas dependientes
-router.get("/list", validateToken, async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
     const listOfPersonasDependientes = await PersonasDependientes.findAll();
     res.json(listOfPersonasDependientes);
+})
+
+
+//Mostrar los detalles de una persona dependiente
+router.get("/show/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    const personaDependiente = await PersonasDependientes.findByPk(id);
+    res.json(personaDependiente);
 })
 
 
