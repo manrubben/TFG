@@ -3,6 +3,14 @@ const router = express.Router();
 const { PersonasDependientes } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
+
+//Listar personas dependientes
+router.get("/list", validateToken, async (req, res) => {
+    const listOfPersonasDependientes = await PersonasDependientes.findAll();
+    res.json(listOfPersonasDependientes);
+})
+
+
 //Registrar una persona dependiente
 router.post("/create", validateToken, async (req, res) => {
     const {nombre, apellidos, enfermedad, gradoDeDependencia, pastillasDia, pastillasTarde, pastillasNoche} = req.body;

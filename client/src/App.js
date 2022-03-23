@@ -7,6 +7,7 @@ import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Coordinador from "./pages/Coordinador";
 import Auxiliar from "./pages/Auxiliar";
+import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes";
 
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
                       <label><Link to='/home'>Home</Link></label>
                       {authState.rol === "COORDINADOR" &&
                           <>
-                              <label><Link to='/coordinador'>Añadir persona dependiente</Link></label>
+                              <label><Link to='/coordinador'>Gestionar personas dependientes</Link></label>
                               <label><Link to='/auxiliar'>Añadir auxiliar</Link></label>
                           </>
                       }
@@ -78,7 +79,7 @@ function App() {
                   <Routes>
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
-                      <Route path='/coordinador' element={<Coordinador/>} />
+                      <Route path='/coordinador' element={<GestionarPersonasDependientes/>} />
                       <Route path='/auxiliar' element={<Auxiliar/>} />
                   </Routes>
               </Router>
