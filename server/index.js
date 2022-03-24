@@ -16,6 +16,9 @@ app.use("/personasDependientes", personaRouter);
 userPersonaDependienteRouter = require("./routes/UserPersonaDependiente");
 app.use("/userPersonaDependiente", userPersonaDependienteRouter)
 
+const registroRouter = require("./routes/RegistrosDiarios");
+app.use("/registrosDiarios", registroRouter);
+
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {
