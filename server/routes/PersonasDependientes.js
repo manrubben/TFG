@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const { PersonasDependientes } = require("../models");
+const { Users } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
 
 //Listar personas dependientes
 router.get("/", validateToken, async (req, res) => {
-    const listOfPersonasDependientes = await PersonasDependientes.findAll();
+    const listOfPersonasDependientes = await PersonasDependientes.findAll({
+        include: [{
+            model: Users,
+            attributes: ['nombre', 'apellidos']
+        }]
+    })
     res.json(listOfPersonasDependientes);
 })
 

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useParams, Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import AuxiliaresAsignados from "./AuxiliaresAsignados"
 
 function ShowPersonaDependiente() {
     let { id } = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
+    let navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:3001/personasDependientes/show/${id}`,
@@ -26,6 +28,12 @@ function ShowPersonaDependiente() {
                     <div>Pastillas de tarde: {personaDependiente.pastillasTarde}</div>
                     <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
                 </div>
+                <div>
+                    <AuxiliaresAsignados/>
+                </div>
+                <button onClick={() => {
+                    navigate(`/personaDependiente/${personaDependiente.id}/auxiliaresDisponibles`)
+                }}>Añadir auxiliar</button>
             </div>
         </div>
     )
