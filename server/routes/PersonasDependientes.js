@@ -8,10 +8,7 @@ const { validateToken } = require("../middlewares/AuthMiddleware");
 //Listar personas dependientes
 router.get("/", validateToken, async (req, res) => {
     const listOfPersonasDependientes = await PersonasDependientes.findAll({
-        include: [{
-            model: Users,
-            attributes: ['nombre', 'apellidos']
-        }]
+
     })
     res.json(listOfPersonasDependientes);
 })
