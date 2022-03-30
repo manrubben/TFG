@@ -23,6 +23,14 @@ router.get("/auxiliares/list", validateToken, async (req, res) => {
     res.json(listOfAuxiliares);
 })
 
+
+//Mostrar auxiliar
+router.get("/auxiliares/show/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    const auxiliar = await Users.findByPk(id);
+    res.json(auxiliar);
+})
+
 //Método para listar los auxiliares disponibles para asignar a una persona dependiente concreta
 router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, async (req, res) => {
     const id = req.params.id;

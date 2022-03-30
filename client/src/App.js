@@ -6,10 +6,10 @@ import { AuthContext } from "./helpers/AuthContext"
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Coordinador from "./pages/Coordinador";
-import Auxiliar from "./pages/Auxiliar";
+import GestionarAuxiliares from "./pages/GestionarAuxiliares";
 import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes";
 import ShowPersonaDependiente from "./pages/ShowPersonaDependiente"
-import AuxiliaresAsignados from "./pages/AuxiliaresAsignados";
+import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
                       {authState.rol === "COORDINADOR" &&
                           <>
                               <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
-                              <label><Link to='/coordinador/auxiliar'>Añadir auxiliar</Link></label>
+                              <label><Link to='/coordinador/auxiliar'>Gestionar auxiliares</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -82,7 +82,8 @@ function App() {
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
-                      <Route path='/coordinador/auxiliar' element={<Auxiliar/>} />
+                      <Route path='/coordinador/auxiliar' element={<GestionarAuxiliares/>} />
+                      <Route path='/auxiliares/show/:id' element={<ShowAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                   </Routes>
