@@ -34,7 +34,9 @@ function AuxiliaresDisponibles() {
             <div>
                 {listOfAuxiliaresDisponibles.map((value, key) => {
                     return(
-                        <div key={key} className="post">
+                        <div key={key} className="post" onClick={() => {
+                            navigate(`/auxiliares/show/${value.id}`);
+                        }}>
                             <div className="title">{value.nombre + " " + value.apellidos}</div>
                             <button onClick={() => {
                                 addAuxiliar(value.id, id);

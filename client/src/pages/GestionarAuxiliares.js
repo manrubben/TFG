@@ -1,28 +1,25 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useParams, useNavigate} from "react-router-dom";
 
+function GestionarAuxiliares() {
 
-function AuxiliaresAsignados() {
-    let { id } = useParams();
-    const [listOfAuxiliaresAsignados, setListOfAuxiliaresAsignados] = useState([]);
+    const [listOfAuxiliares, setListOfAuxiliares] = useState([]);
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/userPersonaDependiente/list/${id}`,
+        axios.get("http://localhost:3001/users/auxiliares/list",
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                setListOfAuxiliaresAsignados(response.data)
-            });
-
-
-    }, []);
+                setListOfAuxiliares(response.data);
+            })
+    })
 
     return(
         <div>
-            <h1>AUXILIARES ASIGNADOS</h1>
+            <h1>GESTIONAR AUXILIARES</h1>
             <div>
-                {listOfAuxiliaresAsignados.map((value, key) => {
+                {listOfAuxiliares.map((value, key) => {
                     return(
                         <div key={key} className="post" onClick={() => {
                             navigate(`/auxiliares/show/${value.id}`);
@@ -34,6 +31,7 @@ function AuxiliaresAsignados() {
             </div>
         </div>
     )
+
 }
 
-export default AuxiliaresAsignados;
+export default GestionarAuxiliares;
