@@ -31,6 +31,25 @@ router.get("/auxiliares/show/:id", validateToken, async (req, res) => {
     res.json(auxiliar);
 })
 
+
+//Editar auxiliar
+router.put("/auxiliares/edit/:id", validateToken, async (req, res) => {
+    const {nombre, apellidos, telefono, username, password} = req.body;
+    const id = req.params.id;
+
+
+        Users.update({
+            nombre: nombre,
+            apellidos: apellidos,
+            telefono: telefono,
+            username: username,
+        },
+            {where: {id: id}}
+        );
+        res.json("SUCCESS");
+})
+
+
 //Método para listar los auxiliares disponibles para asignar a una persona dependiente concreta
 router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, async (req, res) => {
     const id = req.params.id;

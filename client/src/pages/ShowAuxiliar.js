@@ -24,6 +24,9 @@ function ShowAuxiliar() {
                 <div>Teléfono: {auxiliar.telefono}</div>
                 <div>Username: {auxiliar.username}</div>
             </div>
+            <button onClick={() => {
+                navigate(`/auxiliar/${auxiliar.id}/edit`)
+            }}>Editar</button>
         </div>
     )
 }
