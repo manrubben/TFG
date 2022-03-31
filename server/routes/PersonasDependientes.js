@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { PersonasDependientes } = require("../models");
+const { PersonasDependientes, UserPersonaDependiente } = require("../models");
 const { Users } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
@@ -55,6 +55,23 @@ router.put("/edit/:id", validateToken, async (req, res) => {
         {where: {id: id}}
     )
     res.json("SUCCESS");
+})
+
+
+//Eliminar una persona dependiente
+router.delete("/delete/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+
+    await UserPersonaDependiente.destroy({
+        where: {personaDependienteId: id}
+    })
+
+    await PersonasDependientes.destroy({
+        where: {
+            id: id
+        }
+    })
+    res.json("DELETED SUCCESSFULLY");
 })
 
 

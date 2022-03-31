@@ -47,6 +47,18 @@ function EditPersonaDependiente() {
             })
     }
 
+    const deletePersonaDependiente = () => {
+        axios.delete(`http://localhost:3001/personasDependientes/delete/${id}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    navigate('/coordinador/personasDependientes')
+                }
+            })
+    }
+
     return(
         <div>
             <h1>Editar persona dependiente</h1>
@@ -116,6 +128,7 @@ function EditPersonaDependiente() {
                 />
 
                 <button onClick={editPersonaDependiente}>Actualizar</button>
+                <button onClick={deletePersonaDependiente}>Eliminar</button>
             </div>
         </div>
     )
