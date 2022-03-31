@@ -12,6 +12,7 @@ import ShowPersonaDependiente from "./pages/ShowPersonaDependiente"
 import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
+import EditAuxiliar from "./pages/EditAuxiliar";
 
 function App() {
 
@@ -84,7 +85,8 @@ function App() {
                       <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
                       <Route path='/coordinador/auxiliar' element={<GestionarAuxiliares/>} />
-                      <Route path='/auxiliares/show/:id' element={<ShowAuxiliar/>} />
+                      <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
+                      <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
