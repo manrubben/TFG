@@ -50,6 +50,23 @@ router.put("/auxiliares/edit/:id", validateToken, async (req, res) => {
 })
 
 
+//Eliminar auxiliar
+router.delete("/auxiliares/delete/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+
+    await UserPersonaDependiente.destroy({
+        where: {userId: id}
+    })
+
+    await Users.destroy({
+        where: {
+            id: id
+        }
+    })
+    res.json("DELETED SUCCESSFULLY");
+})
+
+
 //Método para listar los auxiliares disponibles para asignar a una persona dependiente concreta
 router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, async (req, res) => {
     const id = req.params.id;

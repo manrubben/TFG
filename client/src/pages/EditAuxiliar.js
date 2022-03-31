@@ -42,6 +42,18 @@ function EditAuxiliar() {
             })
     }
 
+    const deleteAuxiliar = () => {
+        axios.delete(`http://localhost:3001/users/auxiliares/delete/${id}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    navigate('/coordinador/auxiliares')
+                }
+            })
+    }
+
     return(
         <div>
             <h1>Editar auxiliar</h1>
@@ -84,7 +96,7 @@ function EditAuxiliar() {
                 />
 
                 <button onClick={editAuxiliar}>Actualizar</button>
-
+                <button onClick={deleteAuxiliar}>Eliminar</button>
             </div>
         </div>
     )

@@ -65,7 +65,7 @@ function App() {
                       {authState.rol === "COORDINADOR" &&
                           <>
                               <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
-                              <label><Link to='/coordinador/auxiliar'>Gestionar auxiliares</Link></label>
+                              <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -84,7 +84,7 @@ function App() {
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
-                      <Route path='/coordinador/auxiliar' element={<GestionarAuxiliares/>} />
+                      <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
                       <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
                       <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
