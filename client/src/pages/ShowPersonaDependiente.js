@@ -28,6 +28,9 @@ function ShowPersonaDependiente() {
                     <div>Pastillas de tarde: {personaDependiente.pastillasTarde}</div>
                     <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
                 </div>
+                <button onClick={() => {
+                    navigate(`/personaDependiente/${personaDependiente.id}/edit`)
+                }}>Editar</button>
                 <div>
                     <AuxiliaresAsignados/>
                 </div>
