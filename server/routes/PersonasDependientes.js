@@ -38,4 +38,24 @@ router.post("/create", validateToken, async (req, res) => {
 });
 
 
+//Editar los datos de una persona dependiente
+router.put("/edit/:id", validateToken, async (req, res) => {
+    const {nombre, apellidos, enfermedad, gradoDeDependencia, pastillasDia, pastillasTarde, pastillasNoche} = req.body;
+    const id = req.params.id;
+    await PersonasDependientes.update(
+        {
+            nombre: nombre,
+            apellidos: apellidos,
+            enfermedad: enfermedad,
+            gradoDeDependencia: gradoDeDependencia,
+            pastillasDia: pastillasDia,
+            pastillasTarde: pastillasTarde,
+            pastillasNoche: pastillasNoche
+        },
+        {where: {id: id}}
+    )
+    res.json("SUCCESS");
+})
+
+
 module.exports = router;

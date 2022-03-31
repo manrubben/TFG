@@ -11,6 +11,7 @@ import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes
 import ShowPersonaDependiente from "./pages/ShowPersonaDependiente"
 import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
+import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 
 function App() {
 
@@ -86,6 +87,7 @@ function App() {
                       <Route path='/auxiliares/show/:id' element={<ShowAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
+                      <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                   </Routes>
               </Router>
           </AuthContext.Provider>
