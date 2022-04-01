@@ -9,12 +9,36 @@ const {validateToken} = require("../middlewares/AuthMiddleware")
 router.post('/addTo', async (req, res) => {
 
     const {userId, personaDependienteId} = req.body;
-    await UserPersonaDependiente.create({
-        userId: userId,
-        personaDependienteId: personaDependienteId,
-    });
-    res.json("SUCCESS")
+
+    const [userPersonaDependiente, created] = await UserPersonaDependiente.findOrCreate({
+        where: {
+            userId: userId,
+            personaDependienteId: personaDependienteId
+        }
+    })
+
+    if(created) {
+        res.json("SUCCESS")
+    } else {
+        res.json("UserPersonaDependiente already exists")
+    }
+
 });
+
+
+//Método para eliminar un auxiliar/familiar de una persona dependiente y viceversa
+router.delete("/delete", async (req, res) => {
+
+    const id = req.body.userId;
+    const personaDependienteId = req.body.personaDependienteId;
+    await UserPersonaDependiente.destroy({
+        where:{
+            userId: id,
+            personaDependienteId: personaDependienteId,
+        }
+    })
+    res.json("SUCCESS");
+})
 
 //Método para listar los auxiliares asignados a una persona dependiente concreta
 router.get('/list/:id', validateToken, async (req, res) => {

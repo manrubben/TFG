@@ -18,17 +18,40 @@ function AuxiliaresAsignados() {
 
     }, []);
 
+    const deleteUserPersonaDependiente = (auxiliarId, id) => {
+        axios.delete("http://localhost:3001/userPersonaDependiente/delete",
+            {headers: {accessToken: localStorage.getItem("accessToken")},
+            data: {
+                userId: auxiliarId,
+                personaDependienteId: id
+            }})
+            .then(() => {
+                setListOfAuxiliaresAsignados(
+                    listOfAuxiliaresAsignados.filter((auxiliar) => {
+                        return auxiliar.id != auxiliarId;
+                    })
+                )
+            })
+
+    }
+
     return(
         <div>
             <h1>AUXILIARES ASIGNADOS</h1>
             <div>
                 {listOfAuxiliaresAsignados.map((value, key) => {
                     return(
-                        <div key={key} className="post" onClick={() => {
-                            navigate(`/auxiliares/show/${value.id}`);
-                        }}>
-                            <div className="title">{value.nombre + " " + value.apellidos}</div>
+                        <div>
+                            <div key={key} className="post" onClick={() => {
+                                navigate(`/auxiliares/show/${value.id}`);
+                            }}>
+                                <div className="title">{value.nombre + " " + value.apellidos}</div>
+                            </div>
+                            <button onClick={() => {
+                                deleteUserPersonaDependiente(value.id, id);
+                            }}>Eliminar</button>
                         </div>
+
                     )
                 })}
             </div>
