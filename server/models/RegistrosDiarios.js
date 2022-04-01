@@ -1,6 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
     const RegistrosDiarios = sequelize.define("RegistrosDiarios", {
 
+        fecha: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
         desayuno: {
             type: DataTypes.TEXT,
             allowNull: false,

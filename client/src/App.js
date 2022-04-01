@@ -7,7 +7,7 @@ import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import Coordinador from "./pages/Coordinador";
 import Auxiliar from "./pages/Auxiliar";
-
+import Registro from "./pages/Registro";
 
 function App() {
 
@@ -80,6 +80,7 @@ function App() {
                       <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador' element={<Coordinador/>} />
                       <Route path='/auxiliar' element={<Auxiliar/>} />
+                      <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
