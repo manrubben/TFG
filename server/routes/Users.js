@@ -13,6 +13,108 @@ router.get("/list", async (req, res) => {
 });
 
 
+//Listar auxiliares
+router.get("/auxiliares/list", validateToken, async (req, res) => {
+    const listOfAuxiliares = await Users.findAll({
+        where: {
+            rol: 'AUXILIAR'
+        }
+    })
+    res.json(listOfAuxiliares);
+})
+
+
+//Mostrar auxiliar
+router.get("/auxiliares/show/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    const auxiliar = await Users.findByPk(id);
+    res.json(auxiliar);
+})
+
+
+//Editar auxiliar
+router.put("/auxiliares/edit/:id", validateToken, async (req, res) => {
+    const {nombre, apellidos, telefono, username, password} = req.body;
+    const id = req.params.id;
+
+
+        Users.update({
+            nombre: nombre,
+            apellidos: apellidos,
+            telefono: telefono,
+            username: username,
+        },
+            {where: {id: id}}
+        );
+        res.json("SUCCESS");
+})
+
+
+//Eliminar auxiliar
+router.delete("/auxiliares/delete/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+
+    await UserPersonaDependiente.destroy({
+        where: {userId: id}
+    })
+
+    await Users.destroy({
+        where: {
+            id: id
+        }
+    })
+    res.json("DELETED SUCCESSFULLY");
+})
+
+
+//Método para listar los auxiliares disponibles para asignar a una persona dependiente concreta
+router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, async (req, res) => {
+    const id = req.params.id;
+    let listaAuxiliaresDisponibles = [];
+
+    //Devuelve todos los auxiliares
+    const listOfAuxiliares = await Users.findAll({
+        where: {
+            rol: 'AUXILIAR'
+        }
+    })
+
+    for (const auxiliar of listOfAuxiliares) {
+        // Devuelve todos las personas dependientes asociadas de cada auxiliar
+        const listOfUserPersonaDependiente = await UserPersonaDependiente.findAll({
+            where: {
+                userId: auxiliar.id,
+            }
+        })
+
+        let condicion = true;
+
+        //Si ese auxiliar no tiene ninguna persona dependiente asociada, se añade a la lista de auxiliares disponibles
+        if(listOfUserPersonaDependiente.length == 0) {
+            console.log("este auxiliar no tiene ninguna persona dependiente asociada")
+            listaAuxiliaresDisponibles.push(auxiliar)
+        } else {
+            //Si no, se comprueba que dicho auxiliar no tenga ya a esa persona dependiente asociada
+            for (const userPersonaDependiente of listOfUserPersonaDependiente) {
+                if(userPersonaDependiente.personaDependienteId == id) {
+                    condicion = false;
+                    console.log("falso")
+                    break;
+                }
+            }
+            // Y en caso afirmativo, se añade a la lista de auxiliares disponibles.
+            if(condicion) {
+                console.log("true")
+                listaAuxiliaresDisponibles.push(auxiliar)
+            }
+        }
+
+
+    }
+    res.json(listaAuxiliaresDisponibles)
+})
+
+
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;

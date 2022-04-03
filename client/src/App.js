@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Link, useNavigate} from 'react-router-dom'
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { AuthContext } from "./helpers/AuthContext"
@@ -8,6 +8,14 @@ import axios from "axios";
 import Coordinador from "./pages/Coordinador";
 import Auxiliar from "./pages/Auxiliar";
 import Registro from "./pages/Registro";
+import GestionarAuxiliares from "./pages/GestionarAuxiliares";
+import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes";
+import ShowPersonaDependiente from "./pages/ShowPersonaDependiente"
+import ShowAuxiliar from "./pages/ShowAuxiliar";
+import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
+import EditPersonaDependiente from "./pages/EditPersonaDependiente";
+import EditAuxiliar from "./pages/EditAuxiliar";
+
 
 function App() {
 
@@ -59,8 +67,8 @@ function App() {
                       <label><Link to='/home'>Home</Link></label>
                       {authState.rol === "COORDINADOR" &&
                           <>
-                              <label><Link to='/coordinador'>Añadir persona dependiente</Link></label>
-                              <label><Link to='/auxiliar'>Añadir auxiliar</Link></label>
+                              <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
+                              <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -77,9 +85,14 @@ function App() {
                   </div>
                   <Routes>
                       <Route path='/home' element={<Home/>} />
-                      <Route path='/login' element={<Login/>} />
-                      <Route path='/coordinador' element={<Coordinador/>} />
-                      <Route path='/auxiliar' element={<Auxiliar/>} />
+                      <Route path='/login' element={<Login/>} />               
+                      <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
+                      <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
+                      <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
+                      <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
+                      <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
+                      <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
+                      <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
                   </Routes>
               </Router>
