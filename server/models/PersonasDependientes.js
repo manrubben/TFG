@@ -30,5 +30,13 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
+    PersonasDependientes.associate = (models) => {
+        PersonasDependientes.hasMany(models.RegistrosDiarios, {
+            onDelete: "cascade",
+        })
+
+    }
+
+
     return PersonasDependientes;
 };
