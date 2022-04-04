@@ -15,8 +15,8 @@ import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
+import ShowRegistro from "./pages/ShowRegistro";
 import PersonasDependientesAsignadas from "./pages/PersonasDependientesAsignadas";
-
 
 function App() {
 
@@ -72,7 +72,6 @@ function App() {
                               <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
                           </>
                       }
-
                       {authState.rol === "AUXILIAR" &&
                       <>
                           <label><Link to='/auxiliar/asignadas'>Mis personas asignadas</Link></label>
@@ -92,7 +91,7 @@ function App() {
                   </div>
                   <Routes>
                       <Route path='/home' element={<Home/>} />
-                      <Route path='/login' element={<Login/>} />
+                      <Route path='/login' element={<Login/>} />               
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
                       <Route path='/coordinador/personasDependientes/add' element={<CreatePersonaDependiente/>} />
                       <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
@@ -102,6 +101,7 @@ function App() {
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
+                      <Route path='/personaDependiente/:id/showRegistro' element={<ShowRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                   </Routes>
               </Router>
