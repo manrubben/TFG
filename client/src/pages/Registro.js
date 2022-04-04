@@ -87,6 +87,8 @@ function Registros() {
             })
     }
 
+
+
     return(
         <div>
             <h1>Registro Diario</h1>
