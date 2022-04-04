@@ -26,6 +26,6 @@ db.sequelize.sync().then(() => {
     });
 });
 
-module.exports = app
+module.exports = {app, db}
 
 
