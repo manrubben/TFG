@@ -4,7 +4,7 @@ module.exports = {
 
   "development": {
     "username": "root",
-    "password": "sevillista77",
+    "password": "password",
     "database": "tfgdb",
     "host": "localhost",
     "dialect": "mysql"
