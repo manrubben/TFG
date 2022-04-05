@@ -1,4 +1,7 @@
-{
+require('dotenv').config();
+
+module.exports = {
+
   "development": {
     "username": "root",
     "password": "password",
@@ -8,9 +11,9 @@
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "password": "password",
+    "database": "tfgdb_test",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
