@@ -43,7 +43,7 @@ function AuxiliaresAsignados() {
                     return(
                         <div>
                             <div key={key} className="post" onClick={() => {
-                                navigate(`/auxiliares/show/${value.id}`);
+                                navigate(`/auxiliar/${value.id}`);
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
