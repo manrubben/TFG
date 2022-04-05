@@ -3,14 +3,32 @@ module.exports = (sequelize, DataTypes) => {
         nombre: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: 'El nombre no puede estar vacío'
+                }
+            }
         },
         apellidos: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: 'Los apellidos no pueden estar vacíos'
+                }
+            }
         },
         enfermedad: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: 'La enfermedad no puede estar vacía'
+                }
+            }
         },
         gradoDeDependencia: {
             type: DataTypes.STRING,

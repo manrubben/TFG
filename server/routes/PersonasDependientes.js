@@ -25,16 +25,24 @@ router.get("/show/:id", validateToken, async (req, res) => {
 //Registrar una persona dependiente
 router.post("/create", validateToken, async (req, res) => {
     const {nombre, apellidos, enfermedad, gradoDeDependencia, pastillasDia, pastillasTarde, pastillasNoche} = req.body;
-    await PersonasDependientes.create({
-        nombre: nombre,
-        apellidos: apellidos,
-        enfermedad: enfermedad,
-        gradoDeDependencia: gradoDeDependencia,
-        pastillasDia: pastillasDia,
-        pastillasTarde: pastillasTarde,
-        pastillasNoche: pastillasNoche,
-    });
-    res.json("SUCCESS");
+    try {
+        await PersonasDependientes.create({
+            nombre: nombre,
+            apellidos: apellidos,
+            enfermedad: enfermedad,
+            gradoDeDependencia: gradoDeDependencia,
+            pastillasDia: pastillasDia,
+            pastillasTarde: pastillasTarde,
+            pastillasNoche: pastillasNoche,
+        });
+
+    } catch (e) {
+        if(e) {
+            return res.json(e)
+        }
+    }
+    return res.json("SUCCESS");
+
 });
 
 
