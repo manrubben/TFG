@@ -28,7 +28,12 @@ router.get("/auxiliares/list", validateToken, async (req, res) => {
 router.get("/auxiliares/show/:id", validateToken, async (req, res) => {
     const id = req.params.id;
     const auxiliar = await Users.findByPk(id);
-    res.json(auxiliar);
+    if(auxiliar) {
+        return res.json(auxiliar);
+    } else {
+        return res.json({error: "There is no user with this id"})
+    }
+
 })
 
 
