@@ -49,6 +49,17 @@ before((done) => {
     PersonasDependientes.destroy({
         where: {}
     })
+
+    PersonasDependientes.create({
+        nombre: "Javier",
+        apellidos: "García",
+        enfermedad: "Parkinson",
+        gradoDeDependencia: "60%",
+        pastillasDia: "paracetamol",
+        pastillasTarde: "aspirina",
+        pastillasNoche: "paracetamol"
+    })
+
     done()
 })
 
@@ -164,12 +175,52 @@ describe('PersonasDependientes', () => {
             }
 
             const personaDependienteId = 101010010820128018201
-            const response = await request(app).put(`/personasDependientes/edit/${personaDependiente.id}`)
+            const response = await request(app).put(`/personasDependientes/edit/${personaDependienteId}`)
                 .set('accessToken', token)
                 .send(data)
 
             expect(response.statusCode).to.equal(200)
             expect(response.body.error).to.equal('There is no personaDependiente with this id')
+        })
+
+    })
+
+    describe('Delete persona dependiente', () => {
+
+        it('Should delete a persona dependiente', async () => {
+
+            const personaDependiente = await PersonasDependientes.findOne({where: {
+                    nombre: "Javier",
+                    apellidos: "García",
+                    enfermedad: "Parkinson",
+                    gradoDeDependencia: "60%",
+                    pastillasDia: "paracetamol",
+                    pastillasTarde: "aspirina",
+                    pastillasNoche: "paracetamol"
+            }})
+
+            const listaPersonasDependientes = await PersonasDependientes.findAll()
+            const response = await request(app).del(`/personasDependientes/delete/${personaDependiente.id}`)
+                .set('accessToken', token)
+
+            const listaPersonasDependientes2 = await PersonasDependientes.findAll()
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal("DELETED SUCCESSFULLY")
+            expect(listaPersonasDependientes2.length).to.equal(listaPersonasDependientes.length - 1)
+        })
+
+        it('Should not delete a persona dependiente with an incorrect id', async () => {
+            const personaDependienteId = 1098989110299010
+            const listaPersonasDependientes = await PersonasDependientes.findAll()
+            const response = await request(app).del(`/personasDependientes/delete/${personaDependienteId}`)
+                .set('accessToken', token)
+
+            const listaPersonasDependientes2 = await PersonasDependientes.findAll()
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal("There is no personaDependiente with this id")
+            expect(listaPersonasDependientes.length).to.equal(listaPersonasDependientes2.length)
         })
 
     })

@@ -90,16 +90,24 @@ router.put("/edit/:id", validateToken, async (req, res) => {
 router.delete("/delete/:id", validateToken, async (req, res) => {
     const id = req.params.id;
 
-    await UserPersonaDependiente.destroy({
-        where: {personaDependienteId: id}
-    })
+    const personaDependiente = await PersonasDependientes.findByPk(id)
 
-    await PersonasDependientes.destroy({
-        where: {
-            id: id
-        }
-    })
-    res.json("DELETED SUCCESSFULLY");
+    if(personaDependiente) {
+        await UserPersonaDependiente.destroy({
+            where: {personaDependienteId: id}
+        })
+
+        await PersonasDependientes.destroy({
+            where: {
+                id: id
+            }
+        })
+        return res.json("DELETED SUCCESSFULLY");
+    } else {
+        return res.json({error: "There is no personaDependiente with this id"})
+    }
+
+
 })
 
 
