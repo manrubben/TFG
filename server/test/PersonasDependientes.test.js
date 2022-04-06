@@ -103,6 +103,77 @@ describe('PersonasDependientes', () => {
 
     })
 
+    describe('Update persona dependiente', () => {
+
+        it('should update a persona dependiente', async () => {
+
+            const data = {
+                nombre: "Pepe",
+                apellidos: "Rodriguez",
+                enfermedad: "Enfermedad7",
+                gradoDeDependencia: "33%",
+                pastillasDia: "paracetamol",
+                pastillasTarde: "dormidina",
+                pastillasNoche: "aspirina"
+            }
+
+            const personaDependiente = await PersonasDependientes.findOne({where: {nombre: "Nombre3", apellidos: "Apellidos3", enfermedad: "Enfermedad1", gradoDeDependencia: "45%", pastillasDia: "paracetamol", pastillasTarde: "aspirina", pastillasNoche: "paracetamol"}})
+            const response = await request(app).put(`/personasDependientes/edit/${personaDependiente.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            const personaDependienteUpdated = await PersonasDependientes.findByPk(personaDependiente.id)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal('SUCCESS')
+            expect(personaDependienteUpdated.nombre).to.equal(data.nombre)
+            expect(personaDependienteUpdated.apellidos).to.equal(data.apellidos)
+            expect(personaDependienteUpdated.enfermedad).to.equal(data.enfermedad)
+        })
+
+        it('Should not update a persona dependiente with empty values', async () => {
+
+            const data = {
+                nombre: "",
+                apellidos: "Rodriguez",
+                enfermedad: "Enfermedad7",
+                gradoDeDependencia: "33%",
+                pastillasDia: "",
+                pastillasTarde: "dormidina",
+                pastillasNoche: "aspirina"
+            }
+
+            const personaDependiente = await PersonasDependientes.findOne({where: {nombre: "Nombre3", apellidos: "Apellidos3", enfermedad: "Enfermedad1", gradoDeDependencia: "45%", pastillasDia: "paracetamol", pastillasTarde: "aspirina", pastillasNoche: "paracetamol"}})
+            const response = await request(app).put(`/personasDependientes/edit/${personaDependiente.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.name).to.equal('SequelizeValidationError')
+        })
+
+        it('Should not update a persona dependiente with an incorrect id', async () => {
+            const data = {
+                nombre: "Pepe",
+                apellidos: "Rodriguez",
+                enfermedad: "Enfermedad7",
+                gradoDeDependencia: "33%",
+                pastillasDia: "paracetamol",
+                pastillasTarde: "dormidina",
+                pastillasNoche: "aspirina"
+            }
+
+            const personaDependienteId = 101010010820128018201
+            const response = await request(app).put(`/personasDependientes/edit/${personaDependiente.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no personaDependiente with this id')
+        })
+
+    })
+
 })
 
 

@@ -55,19 +55,34 @@ router.post("/create", validateToken, async (req, res) => {
 router.put("/edit/:id", validateToken, async (req, res) => {
     const {nombre, apellidos, enfermedad, gradoDeDependencia, pastillasDia, pastillasTarde, pastillasNoche} = req.body;
     const id = req.params.id;
-    await PersonasDependientes.update(
-        {
-            nombre: nombre,
-            apellidos: apellidos,
-            enfermedad: enfermedad,
-            gradoDeDependencia: gradoDeDependencia,
-            pastillasDia: pastillasDia,
-            pastillasTarde: pastillasTarde,
-            pastillasNoche: pastillasNoche
-        },
-        {where: {id: id}}
-    )
-    res.json("SUCCESS");
+
+    const personaDependiente = await PersonasDependientes.findByPk(id);
+
+    if(personaDependiente) {
+        try {
+            await PersonasDependientes.update(
+                {
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    enfermedad: enfermedad,
+                    gradoDeDependencia: gradoDeDependencia,
+                    pastillasDia: pastillasDia,
+                    pastillasTarde: pastillasTarde,
+                    pastillasNoche: pastillasNoche
+                },
+                {where: {id: id}}
+            )
+        } catch (e) {
+            if(e) {
+                return res.json(e)
+            }
+        }
+        return res.json("SUCCESS");
+    } else {
+        return res.json({error: "There is no personaDependiente with this id"})
+    }
+
+
 })
 
 
