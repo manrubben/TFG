@@ -10,18 +10,28 @@ router.post('/addTo', async (req, res) => {
 
     const {userId, personaDependienteId} = req.body;
 
-    const [userPersonaDependiente, created] = await UserPersonaDependiente.findOrCreate({
-        where: {
-            userId: userId,
-            personaDependienteId: personaDependienteId
-        }
-    })
+    try {
+        const [userPersonaDependiente, created] = await UserPersonaDependiente.findOrCreate({
+            where: {
+                userId: userId,
+                personaDependienteId: personaDependienteId
+            }
+        })
 
-    if(created) {
-        res.json("SUCCESS")
-    } else {
-        res.json("UserPersonaDependiente already exists")
+        if(created) {
+            res.json("SUCCESS")
+        } else {
+            res.json("UserPersonaDependiente already exists")
+        }
+
+    } catch (e) {
+        if(e) {
+            return res.json(e)
+        }
     }
+
+
+
 
 });
 
