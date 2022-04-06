@@ -18,7 +18,12 @@ router.get("/", validateToken, async (req, res) => {
 router.get("/show/:id", validateToken, async (req, res) => {
     const id = req.params.id;
     const personaDependiente = await PersonasDependientes.findByPk(id);
-    res.json(personaDependiente);
+
+    if(personaDependiente) {
+        return res.json(personaDependiente)
+    } else {
+        return res.json({error: "There is no personaDependiente with this id"})
+    }
 })
 
 
