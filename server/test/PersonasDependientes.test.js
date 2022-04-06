@@ -53,34 +53,59 @@ before((done) => {
 })
 
 
+describe('PersonasDependientes', () => {
 
+    describe('Create persona dependiente', () => {
+        it('should create a new PersonaDependiente', async () => {
+            const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal('SUCCESS')
+        })
 
-describe('Create persona dependiente', () => {
-    it('should create a new PersonaDependiente', async () => {
-        const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente)
-        expect(response.statusCode).to.equal(200)
-        expect(response.body).to.equal('SUCCESS')
+        it('should not create a new PersonaDependiente with an empty name', async () => {
+            const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente2)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.errors[0].message).to.equal('El nombre no puede estar vacío')
+        })
+
+        it('should not create a new PersonaDependiente with an empty apellidos', async () => {
+            const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente3)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.errors[0].message).to.equal('Los apellidos no pueden estar vacíos')
+        })
+
+        it('should not create a new PersonaDependiente with an empty enfermedad', async () => {
+            const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente4)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.errors[0].message).to.equal('La enfermedad no puede estar vacía')
+        })
+
     })
 
-    it('should not create a new PersonaDependiente with an empty name', async () => {
-        const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente2)
-        expect(response.statusCode).to.equal(200)
-        expect(response.body.errors[0].message).to.equal('El nombre no puede estar vacío')
-    })
+    describe('Show persona dependiente', () => {
 
-    it('should not create a new PersonaDependiente with an empty apellidos', async () => {
-        const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente3)
-        expect(response.statusCode).to.equal(200)
-        expect(response.body.errors[0].message).to.equal('Los apellidos no pueden estar vacíos')
-    })
+        it('should show a persona dependiente', async () => {
+            const personaDependiente = await PersonasDependientes.findOne({where: {nombre: "Nombre3", apellidos: "Apellidos3", enfermedad: "Enfermedad1", gradoDeDependencia: "45%", pastillasDia: "paracetamol", pastillasTarde: "aspirina", pastillasNoche: "paracetamol"}})
+            const response = await request(app).get(`/personasDependientes/show/${personaDependiente.id}`).set('accessToken', token)
 
-    it('should not create a new PersonaDependiente with an empty enfermedad', async () => {
-        const response = await request(app).post('/personasDependientes/create').set('accessToken', token).send(personaDependiente4)
-        expect(response.statusCode).to.equal(200)
-        expect(response.body.errors[0].message).to.equal('La enfermedad no puede estar vacía')
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.nombre).to.equal(personaDependiente.nombre)
+            expect(response.body.apellidos).to.equal(personaDependiente.apellidos)
+        })
+
+        it('should not show a persona dependiente with an incorrect id', async () => {
+            const personaDependienteId = 9898782762636536276
+            const response = await request(app).get(`/personasDependientes/show/${personaDependienteId}`).set('accessToken', token)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no personaDependiente with this id')
+        })
+
     })
 
 })
+
+
 
 after(done => {
     db.sequelize.close()
