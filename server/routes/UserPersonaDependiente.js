@@ -41,13 +41,26 @@ router.delete("/delete", async (req, res) => {
 
     const id = req.body.userId;
     const personaDependienteId = req.body.personaDependienteId;
-    await UserPersonaDependiente.destroy({
+    const userPersonaDependiente = await UserPersonaDependiente.findOne({
         where:{
             userId: id,
             personaDependienteId: personaDependienteId,
         }
     })
-    res.json("SUCCESS");
+
+    if(userPersonaDependiente) {
+        await UserPersonaDependiente.destroy({
+            where:{
+                userId: id,
+                personaDependienteId: personaDependienteId,
+            }
+        })
+        return res.json("SUCCESS");
+    } else {
+        return res.json({error: 'There is no userPersonaDependiente with this id'})
+    }
+
+
 })
 
 //Método para listar los auxiliares asignados a una persona dependiente concreta
