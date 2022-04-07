@@ -14,6 +14,7 @@ router.get("/", validateToken, async (req, res) => {
 })
 
 
+
 //Mostrar los detalles de una persona dependiente
 router.get("/show/:id", validateToken, async (req, res) => {
     const id = req.params.id;
@@ -108,6 +109,23 @@ router.delete("/delete/:id", validateToken, async (req, res) => {
     }
 
 
+})
+
+
+//Listar personas dependientes asociadas
+router.get("/personasAsignadas/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    let lista2 = [];
+    const listOfPersonasDependientes = await UserPersonaDependiente.findAll({
+        where: {
+                    userId: id,
+                },
+    })
+     for(const personaDependiente of listOfPersonasDependientes) {
+            const personaDependiente2 = await PersonasDependientes.findByPk(personaDependiente.personaDependienteId);
+            lista2.push(personaDependiente2)
+     }
+    res.json(lista2);
 })
 
 
