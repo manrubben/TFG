@@ -15,6 +15,7 @@ import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
+import PersonasDependientesAsignadas from "./pages/PersonasDependientesAsignadas";
 
 
 function App() {
@@ -71,6 +72,12 @@ function App() {
                               <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
                           </>
                       }
+
+                      {authState.rol === "AUXILIAR" &&
+                      <>
+                          <label><Link to='/auxiliar/asignadas'>Mis personas asignadas</Link></label>
+                      </>
+                      }
                       {!authState.status ? (
                           <>
                               <label><Link to='/login'>Login</Link></label>
@@ -94,6 +101,7 @@ function App() {
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
+                      <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
