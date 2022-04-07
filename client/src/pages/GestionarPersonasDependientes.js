@@ -26,6 +26,9 @@ function GestionarPersonasDependientes() {
     return(
         <div>
             <h1>GESTIONAR PERSONAS DEPENDIENTES</h1>
+            <button onClick={() => {
+                navigate('/coordinador/personasDependientes/add')
+            }}>Añadir persona dependiente</button>
             <div>
                 {listOfPersonasDependientes.map((value, key) => {
                     return(

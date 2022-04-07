@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import { AuthContext } from "./helpers/AuthContext"
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
-import Coordinador from "./pages/Coordinador";
+import CreatePersonaDependiente from "./pages/CreatePersonaDependiente";
 import Auxiliar from "./pages/Auxiliar";
 import Registro from "./pages/Registro";
 import GestionarAuxiliares from "./pages/GestionarAuxiliares";
@@ -85,8 +85,9 @@ function App() {
                   </div>
                   <Routes>
                       <Route path='/home' element={<Home/>} />
-                      <Route path='/login' element={<Login/>} />               
+                      <Route path='/login' element={<Login/>} />
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
+                      <Route path='/coordinador/personasDependientes/add' element={<CreatePersonaDependiente/>} />
                       <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
                       <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
                       <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
