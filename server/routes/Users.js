@@ -70,16 +70,24 @@ router.put("/auxiliares/edit/:id", validateToken, async (req, res) => {
 router.delete("/auxiliares/delete/:id", validateToken, async (req, res) => {
     const id = req.params.id;
 
-    await UserPersonaDependiente.destroy({
-        where: {userId: id}
-    })
+    const auxiliar = await Users.findByPk(id)
 
-    await Users.destroy({
-        where: {
-            id: id
-        }
-    })
-    res.json("DELETED SUCCESSFULLY");
+    if(auxiliar) {
+        await UserPersonaDependiente.destroy({
+            where: {userId: id}
+        })
+
+        await Users.destroy({
+            where: {
+                id: id
+            }
+        })
+        return res.json("DELETED SUCCESSFULLY");
+    } else {
+        return res.json({error: "There is no auxiliar with this id"})
+    }
+
+
 })
 
 
