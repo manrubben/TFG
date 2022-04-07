@@ -34,6 +34,17 @@ before( (done) => {
         });
     });
 
+    bcrypt.hash("auxiliar2", 10).then((hash) => {
+        Users.create({
+            nombre: "Auxiliar2",
+            apellidos: "Auxiliar2",
+            telefono: 123456789,
+            rol: "AUXILIAR",
+            username: "auxiliar2",
+            password: hash,
+        });
+    });
+
     done()
 })
 
@@ -99,7 +110,70 @@ describe('Users tests', () => {
         })
 
     })
+
+    describe('Update auxiliar', () => {
+
+        it('Should update an auxiliar', async () => {
+            const data = {
+                nombre: "Auxiliar2",
+                apellidos: "Auxiliar2",
+                telefono: 999999999,
+                rol: "AUXILIAR",
+                username: "auxiliar2"
+            }
+
+            const auxiliar = await Users.findOne({where: {nombre: "Auxiliar1", apellidos: "Auxiliar1", telefono: 123456789, rol: "AUXILIAR", username: "auxiliar1"}})
+            const response = await request(app).put(`/users/auxiliares/edit/${auxiliar.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            const auxiliarUpdated = await Users.findByPk(auxiliar.id)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal('SUCCESS')
+        })
+
+        it('Should not update an auxiliar with empty values', async () => {
+            const data = {
+                nombre: "Auxiliar2",
+                apellidos: "",
+                telefono: 123456789,
+                rol: "AUXILIAR",
+                username: ""
+            }
+
+            const auxiliar = await Users.findOne({where: {nombre: "Auxiliar2", apellidos: "Auxiliar2", telefono: 123456789, rol: "AUXILIAR", username: "auxiliar2"}})
+            const response = await request(app).put(`/users/auxiliares/edit/${auxiliar.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.name).to.equal('SequelizeValidationError')
+        })
+
+        it('Should not update an auxiliar with an incorrect id', async () => {
+            const data = {
+                nombre: "Auxiliar3",
+                apellidos: "Auxiliar3",
+                telefono: 999998888,
+                rol: "AUXILIAR",
+                username: "auxiliar3"
+            }
+
+            const auxiliarId = 9999778728172816281
+            const response = await request(app).put(`/users/auxiliares/edit/${auxiliarId}`)
+                .set('accessToken', token)
+                .send(data)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no auxiliar with this id')
+        })
+
+    })
 })
 
 
-
+after(done => {
+    db.sequelize.close()
+    done()
+})

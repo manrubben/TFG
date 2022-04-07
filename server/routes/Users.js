@@ -42,16 +42,27 @@ router.put("/auxiliares/edit/:id", validateToken, async (req, res) => {
     const {nombre, apellidos, telefono, username, password} = req.body;
     const id = req.params.id;
 
+    const auxiliar = await Users.findByPk(id)
 
-        Users.update({
-            nombre: nombre,
-            apellidos: apellidos,
-            telefono: telefono,
-            username: username,
-        },
-            {where: {id: id}}
-        );
-        res.json("SUCCESS");
+    if(auxiliar) {
+        try {
+            await Users.update({
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    telefono: telefono,
+                    username: username,
+                },
+                {where: {id: id}}
+            );
+            return res.json("SUCCESS");
+        } catch (e) {
+            return res.json(e)
+        }
+    } else {
+        return res.json({error: "There is no auxiliar with this id"})
+    }
+
+
 })
 
 
