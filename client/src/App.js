@@ -15,6 +15,8 @@ import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
+import RegistrosDiarios from "./pages/RegistrosDiarios";
+import ShowRegistroDiario from "./pages/ShowRegistroDiario";
 
 
 function App() {
@@ -95,6 +97,8 @@ function App() {
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
+                      <Route path='/personaDependiente/:id/registrosDiarios' element={<RegistrosDiarios/>} />
+                      <Route path='/registroDiario/:id' element={<ShowRegistroDiario/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>

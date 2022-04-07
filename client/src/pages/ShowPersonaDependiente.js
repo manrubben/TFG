@@ -29,6 +29,10 @@ function ShowPersonaDependiente() {
                     <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
                 </div>
                 <button onClick={() => {
+                    navigate(`/personaDependiente/${personaDependiente.id}/registrosDiarios`)
+                }}>RegistrosDiarios</button>
+
+                <button onClick={() => {
                     navigate(`/personaDependiente/${personaDependiente.id}/edit`)
                 }}>Editar</button>
                 <div>
