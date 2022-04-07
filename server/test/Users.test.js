@@ -45,6 +45,17 @@ before( (done) => {
         });
     });
 
+    bcrypt.hash("auxiliar3", 10).then((hash) => {
+        Users.create({
+            nombre: "Auxiliar3",
+            apellidos: "Auxiliar3",
+            telefono: 887766554,
+            rol: "AUXILIAR",
+            username: "auxiliar3",
+            password: hash,
+        });
+    });
+
     done()
 })
 
@@ -170,6 +181,39 @@ describe('Users tests', () => {
         })
 
     })
+
+    describe('Delete auxiliar', () => {
+
+        it('Should delete an auxiliar', async () => {
+            const auxiliar = await Users.findOne({
+                nombre: "Auxiliar3",
+                apellidos: "Auxiliar3",
+                telefono: 887766554,
+                rol: "AUXILIAR",
+                username: "auxiliar3",
+            })
+
+            const lista = await Users.findAll()
+            const response = await request(app).del(`/users/auxiliares/delete/${auxiliar.id}`).set('accessToken', token)
+            const lista2 = await Users.findAll()
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal('DELETED SUCCESSFULLY')
+            expect(lista2.length).to.equal(lista.length - 1)
+        })
+
+        it('Should not delete an auxiliar with an incorrect id', async () => {
+            const auxiliarId = 128736718129182018309137
+            const lista = await Users.findAll()
+            const response = await request(app).del(`/users/auxiliares/delete/${auxiliarId}`).set('accessToken', token)
+            const lista2 = await Users.findAll()
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no auxiliar with this id')
+            expect(lista2.length).to.equal(lista.length)
+        })
+
+    })
+
+
 })
 
 
