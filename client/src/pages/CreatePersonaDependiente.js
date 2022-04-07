@@ -1,7 +1,8 @@
 import axios from "axios";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-function Coordinador() {
+function CreatePersonaDependiente() {
 
     const [personaNombre, setPersonaNombre] = useState("");
     const [personaApellidos, setPersonaApellidos] = useState("");
@@ -12,6 +13,7 @@ function Coordinador() {
     const [personaPastillasNoche, setPersonaPastillasNoche] = useState("");
 
     const [personasDependientesList, setPersonasDependientesList] = useState("")
+    let navigate = useNavigate();
 
     const addPersonaDependiente = () => {
         const data = {
@@ -38,6 +40,7 @@ function Coordinador() {
                     pastillasTarde: personaPastillasTarde,
                     pastillasNoche: personaPastillasNoche,
                 }])
+                navigate('/coordinador/personasDependientes')
             }
         })
     }
@@ -111,4 +114,4 @@ function Coordinador() {
 
 }
 
-export default Coordinador;
+export default CreatePersonaDependiente;
