@@ -15,6 +15,8 @@ import ShowAuxiliar from "./pages/ShowAuxiliar";
 import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
+import CreateFamiliar from "./pages/CreateFamiliar"
+import GestionarFamiliares from "./pages/GestionarFamiliares";
 
 
 function App() {
@@ -69,6 +71,7 @@ function App() {
                           <>
                               <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
                               <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
+                              <label><Link to='/coordinador/familiares'>Gestionar familiares</Link></label>
                           </>
                       }
                       {!authState.status ? (
@@ -89,10 +92,13 @@ function App() {
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
                       <Route path='/coordinador/personasDependientes/add' element={<CreatePersonaDependiente/>} />
                       <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
+                      <Route path='/coordinador/familiares' element={<GestionarFamiliares/>} />
+                      <Route path='/coordinador/familiares/add' element={<CreateFamiliar/>} />
                       <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
                       <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
+                      <Route path='/personaDependiente/:id/familiaresDisponibles' element={<CreateFamiliar/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
                   </Routes>

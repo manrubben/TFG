@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {useParams, Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import AuxiliaresAsignados from "./AuxiliaresAsignados"
+import FamiliarAsignado from "./FamiliarAsignado";
 
 function ShowPersonaDependiente() {
     let { id } = useParams();
@@ -37,6 +38,12 @@ function ShowPersonaDependiente() {
                 <button onClick={() => {
                     navigate(`/personaDependiente/${personaDependiente.id}/auxiliaresDisponibles`)
                 }}>Añadir auxiliar</button>
+                <div>
+                    <FamiliarAsignado/>
+                </div>
+                <button onClick={() => {
+                    navigate(`/personaDependiente/${personaDependiente.id}/familiaresDisponibles`)
+                }}>Añadir familiar</button>
             </div>
         </div>
     )

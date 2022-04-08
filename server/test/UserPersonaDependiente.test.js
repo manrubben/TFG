@@ -21,6 +21,16 @@ before((done) => {
         pastillasNoche: "paracetamol"
     })
 
+    PersonasDependientes.create({
+        nombre: "Javier",
+        apellidos: "García",
+        enfermedad: "Enfermedad3",
+        gradoDeDependencia: "13%",
+        pastillasDia: "aspirina",
+        pastillasTarde: "aspirina",
+        pastillasNoche: "dormidina"
+    })
+
     Users.create({
         nombre: "Auxiliar3",
         apellidos: "Auxiliar3",
@@ -28,6 +38,15 @@ before((done) => {
         rol: "AUXILIAR",
         username: "auxiliar3",
         password: "auxiliar3"
+    })
+
+    Users.create({
+        nombre: "Familiar1",
+        apellidos: "Familiar1",
+        telefono: "129807564",
+        rol: "FAMILIAR",
+        username: "familiar1",
+        password: "familiar1"
     })
     done()
 })
@@ -108,6 +127,71 @@ describe('UserPersonaDependiente tests', () => {
         })
 
     })
+
+    describe('Add familiar to persona dependiente', () => {
+
+        it('Should add a familiar to persona dependiente', async () => {
+            const personaDependiente = await PersonasDependientes.findOne({where: {nombre: "Nombre3", apellidos: "Apellidos3", enfermedad: "Enfermedad1", gradoDeDependencia: "45%", pastillasDia: "paracetamol", pastillasTarde: "aspirina", pastillasNoche: "paracetamol"}})
+            const personaDependienteId = personaDependiente.id;
+
+            const lista = await UserPersonaDependiente.findAll();
+
+            const response = await request(app).post(`/userPersonaDependiente/personaDependiente/${personaDependienteId}/addFamiliar`)
+                .set('accessToken', token)
+                .send({nombre: "Familiar1",
+                    apellidos: "Familiar1",
+                    telefono: "129807564",
+                    rol: "FAMILIAR",
+                    username: "familiar1"})
+            const lista2 = await UserPersonaDependiente.findAll();
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal('SUCCESS')
+            expect(lista2.length).to.equal(lista.length+1)
+        })
+
+        it('Should not add a familiar to persona dependiente with incorrect familiar data', async () => {
+            const personaDependiente = await PersonasDependientes.findOne({where: {nombre: "Nombre3", apellidos: "Apellidos3", enfermedad: "Enfermedad1", gradoDeDependencia: "45%", pastillasDia: "paracetamol", pastillasTarde: "aspirina", pastillasNoche: "paracetamol"}})
+            const personaDependienteId = personaDependiente.id;
+
+            const lista = await UserPersonaDependiente.findAll();
+
+            const response = await request(app).post(`/userPersonaDependiente/personaDependiente/${personaDependienteId}/addFamiliar`)
+                .set('accessToken', token)
+                .send({nombre: "jsaj",
+                    apellidos: "sncjgwh",
+                    telefono: "128371289",
+                    rol: "FAMILIAR",
+                    username: "jbcah"})
+            const lista2 = await UserPersonaDependiente.findAll();
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no familiar with this data')
+            expect(lista2.length).to.equal(lista.length)
+        })
+
+        it('Should not add a familiar to persona dependiente with an incorrect personaDependienteId', async () => {
+            const personaDependienteId = 812786417468163986712972;
+
+            const lista = await UserPersonaDependiente.findAll();
+
+            const response = await request(app).post(`/userPersonaDependiente/personaDependiente/${personaDependienteId}/addFamiliar`)
+                .set('accessToken', token)
+                .send({nombre: "Familiar1",
+                    apellidos: "Familiar1",
+                    telefono: "129807564",
+                    rol: "FAMILIAR",
+                    username: "familiar1"})
+            const lista2 = await UserPersonaDependiente.findAll();
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.name).to.equal('SequelizeDatabaseError')
+            expect(lista2.length).to.equal(lista.length)
+        })
+
+    })
+
+
 
 })
 

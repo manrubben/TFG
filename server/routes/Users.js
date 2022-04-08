@@ -139,6 +139,65 @@ router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, a
 })
 
 
+
+//Método para listar todos los familiares del sistema
+router.get("/familiares/list", validateToken, async(req, res) => {
+    const listOfFamiliares = await Users.findAll({
+        where: {
+            rol: 'FAMILIAR'
+        }
+    })
+    res.json(listOfFamiliares);
+})
+
+
+/*
+//Método para listar todos los familiares disponibles para asignar a una persona dependiente concreta
+router.get("/personaDependiente/:id/listFamiliaresDisponibles", async (req, res) => {
+    const id = req.params.id;
+    let listaFamiliaresDisponibles = [];
+
+    //Devuelve todos los familiares
+    const listOfFamiliares = await Users.findAll({
+        where: {
+            rol: 'FAMILIAR'
+        }
+    })
+
+    for (const familiar of listOfFamiliares) {
+        // Devuelve todos las personas dependientes asociadas de cada familiar
+        const listOfUserPersonaDependiente = await UserPersonaDependiente.findAll({
+            where: {
+                userId: familiar.id,
+            }
+        })
+
+        let condicion = true;
+
+        //Si ese familiar no tiene ninguna persona dependiente asociada, se añade a la lista de familiares disponibles
+        if(listOfUserPersonaDependiente.length == 0) {
+            console.log("este familiar no tiene ninguna persona dependiente asociada")
+            listaFamiliaresDisponibles.push(familiar)
+        } else {
+            //Si no, se comprueba que dicho familiar no tenga ya a esa persona dependiente asociada
+            for (const userPersonaDependiente of listOfUserPersonaDependiente) {
+                if(userPersonaDependiente.personaDependienteId == id) {
+                    condicion = false;
+                    console.log("falso")
+                    break;
+                }
+            }
+            // Y en caso afirmativo, se añade a la lista de familiares disponibles.
+            if(condicion) {
+                console.log("true")
+                listaFamiliaresDisponibles.push(familiar)
+            }
+        }
+    }
+    res.json(listaFamiliaresDisponibles)
+})
+*/
+
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
