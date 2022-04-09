@@ -17,6 +17,7 @@ import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
 import CreateFamiliar from "./pages/CreateFamiliar"
 import GestionarFamiliares from "./pages/GestionarFamiliares";
+import ShowFamiliar from "./pages/ShowFamiliar";
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
                       <Route path='/personaDependiente/:id/familiaresDisponibles' element={<CreateFamiliar/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
+                      <Route path='/familiar/:id' element={<ShowFamiliar/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>

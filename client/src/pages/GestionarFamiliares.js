@@ -24,7 +24,9 @@ function GestionarFamiliares() {
             <div>
                 {listOfFamiliares.map((value, key) => {
                     return(
-                        <div key={key} className="post">
+                        <div key={key} className="post" onClick={() => {
+                            navigate(`/familiar/${value.id}`);
+                        }}>
                             <div className="title">{value.nombre + " " + value.apellidos}</div>
                         </div>
                     );

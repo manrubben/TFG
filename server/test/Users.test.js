@@ -56,6 +56,17 @@ before( (done) => {
         });
     });
 
+    bcrypt.hash("familiar1", 10).then((hash) => {
+        Users.create({
+            nombre: "Familiar1",
+            apellidos: "Familiar1",
+            telefono: 998782600,
+            rol: "FAMILIAR",
+            username: "familiar1",
+            password: hash,
+        });
+    });
+
     done()
 })
 
@@ -211,6 +222,30 @@ describe('Users tests', () => {
             expect(lista2.length).to.equal(lista.length)
         })
 
+    })
+
+    describe("Show familiar", () => {
+        it("Should show a familiar", async () => {
+            const familiar = await Users.findOne({where: {nombre: "Familiar1", apellidos: "Familiar1", telefono: 998782600, rol: "FAMILIAR", username: "familiar1",}})
+            const response = await request(app).get(`/users/familiares/show/${familiar.id}`).set('accessToken', token)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.nombre).to.equal(familiar.nombre)
+            expect(response.body.apellidos).to.equal(familiar.apellidos)
+        })
+
+        it("Should not show a familiar with a no familiar id", async () => {
+            const familiar = await Users.findOne({where: {nombre: "Coordinador1", apellidos: "Coordinador1", telefono: 123456789, rol: "COORDINADOR", username: "coordinador1",}})
+            const response = await request(app).get(`/users/familiares/show/${familiar.id}`).set('accessToken', token)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal("There is no familiar with this id")
+        })
+
+        it("Should not show a familiar with a non-existing id", async() => {
+            const familiarId = 2917381098129728178126736
+            const response = await request(app).get(`/users/familiares/show/${familiarId}`).set('accessToken', token)
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal("There is no familiar with this id")
+        })
     })
 
 

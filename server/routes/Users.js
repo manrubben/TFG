@@ -151,6 +151,20 @@ router.get("/familiares/list", validateToken, async(req, res) => {
 })
 
 
+//Método para mostrar los detalles de un familiar
+router.get("/familiares/show/:id", validateToken, async (req, res) => {
+    const id = req.params.id
+    const familiar = await Users.findByPk(id)
+
+    if(familiar && familiar.rol === "FAMILIAR") {
+        return res.json(familiar);
+    } else {
+        return res.json({error: "There is no familiar with this id"})
+    }
+
+})
+
+
 /*
 //Método para listar todos los familiares disponibles para asignar a una persona dependiente concreta
 router.get("/personaDependiente/:id/listFamiliaresDisponibles", async (req, res) => {
