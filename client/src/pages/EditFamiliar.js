@@ -42,6 +42,19 @@ function EditFamiliar() {
     }
 
 
+    const deleteFamiliar = () => {
+        axios.delete(`http://localhost:3001/users/familiares/delete/${id}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    navigate('/coordinador/familiares')
+                }
+            })
+    }
+
+
     return(
         <div>
             <h1>Editar familiar</h1>
@@ -84,6 +97,7 @@ function EditFamiliar() {
                 />
 
                 <button onClick={editFamiliar}>Actualizar</button>
+                <button onClick={deleteFamiliar}>Eliminar</button>
             </div>
         </div>
     )

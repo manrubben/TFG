@@ -338,6 +338,39 @@ describe('Users tests', () => {
     })
 
 
+    describe("Delete familiar", () => {
+        it("Should delete a familiar", async () => {
+            const listaFamiliares = await Users.findAll({where: {rol: "FAMILIAR"}})
+            const familiar = await Users.findOne({where: {nombre: "Familiar3", apellidos: "Familiar3", telefono: "798998392", rol: "FAMILIAR", username: "familiar3",}})
+            const response = await request(app).del(`/users/familiares/delete/${familiar.id}`).set('accessToken', token)
+            const listaFamiliaresUpdated = await Users.findAll({where: {rol: "FAMILIAR"}})
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal("DELETED SUCCESSFULLY")
+            expect(listaFamiliaresUpdated.length).to.equal(listaFamiliares.length-1)
+        })
+
+        it("Should not delete a familiar with a no familiar id", async () => {
+            const listaFamiliares = await Users.findAll({where: {rol: "FAMILIAR"}})
+            const familiar = await Users.findOne({where: {nombre: "Coordinador1", apellidos: "Coordinador1", telefono: 123456789, rol: "COORDINADOR", username: "coordinador1",}})
+            const response = await request(app).del(`/users/familiares/delete/${familiar.id}`).set('accessToken', token)
+            const listaFamiliaresUpdated = await Users.findAll({where: {rol: "FAMILIAR"}})
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal("There is no familiar with this id")
+            expect(listaFamiliaresUpdated.length).to.equal(listaFamiliares.length)
+        })
+
+        it("Should not delete a familiar with an incorrect id", async () => {
+            const listaFamiliares = await Users.findAll({where: {rol: "FAMILIAR"}})
+            const familiarId = 12873817389712272817
+            const response = await request(app).del(`/users/familiares/delete/${familiarId}`).set('accessToken', token)
+            const listaFamiliaresUpdated = await Users.findAll({where: {rol: "FAMILIAR"}})
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal("There is no familiar with this id")
+            expect(listaFamiliaresUpdated.length).to.equal(listaFamiliares.length)
+        })
+    })
+
+
 })
 
 
