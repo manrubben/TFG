@@ -25,6 +25,9 @@ function ShowFamiliar() {
                 <div>Teléfono: {familiar.telefono}</div>
                 <div>Username: {familiar.username}</div>
             </div>
+            <button onClick={() => {
+                navigate(`/familiar/${familiar.id}/edit`)
+            }}>Editar</button>
         </div>
     )
 }
