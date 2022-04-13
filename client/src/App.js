@@ -62,32 +62,37 @@ function App() {
         })
     }
 
-  return (
-
+    return (
       <div className="App">
           <AuthContext.Provider value={{ authState, setAuthState }}>
               <Router>
-                  <div className="navbar">
-                      <label><Link to='/home'>Home</Link></label>
-                      {authState.rol === "COORDINADOR" &&
+                  <nav className="navbar">
+                      <div className="container-icon">
+                          <a className="primary-icon" href="/home">LOGO</a>
+                      </div>
+                      <ul className="nav-list">
+                          {authState.rol === "COORDINADOR" &&
+                              <>
+                                  <li className="list-item"><Link to='/coordinador/personasDependientes'>Personas
+                                      dependientes</Link></li>
+                                  <li className="list-item"><Link to='/coordinador/auxiliares'>Auxiliares</Link></li>
+                                  <li className="list-item"><Link to='/coordinador/familiares'>Familiares</Link></li>
+                              </>
+                          }
+
+                          {!authState.status ? (
                           <>
-                              <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
-                              <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
-                              <label><Link to='/coordinador/familiares'>Gestionar familiares</Link></label>
+                              <li className="list-item"><Link to='/login'>Login</Link></li>
                           </>
-                      }
-                      {!authState.status ? (
-                          <>
-                              <label><Link to='/login'>Login</Link></label>
-                          </>
-                      ) : (
-                          <button onClick={logout}>Logout</button>
-                      )}
+                          ) : (
+                              <button onClick={logout}>Logout</button>
+                          )}
+                      </ul>
                       <div className="loggedInContainer">
                           <h1>{authState.username}</h1>
                       </div>
+                  </nav>
 
-                  </div>
                   <Routes>
                       <Route path='/home' element={<Home/>} />
                       <Route path='/login' element={<Login/>} />
