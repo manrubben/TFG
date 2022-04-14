@@ -1,4 +1,5 @@
 import './App.css';
+import './navbar.css';
 import {BrowserRouter as Router, Routes, Route, Link, useNavigate} from 'react-router-dom'
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -85,11 +86,11 @@ function App() {
                               <li className="list-item"><Link to='/login'>Login</Link></li>
                           </>
                           ) : (
-                              <button onClick={logout}>Logout</button>
+                              <button className="log-out" onClick={logout}>Logout</button>
                           )}
                       </ul>
                       <div className="loggedInContainer">
-                          <h1>{authState.username}</h1>
+                          <h3>{authState.username}</h3>
                       </div>
                   </nav>
 

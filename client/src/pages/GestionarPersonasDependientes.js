@@ -24,7 +24,7 @@ function GestionarPersonasDependientes() {
     }, []);
 
     return(
-        <div>
+        <div className="App">
             <h1>GESTIONAR PERSONAS DEPENDIENTES</h1>
             <button onClick={() => {
                 navigate('/coordinador/personasDependientes/add')

@@ -6,6 +6,36 @@
   flex-direction: column;
 }
 
+/* Gestionar personas dependientes, auxiliares y familiares*/
+
+.App h1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+@media all and (max-width: 800px) {
+  .App h1 {
+    text-align: center;
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+
+  .App .post {
+    width: 80vw;
+    margin-bottom: 20px;
+  }
+
+  .App .post .title {
+    text-align: center;
+  }
+
+  .App button {
+    width: 50vw;
+  }
+
+
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -102,75 +132,6 @@ body {
 
 span {
   color: red;
-}
-
-/* NAVBAR */
-
-.navbar {
-  width: 100%;
-  background-color: dodgerblue;
-  color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 17px;
-}
-
-.nav-list {
-  list-style-type: none;
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-.nav-list .list-item {
-  display: inline-block;
-  padding: 20px 10px;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-}
-
-.navbar a:hover {
-  color: black;
-}
-
-@media all and (max-width: 480px) {
-  .navbar {
-    flex-direction: column;
-    position: relative;
-  }
-
-  .navbar .container-icon {
-    width: 100%;
-  }
-
-  .menu {
-    display: block;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  .nav-list {
-    list-style-type: none;
-    width: 100%;
-    text-align: center;
-    padding-top: 10px;
-  }
-
-  .nav-list .list-item {
-    display: block;
-    border-top: 1px solid white;
-  }
-
-  .primary-icon {
-    margin-left: 10px;
-    margin-top: 10px;
-  }
-
 }
 
 

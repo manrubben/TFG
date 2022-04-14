@@ -16,7 +16,7 @@ function GestionarAuxiliares() {
     })
 
     return(
-        <div>
+        <div className="App">
             <h1>GESTIONAR AUXILIARES</h1>
             <div>
                 {listOfAuxiliares.map((value, key) => {

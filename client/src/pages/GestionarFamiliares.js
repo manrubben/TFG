@@ -16,7 +16,7 @@ function GestionarFamiliares() {
     }, [])
 
     return(
-        <div>
+        <div className="App">
             <h1>Gestionar familiares</h1>
             <button onClick={() => {
                 navigate('/coordinador/familiares/add')
