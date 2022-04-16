@@ -16,9 +16,9 @@ function ShowAuxiliar() {
     })
 
     return(
-        <div>
-            <h1>Show auxiliar</h1>
-            <div className="post" id="individual">
+        <div className="App">
+            <h1>Detalles de {auxiliar.nombre} {auxiliar.apellidos}</h1>
+            <div className="datos-auxiliar">
                 <div>Nombre: {auxiliar.nombre}</div>
                 <div>Apellidos: {auxiliar.apellidos}</div>
                 <div>Teléfono: {auxiliar.telefono}</div>

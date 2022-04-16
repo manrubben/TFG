@@ -18,34 +18,34 @@ function ShowPersonaDependiente() {
     })
 
     return(
-        <div className="postPage">
-            <div className="leftSide">
-                <div className="post" id="individual">
-                    <div>Nombre: {personaDependiente.nombre}</div>
-                    <div>Apellidos: {personaDependiente.apellidos}</div>
-                    <div>Enfermedad: {personaDependiente.enfermedad}</div>
-                    <div>Grado de dependencia: {personaDependiente.gradoDeDependencia}</div>
-                    <div>Pastillas de dia: {personaDependiente.pastillasDia}</div>
-                    <div>Pastillas de tarde: {personaDependiente.pastillasTarde}</div>
-                    <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
-                </div>
-                <button onClick={() => {
-                    navigate(`/personaDependiente/${personaDependiente.id}/edit`)
-                }}>Editar</button>
-                <div>
-                    <AuxiliaresAsignados/>
-                </div>
-                <button onClick={() => {
-                    navigate(`/personaDependiente/${personaDependiente.id}/auxiliaresDisponibles`)
-                }}>Añadir auxiliar</button>
-                <div>
-                    <FamiliarAsignado/>
-                </div>
-                <button onClick={() => {
-                    navigate(`/personaDependiente/${personaDependiente.id}/familiaresDisponibles`)
-                }}>Añadir familiar</button>
+        <div className="App">
+            <h1>Detalles de {personaDependiente.nombre} {personaDependiente.apellidos}</h1>
+            <div className="datos-persona-dependiente">
+                <div>Nombre: {personaDependiente.nombre}</div>
+                <div>Apellidos: {personaDependiente.apellidos}</div>
+                <div>Enfermedad: {personaDependiente.enfermedad}</div>
+                <div>Grado de dependencia: {personaDependiente.gradoDeDependencia}</div>
+                <div>Pastillas de dia: {personaDependiente.pastillasDia}</div>
+                <div>Pastillas de tarde: {personaDependiente.pastillasTarde}</div>
+                <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
             </div>
+            <button className="edit-button" onClick={() => {
+                navigate(`/personaDependiente/${personaDependiente.id}/edit`)
+            }}>Editar</button>
+            <div>
+                <AuxiliaresAsignados/>
+            </div>
+            <button onClick={() => {
+                navigate(`/personaDependiente/${personaDependiente.id}/auxiliaresDisponibles`)
+            }}>Añadir auxiliar</button>
+            <div>
+                <FamiliarAsignado/>
+            </div>
+            <button onClick={() => {
+                navigate(`/personaDependiente/${personaDependiente.id}/familiaresDisponibles`)
+            }}>Añadir familiar</button>
         </div>
+
     )
 }
 

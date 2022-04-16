@@ -44,11 +44,10 @@ function CreateFamiliar() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Añadir familiar</h1>
 
             <div className="loginContainer">
-
                 <label>Nombre:</label>
                 <input type="text"
                        name="nombre"

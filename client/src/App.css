@@ -6,7 +6,11 @@
   flex-direction: column;
 }
 
-/* Gestionar personas dependientes, auxiliares y familiares*/
+.App button {
+  cursor: pointer;
+}
+
+/* Gestionar personas dependientes, auxiliares y familiares */
 
 .App h1 {
   margin-top: 30px;
@@ -21,8 +25,7 @@
   }
 
   .App .post {
-    width: 80vw;
-    margin-bottom: 20px;
+    width: 60vw;
   }
 
   .App .post .title {
@@ -30,7 +33,7 @@
   }
 
   .App button {
-    width: 50vw;
+    width: 30vw;
   }
 
 
@@ -48,6 +51,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
+    margin-bottom: 50px;
   border: 1px solid lightgray;
   font-family: Arial, Helvetica, sans-serif;
 
@@ -227,16 +231,20 @@ button {
   padding-top: 100px;
 }
 
-.loginContainer input,
-button {
-  width: 200px;
-  height: 50px;
+.loginContainer input{
+  width: 300px;
+  height: 30px;
   border-radius: 8px;
   border: none;
   margin: 10px;
 }
 
 .loginContainer button {
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
   background-color: dodgerblue;
   color: white;
   cursor: pointer
@@ -244,4 +252,85 @@ button {
 
 .loginContainer input {
   border: 2px solid dodgerblue;
+}
+
+@media all and (max-width: 800px) {
+  .loginContainer input {
+    width: 45vw;
+  }
+
+  .loginContainer button {
+    width: 20vw;
+  }
+}
+
+
+/* Show persona dependiente, auxiliar y familiar */
+
+.datos-persona-dependiente {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.datos-auxiliar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.datos-familiar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.auxiliar-asignado {
+  display: flex;
+  align-items: center;
+}
+
+.auxiliar-asignado button {
+  margin-left: 10px;
+}
+
+.familiar-asignado {
+  display: flex;
+  align-items: center;
+}
+
+.familiar-asignado button {
+  margin-left: 10px;
+}
+
+@media all and (max-width: 800px) {
+  .datos-persona-dependiente {
+    width: 70vw;
+  }
+
+  .datos-auxiliar {
+    width: 70vw;
+  }
+
+  .datos-familiar {
+    width: 70vw;
+  }
 }

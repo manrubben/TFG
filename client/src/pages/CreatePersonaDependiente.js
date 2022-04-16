@@ -106,7 +106,7 @@ function CreatePersonaDependiente() {
                        }}
                 />
 
-                <button onClick={addPersonaDependiente}>Submit</button>
+                <button onClick={addPersonaDependiente}>Añadir</button>
             </div>
         </div>
     )

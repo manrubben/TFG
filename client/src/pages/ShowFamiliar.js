@@ -17,9 +17,9 @@ function ShowFamiliar() {
     })
 
     return(
-        <div>
-            <h1>Show familiar</h1>
-            <div className="post" id="individual">
+        <div className="App">
+            <h1>Detalles de {familiar.nombre} {familiar.apellidos}</h1>
+            <div className="datos-familiar">
                 <div>Nombre: {familiar.nombre}</div>
                 <div>Apellidos: {familiar.apellidos}</div>
                 <div>Teléfono: {familiar.telefono}</div>
