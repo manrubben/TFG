@@ -113,8 +113,8 @@ router.delete("/delete/:id", validateToken, async (req, res) => {
 
 
 //Listar personas dependientes asociadas
-router.get("/personasAsignadas/:id", validateToken, async (req, res) => {
-    const id = req.params.id;
+router.get("/personasAsignadas", validateToken, async (req, res) => {
+    const id = req.user.id;
     let lista2 = [];
     const listOfPersonasDependientes = await UserPersonaDependiente.findAll({
         where: {
