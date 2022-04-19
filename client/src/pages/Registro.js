@@ -47,7 +47,7 @@ function Registros() {
     const [tiempoAireLibre, setTiempoAireLibre] = useState("");
 
 
-    const crearRegistro = () => {
+    const crearRegistro = async () => {
         const data = {
             desayuno: desayuno,
             almuerzo: almuerzo,
@@ -61,7 +61,7 @@ function Registros() {
 
 
         }
-        axios.post("http://localhost:3001/registrosDiarios/addRegistro", data,
+        await axios.post("http://localhost:3001/registrosDiarios/addRegistro", data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 if(response) {
@@ -74,7 +74,7 @@ function Registros() {
         }
 
 
-        axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, data2,
+        await axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, data2,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
 

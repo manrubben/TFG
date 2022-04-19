@@ -12,8 +12,8 @@ function ShowRegistro() {
     const fechaString = fechaSeleccionada.toLocaleDateString();
     console.log(fechaString);
 
-    const showRegistro = () => {
-        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+    const showRegistro = async () => {
+       await axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 setRegistro(response.data);
