@@ -6,7 +6,8 @@ import {AuthContext} from "../helpers/AuthContext";
 
 function ShowPersonaDependiente() {
 
-
+    const fechaActual = new Date(Date.now());
+    const horaActual = fechaActual.getHours();
     const { authState } = useContext(AuthContext);
 
     let { id } = useParams();
@@ -30,9 +31,28 @@ function ShowPersonaDependiente() {
                         <div>Apellidos: {personaDependiente.apellidos}</div>
                         <div>Enfermedad: {personaDependiente.enfermedad}</div>
                         <div>Grado de dependencia: {personaDependiente.gradoDeDependencia}</div>
+                        {authState.rol === "COORDINADOR" &&
+                        <>
                         <div>Pastillas de dia: {personaDependiente.pastillasDia}</div>
                         <div>Pastillas de tarde: {personaDependiente.pastillasTarde}</div>
                         <div>Pastillas de noche: {personaDependiente.pastillasNoche}</div>
+                        </>
+                        }
+                        {authState.rol === "AUXILIAR" && horaActual >= 6 && horaActual < 13 &&
+                            <>
+                                <div>La persona debe tomar la siguiente medicación: {personaDependiente.pastillasDia}</div>
+                            </>
+                        }
+                        {authState.rol === "AUXILIAR" && horaActual >= 13 && horaActual < 21 &&
+                        <>
+                            <div>La persona debe tomar la siguiente medicación: {personaDependiente.pastillasTarde}</div>
+                        </>
+                        }
+                        {authState.rol === "AUXILIAR" && (horaActual >= 21 || horaActual < 5) &&
+                        <>
+                            <div>La persona debe tomar la siguiente medicación: {personaDependiente.pastillasNoche}</div>
+                        </>
+                        }
                     </div>
                     {authState.rol === "COORDINADOR" &&
                     <>
