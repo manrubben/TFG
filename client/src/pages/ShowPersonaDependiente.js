@@ -20,7 +20,7 @@ function ShowPersonaDependiente() {
             .then((response) => {
             setPersonaDependiente(response.data);
         });
-    })
+    }, [])
 
     return(
         <div className="postPage">
