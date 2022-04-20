@@ -7,7 +7,7 @@ import Home from "./Home";
 import ShowPersonaDependiente from "./ShowPersonaDependiente";
 import {AuthContext} from "../helpers/AuthContext";
 import Login from "./Login";
-import Auxiliar from "./Auxiliar";
+import CreateAuxiliar from "./CreateAuxiliar";
 
 function GestionarPersonasDependientes() {
 

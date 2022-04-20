@@ -13,11 +13,14 @@ function GestionarAuxiliares() {
             .then((response) => {
                 setListOfAuxiliares(response.data);
             })
-    })
+    }, [])
 
     return(
         <div>
             <h1>GESTIONAR AUXILIARES</h1>
+            <button onClick={() => {
+                navigate('/coordinador/auxiliares/add')
+            }}>Añadir auxiliar</button>
             <div>
                 {listOfAuxiliares.map((value, key) => {
                     return(

@@ -6,7 +6,7 @@ import { AuthContext } from "./helpers/AuthContext"
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import CreatePersonaDependiente from "./pages/CreatePersonaDependiente";
-import Auxiliar from "./pages/Auxiliar";
+import CreateAuxiliar from "./pages/CreateAuxiliar";
 import Registro from "./pages/Registro";
 import GestionarAuxiliares from "./pages/GestionarAuxiliares";
 import GestionarPersonasDependientes from "./pages/GestionarPersonasDependientes";
@@ -96,6 +96,7 @@ function App() {
                       <Route path='/coordinador/personasDependientes' element={<GestionarPersonasDependientes/>} />
                       <Route path='/coordinador/personasDependientes/add' element={<CreatePersonaDependiente/>} />
                       <Route path='/coordinador/auxiliares' element={<GestionarAuxiliares/>} />
+                      <Route path='/coordinador/auxiliares/add' element={<CreateAuxiliar/>}/>
                       <Route path='/auxiliar/:id' element={<ShowAuxiliar/>} />
                       <Route path='/auxiliar/:id/edit' element={<EditAuxiliar/>} />
                       <Route path='/personaDependiente/:id' element={<ShowPersonaDependiente/>} />
