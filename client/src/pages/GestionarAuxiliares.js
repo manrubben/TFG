@@ -13,7 +13,7 @@ function GestionarAuxiliares() {
             .then((response) => {
                 setListOfAuxiliares(response.data);
             })
-    })
+    }, [])
 
     return(
         <div className="App">
