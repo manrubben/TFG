@@ -14,7 +14,7 @@ function EditAuxiliar() {
             .then((response) => {
                 setAuxiliar(response.data)
             });
-    })
+    }, [])
 
     const [auxiliarNombre, setAuxiliarNombre] = useState(auxiliar.nombre);
     const [auxiliarApellidos, setAuxiliarApellidos] = useState(auxiliar.apellidos);

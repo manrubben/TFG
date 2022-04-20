@@ -15,7 +15,7 @@ function EditFamiliar() {
             .then((response) => {
                 setFamiliar(response.data)
             });
-    })
+    }, [])
 
     const [familiarNombre, setFamiliarNombre] = useState(familiar.nombre);
     const [familiarApellidos, setFamiliarApellidos] = useState(familiar.apellidos);
