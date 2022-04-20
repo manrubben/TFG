@@ -48,6 +48,25 @@ router.post("/addAuxiliarRegistro/:id", validateToken, async (req, res) => {
     res.json("SUCCESS");
 });
 
+//VER REGISTRO DE UN DIA
+router.get('/showRegistro/:id', validateToken, async (req, res) => {
+
+    const personaDependienteId = req.params.id;
+    const fecha = req.query.fecha;
+    //const fechaString = fecha.toLocaleDateString()
+
+    const registroDiario = await RegistrosDiarios.findAll({
+        where: {
+            PersonasDependienteId: personaDependienteId,
+            fecha: fecha
+        }
+
+    })
+
+    res.json(registroDiario[0])
+
+})
+
 
 
 //VER REGISTRO DE UN DIA
