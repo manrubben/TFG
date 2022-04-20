@@ -15,7 +15,7 @@ function EditPersonaDependiente() {
             .then((response) => {
                 setPersonaDependiente(response.data);
             });
-    })
+    }, [])
 
     const [personaNombre, setPersonaNombre] = useState(personaDependiente.nombre);
     const [personaApellidos, setPersonaApellidos] = useState(personaDependiente.apellidos);
