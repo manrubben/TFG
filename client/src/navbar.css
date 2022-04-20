@@ -25,6 +25,12 @@
     padding: 20px 10px;
 }
 
+.nav-list .log-out {
+    width: auto;
+    height: auto;
+    padding: 6px;
+}
+
 /*
 .nav-list .list-item:hover {
     background-color: white;
@@ -67,10 +73,6 @@
     .nav-list .list-item {
         display: block;
         border-top: 1px solid white;
-    }
-
-    .nav-list .log-out {
-        width: 30vw;
     }
 
     .primary-icon {

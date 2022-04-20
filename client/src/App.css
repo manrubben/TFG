@@ -235,8 +235,8 @@ button {
   width: 300px;
   height: 30px;
   border-radius: 8px;
-  border: none;
   margin: 10px;
+  border: 2px solid dodgerblue;
 }
 
 .loginContainer button {
@@ -248,10 +248,6 @@ button {
   background-color: dodgerblue;
   color: white;
   cursor: pointer
-}
-
-.loginContainer input {
-  border: 2px solid dodgerblue;
 }
 
 @media all and (max-width: 800px) {
@@ -319,6 +315,10 @@ button {
 
 .familiar-asignado button {
   margin-left: 10px;
+}
+
+.App .add-familiar-button {
+  margin-bottom: 50px;
 }
 
 @media all and (max-width: 800px) {

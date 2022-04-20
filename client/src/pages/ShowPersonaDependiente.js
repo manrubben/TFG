@@ -41,7 +41,7 @@ function ShowPersonaDependiente() {
             <div>
                 <FamiliarAsignado/>
             </div>
-            <button onClick={() => {
+            <button className="add-familiar-button" onClick={() => {
                 navigate(`/personaDependiente/${personaDependiente.id}/familiaresDisponibles`)
             }}>Añadir familiar</button>
         </div>
