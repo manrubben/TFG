@@ -14,7 +14,7 @@ function ShowFamiliar() {
             .then((response) => {
                 setFamiliar(response.data)
             });
-    })
+    }, [])
 
     return(
         <div className="App">

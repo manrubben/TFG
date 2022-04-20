@@ -13,7 +13,7 @@ function ShowAuxiliar() {
             .then((response) => {
                 setAuxiliar(response.data)
             });
-    })
+    }, [])
 
     return(
         <div className="App">
