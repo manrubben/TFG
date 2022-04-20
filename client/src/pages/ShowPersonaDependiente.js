@@ -9,17 +9,32 @@ function ShowPersonaDependiente() {
     const fechaActual = new Date(Date.now());
     const horaActual = fechaActual.getHours();
     const { authState } = useContext(AuthContext);
+    const fechaString = fechaActual.toLocaleDateString()
 
     let { id } = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
+    const [registro, setRegistro] = useState({});
     let navigate = useNavigate();
 
     useEffect(() => {
+
         axios.get(`http://localhost:3001/personasDependientes/show/${id}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
             setPersonaDependiente(response.data);
         });
+
+        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                setRegistro(response.data);
+
+            });
+
+
+        //console.log(registro.cena);
+
+
     })
 
     return(
@@ -67,6 +82,17 @@ function ShowPersonaDependiente() {
                         }}>Añadir auxiliar</button>
                     </>
                     }
+                    {authState.rol === "AUXILIAR" && registro === null &&
+                        <>
+                            <button onClick={() => {
+                                navigate(`/personaDependiente/${personaDependiente.id}/registro`)
+                            }}>Iniciar Registro diario</button>
+                        </>
+                    }
+
+                    <button onClick={() => {
+                        navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)
+                    }}>Ver registros</button>
 
                 </div>
         </div>

@@ -48,6 +48,8 @@ router.post("/addAuxiliarRegistro/:id", validateToken, async (req, res) => {
     res.json("SUCCESS");
 });
 
+
+
 //VER REGISTRO DE UN DIA
 router.get('/showRegistro/:id', validateToken, async (req, res) => {
 
@@ -63,7 +65,9 @@ router.get('/showRegistro/:id', validateToken, async (req, res) => {
 
     })
 
-    res.json(registroDiario[0])
+    const registro = registroDiario[0];
+
+    res.json(registro);
 
 })
 
