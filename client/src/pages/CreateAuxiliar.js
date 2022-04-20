@@ -1,7 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
-function Auxiliar() {
+function CreateAuxiliar() {
 
     const [auxiliarNombre, setAuxiliarNombre] = useState("");
     const [auxiliarApellidos, setAuxiliarApellidos] = useState("");
@@ -10,6 +11,7 @@ function Auxiliar() {
     const [auxiliarPassword, setAuxiliarPassword] = useState("");
 
     const [auxiliaresList, setAuxiliaresList] = useState("")
+    let navigate = useNavigate();
 
     const addAuxiliar = () => {
         const data = {
@@ -34,6 +36,7 @@ function Auxiliar() {
                         username: auxiliarUsername,
                         password: auxiliarPassword,
                     }])
+                    navigate('/coordinador/auxiliares')
                 }
             })
     }
@@ -84,11 +87,10 @@ function Auxiliar() {
                        }}
                 />
 
-                <button onClick={addAuxiliar}>Submit</button>
-
+                <button onClick={addAuxiliar}>Añadir</button>
             </div>
         </div>
     )
 }
 
-export default Auxiliar;
+export default CreateAuxiliar;
