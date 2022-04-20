@@ -12,20 +12,27 @@ function ShowRegistro() {
     const fechaString = fechaSeleccionada.toLocaleDateString();
     console.log(fechaString);
 
+    useEffect(() => {
+        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                setRegistro(response.data);
+            });
+    }, [])
+/*
     const showRegistro = async () => {
        await axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 setRegistro(response.data);
-
             });
     }
-
+*/
     return(
         <div>
             <h1>Selecciona la fecha</h1>
             <div >
-               <DatePicker value={fechaSeleccionada} onChange={setFechaSeleccionada} onClick={showRegistro()}/>
+               <DatePicker value={fechaSeleccionada} onChange={setFechaSeleccionada}/>
             </div>
 
             <div className="loginContainer">

@@ -35,7 +35,7 @@ function ShowPersonaDependiente() {
         //console.log(registro.cena);
 
 
-    })
+    }, [])
 
     return(
         <div className="postPage">
@@ -89,7 +89,6 @@ function ShowPersonaDependiente() {
                             }}>Iniciar Registro diario</button>
                         </>
                     }
-
                     <button onClick={() => {
                         navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)
                     }}>Ver registros</button>
