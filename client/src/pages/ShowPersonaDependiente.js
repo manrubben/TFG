@@ -82,12 +82,20 @@ function ShowPersonaDependiente() {
                         }}>Añadir auxiliar</button>
                     </>
                     }
-                    {authState.rol === "AUXILIAR" && registro === null &&
+                    {authState.rol === "AUXILIAR" && Object.entries(registro).length === 0 &&
                         <>
                             <button onClick={() => {
                                 navigate(`/personaDependiente/${personaDependiente.id}/registro`)
                             }}>Iniciar Registro diario</button>
                         </>
+                    }
+
+                    {authState.rol === "AUXILIAR" && Object.entries(registro).length !== 0 &&
+                    <>
+                        <button onClick={() => {
+                            navigate(`/personaDependiente/${personaDependiente.id}/registro/edit`)
+                        }}>Modificar Registro diario</button>
+                    </>
                     }
                     <button onClick={() => {
                         navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)

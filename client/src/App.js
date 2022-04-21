@@ -17,6 +17,7 @@ import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
 import ShowRegistro from "./pages/ShowRegistro";
 import PersonasDependientesAsignadas from "./pages/PersonasDependientesAsignadas";
+import EditRegistro from "./pages/EditRegistro";
 
 function App() {
 
@@ -102,6 +103,7 @@ function App() {
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
                       <Route path='/personaDependiente/:id/showRegistro' element={<ShowRegistro/>} />
+                      <Route path='/personaDependiente/:id/registro/edit' element={<EditRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                   </Routes>
               </Router>

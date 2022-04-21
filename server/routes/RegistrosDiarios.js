@@ -9,22 +9,37 @@ router.post("/addRegistro", validateToken, async (req, res) => {
         horasSueno, tiempoAireLibre, PersonasDependienteId} = req.body;
 
     const hoy = new Date(Date.now());
+    const hoyString = hoy.toLocaleDateString()
+    const registroDiario = await RegistrosDiarios.findAll({
+        where: {
+            PersonasDependienteId: PersonasDependienteId,
+            fecha: hoyString
+        }
+    })
+    const registro = registroDiario[0];
+    if(Object.entries(registro).length === 0) {
 
-    await RegistrosDiarios.create({
-        fecha: hoy.toLocaleDateString(),
-        desayuno: desayuno,
-        almuerzo: almuerzo,
-        merienda: merienda,
-        cena: cena,
-        pasosDiarios: pasosDiarios,
-        actividadFisica: actividadFisica,
-        horasSueno: horasSueno,
-        tiempoAireLibre: tiempoAireLibre,
-        PersonasDependienteId: PersonasDependienteId,
+        await RegistrosDiarios.create({
+            fecha: hoy.toLocaleDateString(),
+            desayuno: desayuno,
+            almuerzo: almuerzo,
+            merienda: merienda,
+            cena: cena,
+            pasosDiarios: pasosDiarios,
+            actividadFisica: actividadFisica,
+            horasSueno: horasSueno,
+            tiempoAireLibre: tiempoAireLibre,
+            PersonasDependienteId: PersonasDependienteId,
 
-    });
+        });
 
-    res.json("SUCCESS");
+        res.json("SUCCESS");
+
+    } else {
+        return res.json({error: "Ya hay un registro con esta fecha"})
+    }
+
+
 });
 
 
@@ -47,6 +62,40 @@ router.post("/addAuxiliarRegistro/:id", validateToken, async (req, res) => {
     });
     res.json("SUCCESS");
 });
+
+
+router.put('/registro/edit/:id', validateToken, async (req, res) => {
+
+    const {fecha,desayuno, almuerzo, merienda, cena, pasosDiarios, actividadFisica,
+        horasSueno, tiempoAireLibre, PersonasDependienteId} = req.body;
+    const id = req.params.id;
+    const registro = await RegistrosDiarios.findByPk(id);
+
+    if(registro) {
+        try {
+            await RegistrosDiarios.update({
+                    fecha: fecha,
+                    desayuno: desayuno,
+                    almuerzo: almuerzo,
+                    merienda: merienda,
+                    cena: cena,
+                    pasosDiarios: pasosDiarios,
+                    actividadFisica: actividadFisica,
+                    horasSueno: horasSueno,
+                    tiempoAireLibre: tiempoAireLibre,
+                    PersonasDependienteId: PersonasDependienteId,
+                },
+                {where: {id: id}}
+            );
+            return res.json("SUCCESS");
+        } catch (e) {
+            return res.json(e)
+        }
+    } else {
+        return res.json({error: "There is no registro with this id"})
+    }
+
+})
 
 //VER REGISTRO DE UN DIA
 router.get('/showRegistro/:id', validateToken, async (req, res) => {
