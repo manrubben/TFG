@@ -1,6 +1,8 @@
 import axios from "axios";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {Formik, Form, Field, ErrorMessage} from "formik";
+import * as Yup from "yup";
 
 function CreatePersonaDependiente() {
 
@@ -15,33 +17,27 @@ function CreatePersonaDependiente() {
     const [personasDependientesList, setPersonasDependientesList] = useState("")
     let navigate = useNavigate();
 
-    const addPersonaDependiente = () => {
-        const data = {
-            nombre: personaNombre,
-            apellidos: personaApellidos,
-            enfermedad: personaEnfermedad,
-            gradoDeDependencia: personaGradoDeDependencia,
-            pastillasDia: personaPastillasDia,
-            pastillasTarde: personaPastillasTarde,
-            pastillasNoche: personaPastillasNoche,
-        }
+    const initialValues = {
+        nombre: "",
+        apellidos: "",
+        enfermedad: "",
+        gradoDeDependencia: "",
+        pastillasDia: "",
+        pastillasTarde: "",
+        pastillasNoche: ""
+    };
+
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        enfermedad: Yup.string().required("Debes introducir la enfermedad"),
+    });
+
+    const addPersonaDependiente = (data) => {
         axios.post("http://localhost:3001/personasDependientes/create", data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-            if (response.data.error) {
-                console.log(response.data.error);
-            } else {
-                setPersonasDependientesList([...personasDependientesList, {
-                    nombre: personaNombre,
-                    apellidos: personaApellidos,
-                    enfermedad: personaEnfermedad,
-                    gradoDeDependencia: personaGradoDeDependencia,
-                    pastillasDia: personaPastillasDia,
-                    pastillasTarde: personaPastillasTarde,
-                    pastillasNoche: personaPastillasNoche,
-                }])
                 navigate('/coordinador/personasDependientes')
-            }
         })
     }
 
@@ -49,65 +45,79 @@ function CreatePersonaDependiente() {
         <div>
             <h1>Añadir persona dependiente</h1>
 
-            <div className="loginContainer">
-                <label>Nombre:</label>
-                <input type="text"
-                       name="nombre"
-                       onChange={(event) => {
-                           setPersonaNombre(event.target.value);
-                       }}
-                />
+            <Formik
+                initialValues={initialValues}
+                onSubmit={addPersonaDependiente}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
 
-                <label>Apellidos:</label>
-                <input type="text"
-                       name="apellidos"
-                       onChange={(event) => {
-                           setPersonaApellidos(event.target.value);
-                       }}
-                />
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
 
-                <label>Enfermedad:</label>
-                <input type="text"
-                       name="enfermedad"
-                       onChange={(event) => {
-                           setPersonaEnfermedad(event.target.value);
-                       }}
-                />
+                    <label>Enfermedad: </label>
+                    <ErrorMessage name="enfermedad" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="enfermedad"
+                        placeholder="(Ej. Parkinson...)"
+                    />
 
-                <label>Grado de dependencia:</label>
-                <input type="text"
-                       name="gradoDeDependencia"
-                       onChange={(event) => {
-                           setPersonaGradoDeDependencia(event.target.value);
-                       }}
-                />
+                    <label>Grado de dependencia: </label>
+                    <ErrorMessage name="gradoDeDependencia" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="gradoDeDependencia"
+                        placeholder="(Ej. 32%...)"
+                    />
 
-                <label>Pastillas de dia:</label>
-                <input type="text"
-                       name="pastillasDia"
-                       onChange={(event) => {
-                           setPersonaPastillasDia(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de dia: </label>
+                    <ErrorMessage name="pastillasDia" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasDia"
+                        placeholder="(Ej. Aspirina...)"
+                    />
 
-                <label>Pastillas de tarde:</label>
-                <input type="text"
-                       name="pastillasTarde"
-                       onChange={(event) => {
-                           setPersonaPastillasTarde(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de tarde: </label>
+                    <ErrorMessage name="pastillasTarde" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasTarde"
+                        placeholder="(Ej. Ibuprofeno...)"
+                    />
 
-                <label>Pastillas de noche:</label>
-                <input type="text"
-                       name="pastillasNoche"
-                       onChange={(event) => {
-                           setPersonaPastillasNoche(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de noche: </label>
+                    <ErrorMessage name="pastillasNoche" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasNoche"
+                        placeholder="(Ej. Dormidina...)"
+                    />
 
-                <button onClick={addPersonaDependiente}>Submit</button>
-            </div>
+                    <button type="submit">Añadir</button>
+                </Form>
+            </Formik>
+
         </div>
     )
 
