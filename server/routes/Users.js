@@ -142,17 +142,28 @@ router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, a
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
-    bcrypt.hash(password, 10).then((hash) => {
-        Users.create({
-            nombre: nombre,
-            apellidos: apellidos,
-            telefono: telefono,
-            rol: rol,
-            username: username,
-            password: hash,
-        });
-        res.json("SUCCESS");
-    });
+    if(password.length >= 8 && password.length <= 16) {
+        const hash = await bcrypt.hash(password, 10)
+        try {
+            await Users.create({
+                nombre: nombre,
+                apellidos: apellidos,
+                telefono: telefono,
+                rol: rol,
+                username: username,
+                password: hash,
+            });
+        } catch (e) {
+            if(e) {
+                return res.json(e)
+            }
+        }
+        return res.json("SUCCESS");
+
+    } else {
+        return res.json({error: "La contraseña debe tener entre 8 y 16 caracteres"});
+    }
+
 });
 
 

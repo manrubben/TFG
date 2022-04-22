@@ -1,6 +1,8 @@
 import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 function CreateAuxiliar() {
 
@@ -13,31 +15,32 @@ function CreateAuxiliar() {
     const [auxiliaresList, setAuxiliaresList] = useState("")
     let navigate = useNavigate();
 
-    const addAuxiliar = () => {
-        const data = {
-            nombre: auxiliarNombre,
-            apellidos: auxiliarApellidos,
-            telefono: auxiliarTelefono,
-            rol: "AUXILIAR",
-            username: auxiliarUsername,
-            password: auxiliarPassword,
-        }
+    const initialValues = {
+        nombre: "",
+        apellidos: "",
+        telefono: "",
+        rol: "AUXILIAR",
+        username: "",
+        password: ""
+    };
+
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        telefono: Yup.string().required("Debes introducir un número de teléfono"),
+        username: Yup.string().required("Debes introducir un nombre de usuario")
+            .min(8, "El nombre de usuario debe tener al menos 8 caracteres")
+            .max(16, "El nombre de usuario debe tener como máximo 16 caracteres"),
+        password: Yup.string().required("Debes introducir una contraseña")
+            .min(8, "La contraseña debe tener al menos 8 caracteres")
+            .max(16, "La contraseña debe tener como máximo 16 caracteres"),
+    });
+
+    const addAuxiliar = (data) => {
         axios.post("http://localhost:3001/users/create", data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                if(response.data.error) {
-                    console.log(response.data.error);
-                } else {
-                    setAuxiliaresList([...auxiliaresList, {
-                        nombre: auxiliarNombre,
-                        apellidos: auxiliarApellidos,
-                        telefono: auxiliarTelefono,
-                        rol: "AUXILIAR",
-                        username: auxiliarUsername,
-                        password: auxiliarPassword,
-                    }])
                     navigate('/coordinador/auxiliares')
-                }
             })
     }
 
@@ -45,50 +48,60 @@ function CreateAuxiliar() {
         <div>
             <h1>Añadir auxiliar</h1>
 
-            <div className="loginContainer">
+            <Formik
+                initialValues={initialValues}
+                onSubmit={addAuxiliar}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
 
-                <label>Nombre:</label>
-                <input type="text"
-                       name="nombre"
-                       onChange={(event) => {
-                           setAuxiliarNombre(event.target.value);
-                       }}
-                />
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
 
-                <label>Apellidos:</label>
-                <input type="text"
-                       name="apellidos"
-                       onChange={(event) => {
-                           setAuxiliarApellidos(event.target.value);
-                       }}
-                />
+                    <label>Teléfono: </label>
+                    <ErrorMessage name="telefono" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="telefono"
+                        placeholder="(Ej. 622172737...)"
+                    />
 
-                <label>Teléfono:</label>
-                <input type="text"
-                       name="telefono"
-                       onChange={(event) => {
-                           setAuxiliarTelefono(event.target.value);
-                       }}
-                />
+                    <label>Username: </label>
+                    <ErrorMessage name="username" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="username"
+                        placeholder="(Ej. javier97...)"
+                    />
 
-                <label>Username:</label>
-                <input type="text"
-                       name="username"
-                       onChange={(event) => {
-                           setAuxiliarUsername(event.target.value);
-                       }}
-                />
+                    <label>Password: </label>
+                    <ErrorMessage name="password" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="password"
+                        type="password"
+                    />
 
-                <label>Password:</label>
-                <input type="password"
-                       name="password"
-                       onChange={(event) => {
-                           setAuxiliarPassword(event.target.value);
-                       }}
-                />
-
-                <button onClick={addAuxiliar}>Añadir</button>
-            </div>
+                    <button type="submit">Añadir</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
