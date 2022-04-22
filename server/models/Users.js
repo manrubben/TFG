@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: {
                     args: true,
                     msg: 'El nombre de usuario no puede estar vacío'
+                },
+                len: {
+                    args: [8, 16],
+                    msg: 'El nombre de usuario debe tener entre 8 y 16 caracteres'
                 }
             }
         },
@@ -55,6 +59,5 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
     });
-
     return Users;
 };
