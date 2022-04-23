@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 
 function EditPersonaDependiente() {
@@ -17,33 +19,27 @@ function EditPersonaDependiente() {
             });
     }, [])
 
-    const [personaNombre, setPersonaNombre] = useState(personaDependiente.nombre);
-    const [personaApellidos, setPersonaApellidos] = useState(personaDependiente.apellidos);
-    const [personaEnfermedad, setPersonaEnfermedad] = useState(personaDependiente.enfermedad);
-    const [personaGradoDeDependencia, setPersonaGradoDeDependencia] = useState(personaDependiente.gradoDeDependencia);
-    const [personaPastillasDia, setPersonaPastillasDia] = useState(personaDependiente.pastillasDia);
-    const [personaPastillasTarde, setPersonaPastillasTarde] = useState(personaDependiente.pastillasTarde);
-    const [personaPastillasNoche, setPersonaPastillasNoche] = useState(personaDependiente.pastillasNoche);
+    const initialValues = {
+        nombre: personaDependiente.nombre,
+        apellidos: personaDependiente.apellidos,
+        enfermedad: personaDependiente.enfermedad,
+        gradoDeDependencia: personaDependiente.gradoDeDependencia,
+        pastillasDia: personaDependiente.pastillasDia,
+        pastillasTarde: personaDependiente.pastillasTarde,
+        pastillasNoche: personaDependiente.pastillasNoche
+    };
 
-    const editPersonaDependiente = () => {
-        const data = {
-            nombre: personaNombre,
-            apellidos: personaApellidos,
-            enfermedad: personaEnfermedad,
-            gradoDeDependencia: personaGradoDeDependencia,
-            pastillasDia: personaPastillasDia,
-            pastillasTarde: personaPastillasTarde,
-            pastillasNoche: personaPastillasNoche,
-        }
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        enfermedad: Yup.string().required("Debes introducir la enfermedad"),
+    });
 
+    const editPersonaDependiente = (data) => {
         axios.put(`http://localhost:3001/personasDependientes/edit/${id}`, data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                if (response.data.error) {
-                    console.log(response.data.error);
-                } else {
                     navigate(`/personaDependiente/${id}`)
-                }
             })
     }
 
@@ -63,73 +59,80 @@ function EditPersonaDependiente() {
         <div>
             <h1>Editar persona dependiente</h1>
 
-            <div className="loginContainer">
-                <label>Nombre:</label>
-                <input type="text"
-                       name="nombre"
-                       defaultValue={personaDependiente.nombre}
-                       onChange={(event) => {
-                           setPersonaNombre(event.target.value);
-                       }}
-                />
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues}
+                onSubmit={editPersonaDependiente}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
 
-                <label>Apellidos:</label>
-                <input type="text"
-                       name="apellidos"
-                       defaultValue={personaDependiente.apellidos}
-                       onChange={(event) => {
-                           setPersonaApellidos(event.target.value);
-                       }}
-                />
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
 
-                <label>Enfermedad:</label>
-                <input type="text"
-                       name="enfermedad"
-                       defaultValue={personaDependiente.enfermedad}
-                       onChange={(event) => {
-                           setPersonaEnfermedad(event.target.value);
-                       }}
-                />
+                    <label>Enfermedad: </label>
+                    <ErrorMessage name="enfermedad" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="enfermedad"
+                        placeholder="(Ej. Parkinson...)"
+                    />
 
-                <label>Grado de dependencia:</label>
-                <input type="text"
-                       name="gradoDeDependencia"
-                       defaultValue={personaDependiente.gradoDeDependencia}
-                       onChange={(event) => {
-                           setPersonaGradoDeDependencia(event.target.value);
-                       }}
-                />
+                    <label>Grado de dependencia: </label>
+                    <ErrorMessage name="gradoDeDependencia" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="gradoDeDependencia"
+                        placeholder="(Ej. 32%...)"
+                    />
 
-                <label>Pastillas de dia:</label>
-                <input type="text"
-                       name="pastillasDia"
-                       defaultValue={personaDependiente.pastillasDia}
-                       onChange={(event) => {
-                           setPersonaPastillasDia(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de dia: </label>
+                    <ErrorMessage name="pastillasDia" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasDia"
+                        placeholder="(Ej. Aspirina...)"
+                    />
 
-                <label>Pastillas de tarde:</label>
-                <input type="text"
-                       name="pastillasTarde"
-                       defaultValue={personaDependiente.pastillasTarde}
-                       onChange={(event) => {
-                           setPersonaPastillasTarde(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de tarde: </label>
+                    <ErrorMessage name="pastillasTarde" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasTarde"
+                        placeholder="(Ej. Ibuprofeno...)"
+                    />
 
-                <label>Pastillas de noche:</label>
-                <input type="text"
-                       name="pastillasNoche"
-                       defaultValue={personaDependiente.pastillasNoche}
-                       onChange={(event) => {
-                           setPersonaPastillasNoche(event.target.value);
-                       }}
-                />
+                    <label>Pastillas de noche: </label>
+                    <ErrorMessage name="pastillasNoche" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pastillasNoche"
+                        placeholder="(Ej. Dormidina...)"
+                    />
 
-                <button onClick={editPersonaDependiente}>Actualizar</button>
-                <button onClick={deletePersonaDependiente}>Eliminar</button>
-            </div>
+                    <button type="submit">Actualizar</button>
+                    <button onClick={deletePersonaDependiente}>Eliminar</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
