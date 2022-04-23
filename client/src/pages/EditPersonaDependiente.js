@@ -62,7 +62,6 @@ function EditPersonaDependiente() {
             <Formik
                 enableReinitialize={true}
                 initialValues={initialValues}
-                onSubmit={editPersonaDependiente}
                 validationSchema={validationSchema}
             >
                 <Form className="formContainer">
@@ -129,7 +128,7 @@ function EditPersonaDependiente() {
                         placeholder="(Ej. Dormidina...)"
                     />
 
-                    <button type="submit">Actualizar</button>
+                    <button onClick={editPersonaDependiente}>Actualizar</button>
                     <button onClick={deletePersonaDependiente}>Eliminar</button>
                 </Form>
             </Formik>
