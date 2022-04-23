@@ -1,6 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 
 function EditFamiliar() {
@@ -15,20 +17,26 @@ function EditFamiliar() {
             .then((response) => {
                 setFamiliar(response.data)
             });
-    })
+    }, [])
 
-    const [familiarNombre, setFamiliarNombre] = useState(familiar.nombre);
-    const [familiarApellidos, setFamiliarApellidos] = useState(familiar.apellidos);
-    const [familiarTelefono, setFamiliarTelefono] = useState(familiar.telefono);
-    const [familiarUsername, setFamiliarUsername] = useState(familiar.username);
+    const initialValues = {
+        nombre: familiar.nombre,
+        apellidos: familiar.apellidos,
+        telefono: familiar.telefono,
+        rol: "FAMILIAR",
+        username: familiar.username,
+    };
 
-    const editFamiliar = () => {
-        const data = {
-            nombre: familiarNombre,
-            apellidos: familiarApellidos,
-            telefono: familiarTelefono,
-            username: familiarUsername
-        }
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        telefono: Yup.string().required("Debes introducir un número de teléfono"),
+        username: Yup.string().required("Debes introducir un nombre de usuario")
+            .min(8, "El nombre de usuario debe tener al menos 8 caracteres")
+            .max(16, "El nombre de usuario debe tener como máximo 16 caracteres"),
+    });
+
+    const editFamiliar = (data) => {
 
         axios.put(`http://localhost:3001/users/familiares/edit/${id}`, data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
@@ -45,46 +53,52 @@ function EditFamiliar() {
     return(
         <div>
             <h1>Editar familiar</h1>
-            <div className="loginContainer">
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues}
+                onSubmit={editFamiliar}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
 
-                <label>Nombre:</label>
-                <input type="text"
-                       name="nombre"
-                       defaultValue={familiar.nombre}
-                       onChange={(event) => {
-                           setFamiliarNombre(event.target.value);
-                       }}
-                />
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
 
-                <label>Apellidos:</label>
-                <input type="text"
-                       name="apellidos"
-                       defaultValue={familiar.apellidos}
-                       onChange={(event) => {
-                           setFamiliarApellidos(event.target.value);
-                       }}
-                />
+                    <label>Teléfono: </label>
+                    <ErrorMessage name="telefono" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="telefono"
+                        placeholder="(Ej. 622172737...)"
+                    />
 
-                <label>Teléfono:</label>
-                <input type="text"
-                       name="telefono"
-                       defaultValue={familiar.telefono}
-                       onChange={(event) => {
-                           setFamiliarTelefono(event.target.value);
-                       }}
-                />
+                    <label>Username: </label>
+                    <ErrorMessage name="username" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="username"
+                        placeholder="(Ej. javier97...)"
+                    />
 
-                <label>Username:</label>
-                <input type="text"
-                       name="username"
-                       defaultValue={familiar.username}
-                       onChange={(event) => {
-                           setFamiliarUsername(event.target.value);
-                       }}
-                />
-
-                <button onClick={editFamiliar}>Actualizar</button>
-            </div>
+                    <button type="submit" onClick={editFamiliar}>Actualizar</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
