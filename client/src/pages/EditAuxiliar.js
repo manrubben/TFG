@@ -1,6 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 function EditAuxiliar() {
 
@@ -16,29 +18,29 @@ function EditAuxiliar() {
             });
     }, [])
 
-    const [auxiliarNombre, setAuxiliarNombre] = useState(auxiliar.nombre);
-    const [auxiliarApellidos, setAuxiliarApellidos] = useState(auxiliar.apellidos);
-    const [auxiliarTelefono, setAuxiliarTelefono] = useState(auxiliar.telefono);
-    const [auxiliarUsername, setAuxiliarUsername] = useState(auxiliar.username);
+    const initialValues = {
+        nombre: auxiliar.nombre,
+        apellidos: auxiliar.apellidos,
+        telefono: auxiliar.telefono,
+        rol: "AUXILIAR",
+        username: auxiliar.username,
+    };
 
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        telefono: Yup.string().required("Debes introducir un número de teléfono"),
+        username: Yup.string().required("Debes introducir un nombre de usuario")
+            .min(8, "El nombre de usuario debe tener al menos 8 caracteres")
+            .max(16, "El nombre de usuario debe tener como máximo 16 caracteres"),
+    });
 
-
-    const editAuxiliar = () => {
-        const data = {
-            nombre: auxiliarNombre,
-            apellidos: auxiliarApellidos,
-            telefono: auxiliarTelefono,
-            username: auxiliarUsername,
-        }
+    const editAuxiliar = (data) => {
 
         axios.put(`http://localhost:3001/users/auxiliares/edit/${id}`, data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                if (response.data.error) {
-                    console.log(response.data.error);
-                } else {
                     navigate(`/auxiliar/${id}`)
-                }
             })
     }
 
@@ -57,47 +59,52 @@ function EditAuxiliar() {
     return(
         <div>
             <h1>Editar auxiliar</h1>
-            <div className="loginContainer">
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
 
-                <label>Nombre:</label>
-                <input type="text"
-                       name="nombre"
-                       defaultValue={auxiliar.nombre}
-                       onChange={(event) => {
-                           setAuxiliarNombre(event.target.value);
-                       }}
-                />
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
 
-                <label>Apellidos:</label>
-                <input type="text"
-                       name="apellidos"
-                       defaultValue={auxiliar.apellidos}
-                       onChange={(event) => {
-                           setAuxiliarApellidos(event.target.value);
-                       }}
-                />
+                    <label>Teléfono: </label>
+                    <ErrorMessage name="telefono" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="telefono"
+                        placeholder="(Ej. 622172737...)"
+                    />
 
-                <label>Teléfono:</label>
-                <input type="text"
-                       name="telefono"
-                       defaultValue={auxiliar.telefono}
-                       onChange={(event) => {
-                           setAuxiliarTelefono(event.target.value);
-                       }}
-                />
+                    <label>Username: </label>
+                    <ErrorMessage name="username" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="username"
+                        placeholder="(Ej. javier97...)"
+                    />
 
-                <label>Username:</label>
-                <input type="text"
-                       name="username"
-                       defaultValue={auxiliar.username}
-                       onChange={(event) => {
-                           setAuxiliarUsername(event.target.value);
-                       }}
-                />
-
-                <button onClick={editAuxiliar}>Actualizar</button>
-                <button onClick={deleteAuxiliar}>Eliminar</button>
-            </div>
+                    <button onClick={editAuxiliar}>Actualizar</button>
+                    <button onClick={deleteAuxiliar}>Eliminar</button>
+                </Form>
+            </Formik>
         </div>
     )
 }
