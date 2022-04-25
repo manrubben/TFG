@@ -1,53 +1,39 @@
-import axios from "axios";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import axios from "axios";
 
-function Registros() {
+function EditRegistros(){
 
     let { id } = useParams();
     let navigate = useNavigate();
-
-    const [authState, setAuthState] = useState({
-        username: "",
-        id: 0,
-        rol: "",
-        status: false,
-    });
+    const [registro, setRegistro] = useState({});
+    const hoy = new Date(Date.now());
+    const fechaString = hoy.toLocaleDateString()
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/users/auth", {
-                headers: {
-                    accessToken: localStorage.getItem("accessToken"),
-                },
-            })
+        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                if (response.data.error) {
-                    setAuthState({...authState, status: false});
-                } else {
-                    setAuthState({
-                        username: response.data.username,
-                        id: response.data.id,
-                        rol: response.data.rol,
-                        status: true,
-                    });
-                    console.log(response.data.rol)
-                }
+                setRegistro(response.data);
             });
-    }, []);
+    }, [])
 
-    const [desayuno, setDesayuno] = useState("");
-    const [almuerzo, setAlmuerzo] = useState("");
-    const [merienda, setMerienda] = useState("");
-    const [cena, setCena] = useState("");
-    const [pasosDiarios, setPasosDiarios] = useState("");
-    const [actividadFisica, setActividadFisica] = useState("");
-    const [horasSueno, setHorasSueno] = useState("");
-    const [tiempoAireLibre, setTiempoAireLibre] = useState("");
+    const registroId = registro.id;
+    const [desayuno, setDesayuno] = useState(registro.desayuno);
+    const [almuerzo, setAlmuerzo] = useState(registro.almuerzo);
+    const [merienda, setMerienda] = useState(registro.merienda);
+    const [cena, setCena] = useState(registro.cena);
+    const [pasosDiarios, setPasosDiarios] = useState(registro.pasosDiarios);
+    const [actividadFisica, setActividadFisica] = useState(registro.actividadFisica);
+    const [horasSueno, setHorasSueno] = useState(registro.horasSueno);
+    const [tiempoAireLibre, setTiempoAireLibre] = useState(registro.tiempoAireLibre);
 
 
-    const crearRegistro = async() => {
+
+
+    const editRegistro = () => {
         const data = {
+            fecha: fechaString,
             desayuno: desayuno,
             almuerzo: almuerzo,
             merienda: merienda,
@@ -57,44 +43,28 @@ function Registros() {
             horasSueno: horasSueno,
             tiempoAireLibre: tiempoAireLibre,
             PersonasDependienteId: id,
-
-
-        }
-       await axios.post("http://localhost:3001/registrosDiarios/addRegistro", data,
-            {headers: {accessToken: localStorage.getItem("accessToken"),}})
-            .then((response) => {
-                if(response) {
-                    console.log(response);
-                }
-            })
-
-        const data2 = {
-            auxiliarId : authState.id,
         }
 
-
-       await axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, data2,
+        axios.put(`http://localhost:3001/registrosDiarios/registro/edit/${registroId}`, data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-
-                if(response.data.error) {
-                    console.log(data.error);
+                if (response.data.error) {
+                    console.log(response.data.error);
                 } else {
-                    console.log(data2);
-                    navigate(`/personaDependiente/${id}`)
+                    navigate(`/personaDependiente/${id}`);
                 }
             })
     }
 
     return(
         <div>
-            <h1>Registro Diario</h1>
-
+            <h1>Completar registro</h1>
             <div className="loginContainer">
 
                 <label>Desayuno:</label>
                 <input type="text"
                        name="desayuno"
+                       defaultValue={registro.desayuno}
                        onChange={(event) => {
                            setDesayuno(event.target.value);
                        }}
@@ -103,6 +73,7 @@ function Registros() {
                 <label>Almuerzo:</label>
                 <input type="text"
                        name="almuerzo"
+                       defaultValue={registro.almuerzo}
                        onChange={(event) => {
                            setAlmuerzo(event.target.value);
                        }}
@@ -111,6 +82,7 @@ function Registros() {
                 <label>Merienda:</label>
                 <input type="text"
                        name="merienda"
+                       defaultValue={registro.merienda}
                        onChange={(event) => {
                            setMerienda(event.target.value);
                        }}
@@ -119,6 +91,7 @@ function Registros() {
                 <label>Cena:</label>
                 <input type="text"
                        name="cena"
+                       defaultValue={registro.cena}
                        onChange={(event) => {
                            setCena(event.target.value);
                        }}
@@ -127,41 +100,43 @@ function Registros() {
                 <label>Pasos Diarios:</label>
                 <input type="text"
                        name="pasosDiarios"
+                       defaultValue={registro.pasosDiarios}
                        onChange={(event) => {
                            setPasosDiarios(event.target.value);
                        }}
                 />
 
-                <label>Actividad Física:</label>
+                <label>Actividad física:</label>
                 <input type="text"
                        name="actividadFisica"
+                       defaultValue={registro.actividadFisica}
                        onChange={(event) => {
                            setActividadFisica(event.target.value);
                        }}
                 />
 
-                <label>Horas de sueño:</label>
+                <label>Horas sueño:</label>
                 <input type="double"
                        name="horasSueno"
+                       defaultValue={registro.horasSueno}
                        onChange={(event) => {
                            setHorasSueno(event.target.value);
                        }}
                 />
 
-                <label>Tiempo al aire libre:</label>
+                <label>Tiempo aire libre:</label>
                 <input type="text"
                        name="tiempoAireLibre"
+                       defaultValue={registro.tiempoAireLibre}
                        onChange={(event) => {
                            setTiempoAireLibre(event.target.value);
                        }}
                 />
 
-                <button onClick={crearRegistro}>Guardar Registro</button>
-
+                <button onClick={editRegistro}>Modificar</button>
             </div>
         </div>
     )
-
 }
 
-export default Registros;
+export default EditRegistros;

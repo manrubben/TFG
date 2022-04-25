@@ -16,6 +16,8 @@ import AuxiliaresDisponibles from "./pages/AuxiliaresDisponibles";
 import EditPersonaDependiente from "./pages/EditPersonaDependiente";
 import EditAuxiliar from "./pages/EditAuxiliar";
 import PersonasDependientesAsignadas from "./pages/PersonasDependientesAsignadas";
+import ShowRegistro from "./pages/ShowRegistro";
+import EditRegistro from "./pages/EditRegistro";
 import Welcome from "./pages/Welcome";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./pages/Navbar";
@@ -72,6 +74,8 @@ function App() {
                       <Route path='/personaDependiente/:id/auxiliaresDisponibles' element={<AuxiliaresDisponibles/>} />
                       <Route path='/personaDependiente/:id/edit' element={<EditPersonaDependiente/>}/>
                       <Route path='/personaDependiente/:id/registro' element={<Registro/>} />
+                      <Route path='/personaDependiente/:id/showRegistro' element={<ShowRegistro/>} />
+                      <Route path='/personaDependiente/:id/registro/edit' element={<EditRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                   </Routes>
               </Router>

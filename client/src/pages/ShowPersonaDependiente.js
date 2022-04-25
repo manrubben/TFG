@@ -9,9 +9,11 @@ function ShowPersonaDependiente() {
     const fechaActual = new Date(Date.now());
     const horaActual = fechaActual.getHours();
     const { authState } = useContext(AuthContext);
+    const fechaString = fechaActual.toLocaleDateString();
 
     let { id } = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
+    const [registro, setRegistro] = useState({});
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -20,6 +22,14 @@ function ShowPersonaDependiente() {
             .then((response) => {
             setPersonaDependiente(response.data);
         });
+
+        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                setRegistro(response.data);
+
+            });
+
     }, [])
 
     return(
@@ -67,6 +77,24 @@ function ShowPersonaDependiente() {
                         }}>Añadir auxiliar</button>
                     </>
                     }
+                    {authState.rol === "AUXILIAR" && Object.entries(registro).length === 0 &&
+                    <>
+                        <button onClick={() => {
+                            navigate(`/personaDependiente/${personaDependiente.id}/registro`)
+                        }}>Iniciar Registro diario</button>
+                    </>
+                    }
+
+                    {authState.rol === "AUXILIAR" && Object.entries(registro).length !== 0 &&
+                    <>
+                        <button onClick={() => {
+                            navigate(`/personaDependiente/${personaDependiente.id}/registro/edit`)
+                        }}>Modificar Registro diario</button>
+                    </>
+                    }
+                    <button onClick={() => {
+                        navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)
+                    }}>Ver registros</button>
 
                 </div>
         </div>
