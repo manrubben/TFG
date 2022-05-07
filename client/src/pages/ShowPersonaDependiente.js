@@ -3,6 +3,8 @@ import {useParams, Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import AuxiliaresAsignados from "./AuxiliaresAsignados"
 import {AuthContext} from "../helpers/AuthContext";
+import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 function ShowPersonaDependiente() {
 
@@ -31,6 +33,30 @@ function ShowPersonaDependiente() {
             });
 
     }, [])
+
+    const initialValues = {
+        titulo: "",
+        descripcion: "",
+        PersonasDependienteId: id,
+    };
+
+
+    const validationSchema = Yup.object().shape({
+        titulo: Yup.string().required("Debes introducir un título"),
+        descripcion: Yup.string().required("Debes introducir una descripción"),
+    });
+
+
+
+    const addObservacion = (data) => {
+        axios.post("http://localhost:3001/observaciones/createObservacion", data,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                navigate(`/personaDependiente/${id}/observaciones`)
+
+
+            })
+    }
 
     return(
         <div className="postPage">
@@ -95,6 +121,38 @@ function ShowPersonaDependiente() {
                     <button onClick={() => {
                         navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)
                     }}>Ver registros</button>
+
+                    <h1>Añadir observacion</h1>
+
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={addObservacion}
+                        validationSchema={validationSchema}
+                    >
+                        <Form className="formContainer">
+                            <label>Título: </label>
+                            <ErrorMessage name="titulo" component="span" />
+                            <Field
+                                autoComplete="off"
+                                id="inputCreatePost"
+                                name="titulo"
+                            />
+
+                            <label>Descripción: </label>
+                            <ErrorMessage name="descripcion" component="span" />
+                            <Field
+                                autoComplete="off"
+                                id="inputCreatePost"
+                                name="descripcion"
+                            />
+
+                            <button type="submit">Añadir Observacion</button>
+                        </Form>
+                    </Formik>
+
+                    <button onClick={() => {
+                        navigate(`/personaDependiente/${personaDependiente.id}/observaciones`)
+                    }}>Observaciones</button>
 
                 </div>
         </div>

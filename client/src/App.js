@@ -21,6 +21,7 @@ import EditRegistro from "./pages/EditRegistro";
 import Welcome from "./pages/Welcome";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./pages/Navbar";
+import Observaciones from "./pages/Observaciones";
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
                       <Route path='/personaDependiente/:id/showRegistro' element={<ShowRegistro/>} />
                       <Route path='/personaDependiente/:id/registro/edit' element={<EditRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
+                      <Route path='/personaDependiente/:id/observaciones' element={<Observaciones/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
