@@ -2,6 +2,7 @@ const request = require('supertest')
 const expect = require('chai').expect
 const {app, db} = require('../index')
 const { Observaciones, PersonasDependientes, Users } = require("../models");
+const bcrypt = require("bcryptjs");
 
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvb3JkaW5hZG9yMSIsImlkIjo3LCJyb2wiOiJDT09SRElOQURPUiIsImlhdCI6MTY1MTk0MDc2OH0.XVFF_BlAOCfFBRysNyvrGJ47RgGvpIa0B30VRBp78w8'
@@ -18,11 +19,7 @@ const personaDependiente = {
     pastillasNoche: "paracetamol"
 }
 
-const observacion1 = {
-    titulo: "titulo1",
-    descripcion: "descripcion de la observacion",
-    PersonasDependienteId: personaDependiente.id
-}
+
 
 const observacion2 = {
     titulo: "",
@@ -53,6 +50,17 @@ before( (done) => {
         pastillasNoche: "paracetamol"
     })
 
+    bcrypt.hash("auxiliar1", 10).then((hash) => {
+        Users.create({
+            nombre: "Auxiliar1",
+            apellidos: "Auxiliar1",
+            telefono: 123456789,
+            rol: "AUXILIAR",
+            username: "auxiliar1",
+            password: hash,
+        });
+    });
+
     Observaciones.create({
         titulo: "observacion",
         descripcion: "esto es una observacion",
@@ -77,6 +85,26 @@ describe('Observaciones', () => {
 
     describe('Create observacion', () => {
         it('should create a new Observacion', async () => {
+
+            const personaDependiente = await PersonasDependientes.findOne(
+                {where:
+                        {
+                            nombre: "Javier",
+                            apellidos: "García",
+                            enfermedad: "Parkinson",
+                            gradoDeDependencia: "60%",
+                            pastillasDia: "paracetamol",
+                            pastillasTarde: "aspirina",
+                            pastillasNoche: "paracetamol"
+                        }
+                })
+
+            const observacion1 = {
+                titulo: "titulo1",
+                descripcion: "descripcion de la observacion",
+                PersonasDependienteId: personaDependiente.id
+            }
+
             const response = await request(app).post('/observaciones/createObservacion').set('accessToken', token).send(observacion1)
             console.log(response.body)
             expect(response.statusCode).to.equal(200)
@@ -115,24 +143,45 @@ describe('Observaciones', () => {
                         }
                 })
 
+            const user = await Users.findOne(
+                {where:
+                        {
+                            nombre: "Auxiliar1",
+                            apellidos: "Auxiliar1",
+                            telefono: 123456789,
+                            rol: "AUXILIAR",
+                            username: "auxiliar1",
+                        }
+                }
+            )
+
+
             await Observaciones.create({
                 titulo: "observacion",
                 descripcion: "esto es una observacion",
                 username: "pepito",
                 PersonasDependienteId: personaDependiente.id,
-                UserId: 10
+                UserId: user.id,
+            })
+
+            await Observaciones.create({
+                titulo: "observacion 2",
+                descripcion: "esto es una observacion mas",
+                username: "pepito",
+                PersonasDependienteId: personaDependiente.id,
+                UserId: user.id,
             })
 
             listObservaciones = await Observaciones.findAll({
                 where: {
                     PersonasDependienteId: personaDependiente.id,
                 }})
-            const response = await request(app).get(`/observaciones/showObservaciones/1`).set('accessToken', token)
+            const response = await request(app).get(`/observaciones/showObservaciones/${personaDependiente.id}`).set('accessToken', token)
 
 
 
             expect(response.statusCode).to.equal(200)
-            expect(listObservaciones.length).to.equal(1)
+            expect(listObservaciones.length).to.equal(2)
         })
 
     })
@@ -145,20 +194,53 @@ describe('Observaciones', () => {
 
             console.log(listUsers)
 
+            const personaDependiente = await PersonasDependientes.findOne(
+                {where:
+                        {
+                            nombre: "Javier",
+                            apellidos: "García",
+                            enfermedad: "Parkinson",
+                            gradoDeDependencia: "60%",
+                            pastillasDia: "paracetamol",
+                            pastillasTarde: "aspirina",
+                            pastillasNoche: "paracetamol"
+                        }
+                })
+
+            const user = await Users.findOne(
+                {where:
+                        {
+                            nombre: "Auxiliar1",
+                            apellidos: "Auxiliar1",
+                            telefono: 123456789,
+                            rol: "AUXILIAR",
+                            username: "auxiliar1",
+                        }
+                }
+            )
+
             await Observaciones.create({
                 titulo: "observacion",
                 descripcion: "esto es una observacion",
                 username: "pepito",
-                PersonasDependienteId: 1,
-                UserId: 10
+                PersonasDependienteId: personaDependiente.id,
+                UserId: user.id,
+            })
+
+            await Observaciones.create({
+                titulo: "observacion 2",
+                descripcion: "esto es una observacion mas",
+                username: "pepito",
+                PersonasDependienteId: personaDependiente.id,
+                UserId: user.id,
             })
 
             const observacion = await Observaciones.findOne({where: {
                     titulo: "observacion",
                     descripcion: "esto es una observacion",
                     username: "pepito",
-                    PersonasDependienteId: 1,
-                    UserId: 10
+                    PersonasDependienteId: personaDependiente.id,
+                    UserId: user.id
                 }})
 
             console.log(observacion)
@@ -177,7 +259,7 @@ describe('Observaciones', () => {
         })
 
         it('Should not delete a observacion with an incorrect id', async () => {
-            const observacionId = 9
+            const observacionId = 96534523
             const listaObservaciones = await Observaciones.findAll()
             const response = await request(app).del(`/observaciones/deleteObservacion/${observacionId}`)
                 .set('accessToken', token)
