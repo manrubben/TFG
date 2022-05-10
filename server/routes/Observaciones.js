@@ -6,16 +6,16 @@ const { validateToken } = require("../middlewares/AuthMiddleware");
 
 //crear una observacion
 router.post("/createObservacion", validateToken, async (req, res) => {
-    const {titulo, descripcion, PersonasDependienteId} = req.body;
-    const username = req.user.username;
-    const userId = req.user.id;
+    const {titulo, descripcion, username, UserId, PersonasDependienteId} = req.body;
+    //const username = req.user.username;
+    //const userId = req.user.id;
     try {
         await Observaciones.create({
             titulo: titulo,
             descripcion: descripcion,
             username: username,
             PersonasDependienteId: PersonasDependienteId,
-            UserId: userId,
+            UserId: UserId,
 
         });
 
