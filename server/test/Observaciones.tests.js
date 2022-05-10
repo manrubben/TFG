@@ -194,7 +194,7 @@ describe('Observaciones', () => {
 
 
             expect(response.statusCode).to.equal(200)
-            expect(listObservaciones.length).to.equal(3)
+            expect(listObservaciones.length).to.equal(response.body.length)
         })
 
     })
