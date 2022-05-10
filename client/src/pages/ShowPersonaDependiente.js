@@ -37,7 +37,7 @@ function ShowPersonaDependiente() {
     const initialValues = {
         titulo: "",
         descripcion: "",
-        username: authState.username(),
+        username: authState.username,
         PersonasDependienteId: id,
         UserId: authState.id
 
