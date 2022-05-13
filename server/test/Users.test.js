@@ -67,6 +67,17 @@ before( (done) => {
         });
     });
 
+    bcrypt.hash("familiar2", 10).then((hash) => {
+        Users.create({
+            nombre: "Familiar2",
+            apellidos: "Familiar2",
+            telefono: "728637121",
+            rol: "FAMILIAR",
+            username: "familiar2",
+            password: hash,
+        });
+    });
+
     done()
 })
 
@@ -245,6 +256,73 @@ describe('Users tests', () => {
             const response = await request(app).get(`/users/familiares/show/${familiarId}`).set('accessToken', token)
             expect(response.statusCode).to.equal(200)
             expect(response.body.error).to.equal("There is no familiar with this id")
+        })
+    })
+
+    describe("Update familiar", () => {
+        it("Should update a familiar", async () => {
+            const data = {
+                nombre: "Familiar10",
+                apellidos: "Familiar10",
+                telefono: "28781391",
+                rol: "FAMILIAR",
+                username: "familiar10",
+            }
+
+            const familiar = await Users.findOne({where: {nombre: "Familiar1", apellidos: "Familiar1", telefono: 998782600, rol: "FAMILIAR", username: "familiar1",}})
+            const response = await request(app).put(`/users/familiares/edit/${familiar.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            const familiarUpdated = await Users.findByPk(familiar.id)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body).to.equal("SUCCESS")
+            expect(data.nombre).to.equal(familiarUpdated.nombre)
+            expect(data.apellidos).to.equal(familiarUpdated.apellidos)
+            expect(data.telefono).to.equal(familiarUpdated.telefono)
+        })
+
+        it("Should not update a familiar with empty values", async () => {
+            const data = {
+                nombre: "",
+                apellidos: "",
+                telefono: "2821911111",
+                rol: "FAMILIAR",
+                username: "familiar11",
+            }
+
+            const familiar = await Users.findOne({where: {nombre: "Familiar2", apellidos: "Familiar2", telefono: "728637121", rol: "FAMILIAR", username: "familiar2",}})
+            const response = await request(app).put(`/users/familiares/edit/${familiar.id}`)
+                .set('accessToken', token)
+                .send(data)
+
+            const familiarUpdated = await Users.findByPk(familiar.id)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.name).to.equal('SequelizeValidationError')
+            expect(familiar.nombre).to.equal(familiarUpdated.nombre)
+            expect(familiar.apellidos).to.equal(familiarUpdated.apellidos)
+            expect(familiar.telefono).to.equal(familiarUpdated.telefono)
+            expect(familiar.username).to.equal(familiarUpdated.username)
+        })
+
+        it("Should not update a familiar with an incorrect id", async () => {
+            const data = {
+                nombre: "Familiar10",
+                apellidos: "Familiar10",
+                telefono: "28781391",
+                rol: "FAMILIAR",
+                username: "familiar10",
+            }
+
+            const familiarId = 1873891273281282792172
+            const response = await request(app).put(`/users/familiares/edit/${familiarId}`)
+                .set('accessToken', token)
+                .send(data)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.error).to.equal('There is no familiar with this id')
         })
     })
 

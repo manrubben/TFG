@@ -164,6 +164,33 @@ router.get("/familiares/show/:id", validateToken, async (req, res) => {
 })
 
 
+//Editar familiar
+router.put("/familiares/edit/:id", validateToken, async (req, res) => {
+    const {nombre, apellidos, telefono, username, password} = req.body;
+    const id = req.params.id;
+
+    const familiar = await Users.findByPk(id)
+
+    if(familiar && familiar.rol === "FAMILIAR") {
+        try {
+            await Users.update({
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    telefono: telefono,
+                    username: username,
+                },
+                {where: {id: id}}
+            );
+            return res.json("SUCCESS");
+        } catch (e) {
+            return res.json(e)
+        }
+    } else {
+        return res.json({error: "There is no familiar with this id"})
+    }
+})
+
+
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
