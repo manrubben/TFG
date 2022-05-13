@@ -5,6 +5,7 @@ import {useParams, useNavigate} from "react-router-dom";
 function FamiliaresAsignados() {
     let { id } = useParams();
     const [listOfFamiliaresAsignados, setListOfFamiliaresAsignados] = useState([])
+    let navigate = useNavigate;
 
     useEffect(() => {
         axios.get(`http://localhost:3001/userPersonaDependiente/familiares/list/${id}`,
@@ -21,7 +22,9 @@ function FamiliaresAsignados() {
                 {listOfFamiliaresAsignados.map((value, key) => {
                     return(
                         <div>
-                            <div key={key} className="post">
+                            <div key={key} className="post" onClick={() => {
+                                navigate(`/familiar/${value.id}`);
+                            }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
                             <button>Eliminar</button>

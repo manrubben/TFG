@@ -23,6 +23,7 @@ import Navbar from "./pages/Navbar";
 import Observaciones from "./pages/Observaciones";
 import CreateFamiliar from "./pages/CreateFamiliar";
 import GestionarFamiliares from "./pages/GestionarFamiliares"
+import ShowFamiliar from "./pages/ShowFamiliar"
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
                       <Route path='/personaDependiente/:id/registro/edit' element={<EditRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                       <Route path='/personaDependiente/:id/observaciones' element={<Observaciones/>} />
+                      <Route path='/familiar/:id' element={<ShowFamiliar/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
