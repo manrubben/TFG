@@ -15,6 +15,24 @@ function FamiliaresAsignados() {
             })
     }, [])
 
+
+    const deleteUserPersonaDependiente = (familiarId, id) => {
+        axios.delete("http://localhost:3001/userPersonaDependiente/delete",
+            {headers: {accessToken: localStorage.getItem("accessToken")},
+                data: {
+                    userId: familiarId,
+                    personaDependienteId: id
+                }})
+            .then(() => {
+                setListOfFamiliaresAsignados(
+                    listOfFamiliaresAsignados.filter((familiar) => {
+                        return familiar.id != familiarId;
+                    })
+                )
+            })
+
+    }
+
     return(
         <div>
             <h1>FAMILIARES ASIGNADOS</h1>
@@ -27,7 +45,9 @@ function FamiliaresAsignados() {
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
-                            <button>Eliminar</button>
+                            <button onClick={() => {
+                                deleteUserPersonaDependiente(value.id, id);
+                            }}>Eliminar</button>
                         </div>
 
                     )

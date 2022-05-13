@@ -191,6 +191,28 @@ router.put("/familiares/edit/:id", validateToken, async (req, res) => {
 })
 
 
+//Eliminar familiar
+router.delete("/familiares/delete/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    const familiar = await Users.findByPk(id)
+
+    if(familiar && familiar.rol === "FAMILIAR") {
+        await UserPersonaDependiente.destroy({
+            where: {userId: id}
+        })
+
+        await Users.destroy({
+            where: {
+                id: id
+            }
+        })
+        return res.json("DELETED SUCCESSFULLY");
+    } else {
+        return res.json({error: "There is no familiar with this id"})
+    }
+})
+
+
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
