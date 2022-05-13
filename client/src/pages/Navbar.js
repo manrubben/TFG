@@ -24,8 +24,9 @@ const Navbar = () => {
       <label><Link to='/home'>Home</Link></label>
       {authState.rol === "COORDINADOR" &&
           <>
-           <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
-           <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
+              <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
+              <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
+              <label><Link to='/coordinador/familiares'>Gestionar familiares</Link></label>
           </>
       }
 

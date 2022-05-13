@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
-import {useParams, Link, useNavigate} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
 import AuxiliaresAsignados from "./AuxiliaresAsignados"
 import {AuthContext} from "../helpers/AuthContext";
 import * as Yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import FamiliaresAsignados from "./FamiliaresAsignados";
 
 function ShowPersonaDependiente() {
 
@@ -104,6 +105,13 @@ function ShowPersonaDependiente() {
                         <button onClick={() => {
                             navigate(`/personaDependiente/${personaDependiente.id}/auxiliaresDisponibles`)
                         }}>Añadir auxiliar</button>
+
+                        <div>
+                            <FamiliaresAsignados/>
+                        </div>
+                        <button onClick={() => {
+                            navigate(`/personaDependiente/${personaDependiente.id}/addFamiliar`)
+                        }}>Añadir familiar</button>
                     </>
                     }
                     {authState.rol === "AUXILIAR" && Object.entries(registro).length === 0 &&

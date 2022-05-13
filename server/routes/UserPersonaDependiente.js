@@ -5,7 +5,7 @@ const {sign} = require("jsonwebtoken")
 const {validateToken} = require("../middlewares/AuthMiddleware")
 
 
-// Metodo para añadir un auxiliar/familiar a una persona dependiente y viceversa
+// Metodo para añadir un auxiliar a una persona dependiente y viceversa
 router.post('/addTo', async (req, res) => {
 
     const {userId, personaDependienteId} = req.body;
@@ -30,10 +30,40 @@ router.post('/addTo', async (req, res) => {
         }
     }
 
-
-
-
 });
+
+
+//Método para añadir un familiar a una persona dependiente
+router.post("/personaDependiente/:id/addFamiliar", validateToken, async (req, res) => {
+    const { nombre, apellidos, telefono, rol, username } = req.body;
+    const id = req.params.id
+
+    try {
+        const user = await Users.findOne({
+            where: {
+                nombre: nombre,
+                apellidos: apellidos,
+                telefono: telefono,
+                rol: rol,
+                username: username,
+            }
+        })
+
+        if(user) {
+            await UserPersonaDependiente.create({
+                userId: user.id,
+                personaDependienteId: id
+            })
+        } else {
+            return res.json({error: "There is no familiar with this data"})
+        }
+
+    } catch (e) {
+        return res.json(e)
+    }
+
+    return res.json("SUCCESS")
+})
 
 
 //Método para eliminar un auxiliar/familiar de una persona dependiente y viceversa
@@ -88,6 +118,30 @@ router.get('/list/:id', validateToken, async (req, res) => {
 
     res.json(lista2)
 
+})
+
+
+//Método para listar los familiares asignados a una persona dependiente concreta.
+router.get("/familiares/list/:id", validateToken, async (req, res) => {
+    const id = req.params.id;
+    let lista2 = [];
+    const listaFamiliaresPersonaDependiente = await UserPersonaDependiente.findAll({
+        where: {
+            personaDependienteId: id,
+        },
+
+    })
+    for(const user of listaFamiliaresPersonaDependiente) {
+        const user2 = await Users.findByPk(user.userId);
+
+        if(user2.rol === "FAMILIAR") {
+            console.log("true")
+            lista2.push(user2)
+        } else {
+            console.log("false")
+        }
+    }
+    res.json(lista2)
 })
 
 

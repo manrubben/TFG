@@ -139,6 +139,17 @@ router.get("/personaDependiente/:id/listAuxiliaresDisponibles", validateToken, a
 })
 
 
+//Método para listar todos los familiares del sistema
+router.get("/familiares/list", validateToken, async(req, res) => {
+    const listOfFamiliares = await Users.findAll({
+        where: {
+            rol: 'FAMILIAR'
+        }
+    })
+    res.json(listOfFamiliares);
+})
+
+
 //Registrar un usuario
 router.post("/create", validateToken, async (req, res) => {
     const { nombre, apellidos, telefono, rol, username, password } = req.body;
