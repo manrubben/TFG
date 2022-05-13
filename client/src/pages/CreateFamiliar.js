@@ -1,0 +1,115 @@
+import axios from "axios";
+import {useNavigate, useParams} from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+function CreateFamiliar() {
+
+    let { id } = useParams();
+    let navigate = useNavigate();
+
+    const initialValues = {
+        nombre: "",
+        apellidos: "",
+        telefono: "",
+        rol: "FAMILIAR",
+        username: "",
+        password: ""
+    };
+
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        telefono: Yup.string().required("Debes introducir un número de teléfono"),
+        username: Yup.string().required("Debes introducir un nombre de usuario")
+            .min(8, "El nombre de usuario debe tener al menos 8 caracteres")
+            .max(16, "El nombre de usuario debe tener como máximo 16 caracteres"),
+        password: Yup.string().required("Debes introducir una contraseña")
+            .min(8, "La contraseña debe tener al menos 8 caracteres")
+            .max(16, "La contraseña debe tener como máximo 16 caracteres"),
+    });
+
+    const addFamiliar = async (data) => {
+
+        await axios.post(`http://localhost:3001/users/create`, data,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if(response.data.error) {
+                    console.log(response.data.error);
+                }
+            })
+
+        await axios.post(`http://localhost:3001/userPersonaDependiente/personaDependiente/${id}/addFamiliar`, data,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if(response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    navigate(`/personaDependiente/${id}`)
+                }
+            })
+    }
+
+    return(
+        <div>
+            <h1>Añadir familiar</h1>
+
+            <Formik
+                initialValues={initialValues}
+                onSubmit={addFamiliar}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
+                    <label>Nombre: </label>
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="nombre"
+                        placeholder="(Ej. Juan...)"
+                    />
+
+                    <label>Apellidos: </label>
+                    <ErrorMessage name="apellidos" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="apellidos"
+                        placeholder="(Ej. Rodríguez...)"
+                    />
+
+                    <label>Teléfono: </label>
+                    <ErrorMessage name="telefono" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="telefono"
+                        placeholder="(Ej. 622172737...)"
+                    />
+
+                    <label>Username: </label>
+                    <ErrorMessage name="username" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="username"
+                        placeholder="(Ej. javier97...)"
+                    />
+
+                    <label>Password: </label>
+                    <ErrorMessage name="password" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="password"
+                        type="password"
+                    />
+
+                    <button type="submit">Añadir</button>
+                </Form>
+            </Formik>
+        </div>
+    )
+}
+
+export default CreateFamiliar;
