@@ -6,6 +6,39 @@
   flex-direction: column;
 }
 
+.App button {
+  cursor: pointer;
+}
+
+/* Gestionar personas dependientes, auxiliares y familiares */
+
+.App h1 {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+@media all and (max-width: 800px) {
+  .App h1 {
+    text-align: center;
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+
+  .App .post {
+    width: 60vw;
+  }
+
+  .App .post .title {
+    text-align: center;
+  }
+
+  .App button {
+    width: 30vw;
+  }
+
+
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -18,6 +51,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
+  margin-bottom: 50px;
   border: 1px solid lightgray;
   font-family: Arial, Helvetica, sans-serif;
 
@@ -74,6 +108,7 @@ body {
   padding: 20px;
   border: 5px solid dodgerblue;
   border-radius: 5px;
+  margin-bottom: 30px;
 }
 
 .formContainer #inputCreatePost {
@@ -104,50 +139,7 @@ span {
   color: red;
 }
 
-/* NAVBAR */
 
-.navbar {
-  width: 100%;
-  height: 70px;
-  background-color: dodgerblue;
-  display: flex;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.navbar .links {
-  flex: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.navbar .loggedInContainer {
-  flex: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-.navbar a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: white;
-}
-
-.navbar button {
-  width: 100px;
-  height: 40px;
-  cursor: pointer;
-  margin-right: 10px;
-  background-color: white;
-}
-
-.navbar h1 {
-  text-align: right;
-  margin-right: 10px;
-  color: white;
-  font-weight: lighter;
-}
 
 /* INDIVIDUAL POST */
 .postPage {
@@ -240,21 +232,199 @@ button {
   padding-top: 100px;
 }
 
-.loginContainer input,
-button {
-  width: 200px;
-  height: 50px;
+.loginContainer input{
+  width: 300px;
+  height: 30px;
   border-radius: 8px;
-  border: none;
   margin: 10px;
+  border: 2px solid dodgerblue;
+  padding: 5px;
 }
 
 .loginContainer button {
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
   background-color: dodgerblue;
   color: white;
   cursor: pointer
 }
 
-.loginContainer input {
-  border: 2px solid dodgerblue;
+@media all and (max-width: 800px) {
+  .loginContainer input {
+    width: 45vw;
+  }
+
+  .loginContainer button {
+    width: 20vw;
+  }
+}
+
+
+/* Show persona dependiente, auxiliar y familiar */
+
+.datos-persona-dependiente {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.datos-auxiliar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.datos-familiar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.auxiliar-asignado {
+  display: flex;
+  align-items: center;
+}
+
+.auxiliar-asignado button {
+  margin-left: 10px;
+}
+
+.familiar-asignado {
+  display: flex;
+  align-items: center;
+}
+
+.familiar-asignado button {
+  margin-left: 10px;
+}
+
+.App .add-familiar-button {
+  margin-bottom: 50px;
+}
+
+.App .list-observaciones-button {
+  margin-bottom: 50px;
+}
+
+@media all and (max-width: 800px) {
+  .datos-persona-dependiente {
+    width: 70vw;
+  }
+
+  .datos-auxiliar {
+    width: 70vw;
+  }
+
+  .datos-familiar {
+    width: 70vw;
+  }
+
+  .formContainer {
+    width: 70vw;
+  }
+}
+
+/* Añadir auxiliar a una persona dependiente */
+
+.auxiliar-disponible {
+  display: flex;
+  align-items: center;
+}
+
+.auxiliar-disponible button {
+  margin-left: 10px;
+}
+
+/* Registros diarios */
+
+.init-registro-diario {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.edit-registro-diario {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.show-registros {
+  margin-top: 10px;
+}
+
+.no-registro {
+  margin-top: 30px;
+}
+
+.datos-registro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.buscar-registro-button {
+  margin-left: 30px;
+}
+
+.modificar-registro-diario-button {
+  margin-bottom: 30px;
+}
+
+@media all and (max-width: 800px) {
+  .datos-registro {
+    width: 70vw;
+  }
+
+  .datepicker {
+    width: 70vw;
+  }
+}
+
+/* Observaciones */
+
+.datos-observacion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  border: 5px solid dodgerblue;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+@media all and (max-width: 800px) {
+  .datos-observacion {
+    width: 70vw;
+  }
+
 }

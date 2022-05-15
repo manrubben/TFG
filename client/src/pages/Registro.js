@@ -87,7 +87,7 @@ function Registros() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Registro Diario</h1>
 
             <div className="loginContainer">
@@ -156,7 +156,7 @@ function Registros() {
                        }}
                 />
 
-                <button onClick={crearRegistro}>Guardar Registro</button>
+                <button className="guardar-registro-button" onClick={crearRegistro}>Guardar Registro</button>
 
             </div>
         </div>

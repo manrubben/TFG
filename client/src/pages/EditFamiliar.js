@@ -56,8 +56,8 @@ function EditFamiliar() {
 
 
     return(
-        <div>
-            <h1>Editar familiar</h1>
+        <div className="App">
+            <h1>EDITAR FAMILIAR</h1>
             <div className="loginContainer">
 
                 <label>Nombre:</label>

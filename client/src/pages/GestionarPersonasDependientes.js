@@ -2,12 +2,8 @@ import {useEffect, useState} from "react";
 import React from "react";
 import axios from "axios";
 import '../App.css'
-import {BrowserRouter as Router, Routes, Route, useNavigate, Link} from "react-router-dom";
-import Home from "./Home";
-import ShowPersonaDependiente from "./ShowPersonaDependiente";
-import {AuthContext} from "../helpers/AuthContext";
-import Login from "./Login";
-import CreateAuxiliar from "./CreateAuxiliar";
+import {useNavigate} from "react-router-dom";
+
 
 function GestionarPersonasDependientes() {
 
@@ -24,7 +20,7 @@ function GestionarPersonasDependientes() {
     }, []);
 
     return(
-        <div>
+        <div className="App">
             <h1>GESTIONAR PERSONAS DEPENDIENTES</h1>
             <button onClick={() => {
                 navigate('/coordinador/personasDependientes/add')

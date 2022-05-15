@@ -42,7 +42,7 @@ function CreatePersonaDependiente() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Añadir persona dependiente</h1>
 
             <Formik

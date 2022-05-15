@@ -20,35 +20,37 @@ const Navbar = () => {
  }
 
  return(
-     <div className="navbar">
-      <label><Link to='/home'>Home</Link></label>
-      {authState.rol === "COORDINADOR" &&
-          <>
-              <label><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></label>
-              <label><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></label>
-              <label><Link to='/coordinador/familiares'>Gestionar familiares</Link></label>
-          </>
-      }
+     <nav className="navbar">
+         <div className="container-icon">
+             <a className="primary-icon" href="/home">LOGO</a>
+         </div>
 
-      {authState.rol === "AUXILIAR" &&
-          <>
-           <label><Link to='/auxiliar/asignadas'>Mis personas asignadas</Link></label>
-          </>
-      }
-      {!authState.status ? (
-          <>
-           <label><Link to='/login'>Login</Link></label>
-          </>
-      ) : (
-          <button onClick={logout}>Logout</button>
-      )}
-      <div className="loggedInContainer">
-       <h1>{authState.username}</h1>
-      </div>
-
-     </div>
+         <ul className="nav-list">
+             {authState.rol === "COORDINADOR" &&
+                 <>
+                     <li className="list-item"><Link to='/coordinador/personasDependientes'>Gestionar personas dependientes</Link></li>
+                     <li className="list-item"><Link to='/coordinador/auxiliares'>Gestionar auxiliares</Link></li>
+                     <li className="list-item"><Link to='/coordinador/familiares'>Gestionar familiares</Link></li>
+                 </>
+             }
+             {authState.rol === "AUXILIAR" &&
+                 <>
+                     <li className="list-item"><Link to='/auxiliar/asignadas'>Mis personas asignadas</Link></li>
+                 </>
+             }
+             {!authState.status ? (
+                 <>
+                     <li className="list-item"><Link to='/login'>Login</Link></li>
+                 </>
+             ) : (
+                 <button className="log-out" onClick={logout}>Logout</button>
+             )}
+         </ul>
+         <div className="loggedInContainer">
+             <h3>{authState.username}</h3>
+         </div>
+     </nav>
  )
-
 }
 
 export default Navbar;

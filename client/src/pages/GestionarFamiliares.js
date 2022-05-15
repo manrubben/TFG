@@ -16,8 +16,8 @@ function GestionarFamiliares() {
     }, [])
 
     return(
-        <div>
-            <h1>Gestionar familiares</h1>
+        <div className="App">
+            <h1>GESTIONAR FAMILIARES</h1>
             <div>
                 {listOfFamiliares.map((value, key) => {
                     return(

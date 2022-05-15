@@ -45,7 +45,7 @@ function CreateAuxiliar() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Añadir auxiliar</h1>
 
             <Formik

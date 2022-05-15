@@ -57,8 +57,8 @@ function EditAuxiliar() {
     }
 
     return(
-        <div>
-            <h1>Editar auxiliar</h1>
+        <div className="App">
+            <h1>EDITAR AUXILIAR</h1>
             <Formik
                 enableReinitialize={true}
                 initialValues={initialValues}

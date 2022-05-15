@@ -56,8 +56,8 @@ function EditPersonaDependiente() {
     }
 
     return(
-        <div>
-            <h1>Editar persona dependiente</h1>
+        <div className="App">
+            <h1>EDITAR PERSONA DEPENDIENTE</h1>
 
             <Formik
                 enableReinitialize={true}
