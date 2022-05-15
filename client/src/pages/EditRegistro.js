@@ -57,7 +57,7 @@ function EditRegistros(){
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Completar registro</h1>
             <div className="loginContainer">
 

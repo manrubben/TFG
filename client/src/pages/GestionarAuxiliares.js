@@ -16,7 +16,7 @@ function GestionarAuxiliares() {
     }, [])
 
     return(
-        <div>
+        <div className="App">
             <h1>GESTIONAR AUXILIARES</h1>
             <button onClick={() => {
                 navigate('/coordinador/auxiliares/add')

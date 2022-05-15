@@ -51,7 +51,7 @@ function CreateFamiliar() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>Añadir familiar</h1>
 
             <Formik

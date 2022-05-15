@@ -36,18 +36,18 @@ function AuxiliaresAsignados() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>AUXILIARES ASIGNADOS</h1>
             <div>
                 {listOfAuxiliaresAsignados.map((value, key) => {
                     return(
-                        <div>
+                        <div className="auxiliar-asignado">
                             <div key={key} className="post" onClick={() => {
                                 navigate(`/auxiliar/${value.id}`);
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
-                            <button onClick={() => {
+                            <button className="delete-user-personaDependiente" onClick={() => {
                                 deleteUserPersonaDependiente(value.id, id);
                             }}>Eliminar</button>
                         </div>

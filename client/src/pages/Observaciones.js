@@ -35,18 +35,16 @@ function Observaciones() {
     };
 
     return(
-        <div>
-
-                <h1> Observaciones </h1>
+        <div className="App">
+            <h1>Observaciones</h1>
             <div>
                 {observaciones.map((value, key) => {
                     return (
                         <div key={key}>
-                            <div className="post">
+                            <div className="datos-observacion">
                                 <label> {value.titulo}</label>
                                 <label> Descripción: {value.descripcion}</label>
                                 <label> Auxiliar: {value.username}</label>
-
                             </div>
 
                             {authState.username === value.username && (

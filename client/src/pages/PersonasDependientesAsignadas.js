@@ -23,7 +23,7 @@ function PersonasDependientesAsignadas() {
     }, []);
 
     return(
-        <div>
+        <div className="App">
             <h1>PERSONAS ASIGNADAS</h1>
             <div>
                 {listOfPersonasDependientes.map((value, key) => {

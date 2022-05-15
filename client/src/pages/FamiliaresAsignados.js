@@ -34,18 +34,18 @@ function FamiliaresAsignados() {
     }
 
     return(
-        <div>
+        <div className="App">
             <h1>FAMILIARES ASIGNADOS</h1>
             <div>
                 {listOfFamiliaresAsignados.map((value, key) => {
                     return(
-                        <div>
+                        <div className="familiar-asignado">
                             <div key={key} className="post" onClick={() => {
                                 navigate(`/familiar/${value.id}`);
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
-                            <button onClick={() => {
+                            <button className="delete-user-personaDependiente" onClick={() => {
                                 deleteUserPersonaDependiente(value.id, id);
                             }}>Eliminar</button>
                         </div>

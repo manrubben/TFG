@@ -31,9 +31,9 @@ function ShowRegistro() {
     console.log(registro);
 
     return(
-        <div>
+        <div className="App">
             <h1>Selecciona la fecha</h1>
-            <div >
+            <div>
                 <DatePicker value={fechaSeleccionada} onChange={setFechaSeleccionada}/>
 
                 <button onClick={() => {
@@ -43,7 +43,7 @@ function ShowRegistro() {
 
             {registro && Object.entries(registro).length !== 0 &&
 
-            <div className="loginContainer">
+            <div className="datos-registro">
                 <label>Desayuno: {registro.desayuno}</label>
                 <label>Almuerzo: {registro.almuerzo}</label>
                 <label>Merienda: {registro.merienda}</label>
@@ -55,7 +55,7 @@ function ShowRegistro() {
 
             {Object.entries(registro).length === 0 &&
 
-            <div>
+            <div className="no-registro">
                 NO HAY NINGUN REGISTRO
             </div>
 
