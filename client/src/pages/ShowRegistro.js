@@ -33,13 +33,13 @@ function ShowRegistro() {
     return(
         <div className="App">
             <h1>Selecciona la fecha</h1>
-            <div>
+            <div className="datepicker">
                 <DatePicker value={fechaSeleccionada} onChange={setFechaSeleccionada}/>
-
-                <button onClick={() => {
+            </div>
+                <button className="search-button" onClick={() => {
                     showRegistro();
                 }}>Buscar</button>
-            </div>
+
 
             {registro && Object.entries(registro).length !== 0 &&
 
