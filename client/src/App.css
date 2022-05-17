@@ -389,8 +389,8 @@ button {
   margin-bottom: 10px;
 }
 
-.buscar-registro-button {
-  margin-left: 30px;
+.search-button {
+  margin-top: 20px;
 }
 
 .modificar-registro-diario-button {
@@ -403,7 +403,8 @@ button {
   }
 
   .datepicker {
-    width: 70vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
   }
 }
 
