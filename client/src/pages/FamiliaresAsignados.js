@@ -1,11 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
+import {AuthContext} from "../helpers/AuthContext";
 
 function FamiliaresAsignados() {
     let { id } = useParams();
     const [listOfFamiliaresAsignados, setListOfFamiliaresAsignados] = useState([])
     let navigate = useNavigate;
+    const { authState } = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/userPersonaDependiente/familiares/list/${id}`,
@@ -41,13 +43,20 @@ function FamiliaresAsignados() {
                     return(
                         <div className="familiar-asignado">
                             <div key={key} className="post" onClick={() => {
+                                console.log(value.id)
                                 navigate(`/familiar/${value.id}`);
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
-                            <button className="delete-user-personaDependiente" onClick={() => {
-                                deleteUserPersonaDependiente(value.id, id);
-                            }}>Eliminar</button>
+
+                            {authState.rol === "COORDINADOR" &&
+                            <>
+                                <button className="delete-user-personaDependiente" onClick={() => {
+                                    deleteUserPersonaDependiente(value.id, id);
+                                }}>Eliminar</button>
+                            </>
+                            }
+
                         </div>
 
                     )

@@ -111,6 +111,15 @@ function ShowPersonaDependiente() {
                     }}>Añadir familiar</button>
                 </>
             }
+
+            {authState.rol === "AUXILIAR" &&
+                <>
+                    <button className="add-familiar-button" onClick={() => {
+                        navigate(`/personaDependiente/${personaDependiente.id}/familiares`)
+                    }}>Ver familiares asignados</button>
+                </>
+            }
+            <h1>REGISTROS DIARIOS</h1>
             {authState.rol === "AUXILIAR" && Object.entries(registro).length === 0 &&
                 <>
                     <button className="init-registro-diario" onClick={() => {
@@ -126,37 +135,45 @@ function ShowPersonaDependiente() {
                     }}>Modificar Registro diario</button>
                 </>
             }
+
             <button className="show-registros" onClick={() => {
                 navigate(`/personaDependiente/${personaDependiente.id}/showRegistro`)
             }}>Ver registros</button>
 
-            <h1>Añadir observacion</h1>
+            <h1>OBSERVACIONES</h1>
+            {authState.rol === "AUXILIAR" &&
+                <>
 
-            <Formik
-                initialValues={initialValues}
-                onSubmit={addObservacion}
-                validationSchema={validationSchema}
-            >
-                <Form className="formContainer">
-                    <label>Título: </label>
-                    <ErrorMessage name="titulo" component="span" />
-                    <Field
-                        autoComplete="off"
-                        id="inputCreatePost"
-                        name="titulo"
-                    />
+                    <Formik
+                        initialValues={initialValues}
+                        onSubmit={addObservacion}
+                        validationSchema={validationSchema}
+                    >
+                        <Form className="formContainer">
+                            <label>Título: </label>
+                            <ErrorMessage name="titulo" component="span" />
+                            <Field
+                                autoComplete="off"
+                                id="inputCreatePost"
+                                name="titulo"
+                            />
 
-                    <label>Descripción: </label>
-                    <ErrorMessage name="descripcion" component="span" />
-                    <Field
-                        autoComplete="off"
-                        id="inputCreatePost"
-                        name="descripcion"
-                    />
+                            <label>Descripción: </label>
+                            <ErrorMessage name="descripcion" component="span" />
+                            <Field
+                                autoComplete="off"
+                                id="inputCreatePost"
+                                name="descripcion"
+                            />
 
-                    <button type="submit">Añadir Observacion</button>
-                </Form>
-            </Formik>
+                            <button type="submit">Añadir Observacion</button>
+                        </Form>
+                    </Formik>
+                </>
+
+
+
+            }
 
             <button className="list-observaciones-button" onClick={() => {
                 navigate(`/personaDependiente/${personaDependiente.id}/observaciones`)
