@@ -38,6 +38,12 @@ const Navbar = () => {
                      <li className="list-item"><Link to='/auxiliar/asignadas'>Mis personas asignadas</Link></li>
                  </>
              }
+
+             {authState.rol === "FAMILIAR" &&
+             <>
+                 <li className="list-item"><Link to='/familiar/asignadas'>Familiares dependientes</Link></li>
+             </>
+             }
              {!authState.status ? (
                  <>
                      <li className="list-item"><Link to='/login'>Login</Link></li>
