@@ -88,6 +88,7 @@ function App() {
                       <Route path='/familiar/:id' element={<ShowFamiliar/>} />
                       <Route path='/familiar/:id/edit' element={<EditFamiliar/>} />
                       <Route path='personaDependiente/:id/familiares' element={<FamiliaresAsignados/>} />
+                      <Route path='/familiar/asignadas' element={<PersonasDependientesAsignadas/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>
