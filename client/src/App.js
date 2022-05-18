@@ -27,6 +27,7 @@ import GestionarFamiliares from "./pages/GestionarFamiliares"
 import ShowFamiliar from "./pages/ShowFamiliar"
 import EditFamiliar from "./pages/EditFamiliar"
 import FamiliaresAsignados from "./pages/FamiliaresAsignados";
+import ShowMiPerfilFamiliar from "./pages/ShoMiPerfilFamiliar";
 
 function App() {
 
@@ -89,6 +90,7 @@ function App() {
                       <Route path='/familiar/:id/edit' element={<EditFamiliar/>} />
                       <Route path='personaDependiente/:id/familiares' element={<FamiliaresAsignados/>} />
                       <Route path='/familiar/asignadas' element={<PersonasDependientesAsignadas/>} />
+                      <Route path='/familiar' element={<ShowMiPerfilFamiliar/>} />
                   </Routes>
               </Router>
           </AuthContext.Provider>

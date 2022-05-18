@@ -52,6 +52,13 @@ const Navbar = () => {
                  <button className="log-out" onClick={logout}>Logout</button>
              )}
          </ul>
+
+         {authState.rol === "FAMILIAR" &&
+         <>
+             <h3 className="list-item"><Link to='/familiar'>Mis datos</Link></h3>
+         </>
+         }
+
          <div className="loggedInContainer">
              <h3>{authState.username}</h3>
          </div>
