@@ -6,8 +6,10 @@ import {AuthContext} from "../helpers/AuthContext";
 import * as Yup from "yup";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import FamiliaresAsignados from "./FamiliaresAsignados";
+import Swal from "sweetalert2";
 
 function ShowPersonaDependiente() {
+
 
     const fechaActual = new Date(Date.now());
     const horaActual = fechaActual.getHours();
@@ -17,16 +19,30 @@ function ShowPersonaDependiente() {
     let { id } = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
     const [registro, setRegistro] = useState({});
+    const [notificacion, setNotificacion] = useState({});
     let navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get(`http://localhost:3001/personasDependientes/show/${id}`,
+
+
+    useEffect(  () => {
+
+
+        axios.get(`http://localhost:3001/observaciones/notificacion/${id}`,
+                {headers: {accessToken: localStorage.getItem("accessToken"),}})
+                .then((response) => {
+                    setNotificacion(response.data);
+
+                });
+
+         axios.get(`http://localhost:3001/personasDependientes/show/${id}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
             setPersonaDependiente(response.data);
         });
 
-        axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
+        console.log(Object.entries(registro))
+
+         axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 setRegistro(response.data);
@@ -34,6 +50,11 @@ function ShowPersonaDependiente() {
             });
 
     }, [])
+
+    if(Object.values(notificacion).at(1) && authState.rol === "FAMILIAR"){
+        Swal.fire({icon: "info", title: "AVISO",
+            text:"Hay nuevas observaciones"})
+    }
 
     const initialValues = {
         titulo: "",
