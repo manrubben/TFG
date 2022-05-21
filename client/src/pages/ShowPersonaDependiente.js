@@ -140,6 +140,15 @@ function ShowPersonaDependiente() {
                     }}>Ver familiares asignados</button>
                 </>
             }
+
+            {authState.rol === "FAMILIAR" &&
+            <>
+                <button className="add-familiar-button" onClick={() => {
+                    navigate(`/personaDependiente/${personaDependiente.id}/auxiliares`)
+                }}>Ver auxiliares asignados</button>
+            </>
+
+            }
             <h1>REGISTROS DIARIOS</h1>
             {authState.rol === "AUXILIAR" && Object.entries(registro).length === 0 &&
                 <>

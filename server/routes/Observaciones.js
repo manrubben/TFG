@@ -10,49 +10,47 @@ router.post("/createObservacion", validateToken, async (req, res) => {
     //const username = req.user.username;
     //const userId = req.user.id;
 
-    const id = PersonasDependienteId;
-
-    const notificaciones = await NotificacionObservacion.findAll({
-        where: {
-            PersonasDependienteId: PersonasDependienteId,
-        }
-    })
 
     try {
 
-        console.log("que es " + id);
+        // Busca si esta creada la notificacion para esa persona
+        const notificaciones = await NotificacionObservacion.findAll({
+            where: {
+                PersonasDependienteId: PersonasDependienteId,
+            }
+        })
+
         await Observaciones.create({
             titulo: titulo,
             descripcion: descripcion,
             username: username,
-            PersonasDependienteId: id,
+            PersonasDependienteId: PersonasDependienteId,
             UserId: UserId,
 
 
         });
 
-        console.log("que es " + PersonasDependienteId);
+        if(notificaciones.length === 0) {
+
+            console.log("=================" + PersonasDependienteId);
+            await NotificacionObservacion.create({
+                nueva: true,
+                PersonasDependienteId: PersonasDependienteId,
+            });
+        } else {
+            await NotificacionObservacion.update({
+                    nueva: true,
+
+                },
+                {where: {PersonasDependienteId: PersonasDependienteId}}
+            );
+        }
+
 
     } catch (e) {
         if(e) {
             return res.json(e)
         }
-    }
-
-    const noti = notificaciones;
-    //console.log("que es " + noti.length);
-    if(noti.length === 0) {
-        await NotificacionObservacion.create({
-            nueva: true,
-            PersonasDependienteId: PersonasDependienteId,
-        });
-    } else {
-        await NotificacionObservacion.update({
-            nueva: true,
-            //PersonasDependienteId: PersonasDependienteId,
-        },
-            {where: {PersonasDependienteId: PersonasDependienteId}}
-            );
     }
 
     return res.json("SUCCESS");
@@ -92,13 +90,23 @@ router.get('/showObservaciones/:id', validateToken, async (req, res) => {
 
     })
 
-    if(rol === "FAMILIAR"){
-        await NotificacionObservacion.update({
-                nueva: false,
-            },
-            {where: {PersonasDependienteId: personaDependienteId}}
-        );
+    try {
+
+        if(rol === "FAMILIAR"){
+            await NotificacionObservacion.update({
+                    nueva: false,
+                },
+                {where: {PersonasDependienteId: personaDependienteId}}
+            );
+        }
+
+    } catch (e) {
+        if(e) {
+            return res.json(e)
+        }
     }
+
+
 
 
     res.json(observaciones);

@@ -5,6 +5,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
 
+        PersonasDependienteId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
+
     });
 
     return NotificacionObservacion;
