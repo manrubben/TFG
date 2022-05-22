@@ -43,8 +43,9 @@ function Observaciones() {
                         <div key={key}>
                             <div className="datos-observacion">
                                 <label> {value.titulo}</label>
+                                <label> Creada: {value.createdAt}</label>
                                 <label> Descripción: {value.descripcion}</label>
-                                <label> Auxiliar: {value.username}</label>
+                                <label> Creada por: {value.username}</label>
                             </div>
 
                             {authState.username === value.username && (

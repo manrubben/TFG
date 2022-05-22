@@ -26,6 +26,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+
+        PersonasDependienteId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     });
 
     return Observaciones;

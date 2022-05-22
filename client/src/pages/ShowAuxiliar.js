@@ -1,11 +1,13 @@
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
+import {AuthContext} from "../helpers/AuthContext";
 
 function ShowAuxiliar() {
     let { id } = useParams();
     const [auxiliar, setAuxiliar] = useState({});
     let navigate = useNavigate();
+    const { authState } = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/users/auxiliares/show/${id}`,
@@ -24,9 +26,15 @@ function ShowAuxiliar() {
                 <div>Teléfono: {auxiliar.telefono}</div>
                 <div>Username: {auxiliar.username}</div>
             </div>
-            <button onClick={() => {
-                navigate(`/auxiliar/${auxiliar.id}/edit`)
-            }}>Editar</button>
+            {authState.rol === "COORDINADOR" &&
+                <>
+                    <button onClick={() => {
+                        navigate(`/auxiliar/${auxiliar.id}/edit`)
+                    }}>Editar</button>
+                </>
+
+            }
+
         </div>
     )
 }

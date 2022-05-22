@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
+import {AuthContext} from "../helpers/AuthContext";
 
 
 function AuxiliaresAsignados() {
     let { id } = useParams();
     const [listOfAuxiliaresAsignados, setListOfAuxiliaresAsignados] = useState([]);
     let navigate = useNavigate();
+    const { authState } = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(`http://localhost:3001/userPersonaDependiente/list/${id}`,
@@ -47,9 +49,15 @@ function AuxiliaresAsignados() {
                             }}>
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
                             </div>
-                            <button className="delete-user-personaDependiente" onClick={() => {
-                                deleteUserPersonaDependiente(value.id, id);
-                            }}>Eliminar</button>
+
+                            {authState.rol === "COORDINADOR" &&
+                                <>
+                                    <button className="delete-user-personaDependiente" onClick={() => {
+                                        deleteUserPersonaDependiente(value.id, id);
+                                    }}>Eliminar</button>
+                                </>
+                            }
+
                         </div>
 
                     )
