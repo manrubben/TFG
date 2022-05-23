@@ -14,7 +14,10 @@ app.use("/users", userRouter);
 const personaRouter = require("./routes/PersonasDependientes");
 app.use("/personasDependientes", personaRouter);
 userPersonaDependienteRouter = require("./routes/UserPersonaDependiente");
-app.use("/userPersonaDependiente", userPersonaDependienteRouter)
+app.use("/userPersonaDependiente", userPersonaDependienteRouter);
+
+const notificacionMedicacionRouter = require("./routes/NotificacionMedicacion");
+app.use("/notificaciones", notificacionMedicacionRouter);
 
 const registroRouter = require("./routes/RegistrosDiarios");
 app.use("/registrosDiarios", registroRouter);

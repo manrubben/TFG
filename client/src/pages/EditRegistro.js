@@ -1,49 +1,78 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
+import {AuthContext} from "../helpers/AuthContext";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 function EditRegistros(){
 
     let { id } = useParams();
     let navigate = useNavigate();
     const [registro, setRegistro] = useState({});
+    const [registroAUX, setRegistroAUX] = useState({});
     const hoy = new Date(Date.now());
-    const fechaString = hoy.toLocaleDateString()
+    const fechaString = hoy.toLocaleDateString();
+    const { authState } = useContext(AuthContext);
+
+    const auxiliarId = authState.id;
+
+    const auxId = {auxiliarId};
+
 
     useEffect(() => {
+
         axios.get(`http://localhost:3001/registrosDiarios/showRegistro/${id}?fecha=${fechaString}`,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 setRegistro(response.data);
             });
+
+
+        axios.get(`http://localhost:3001/registrosDiarios/auxiliarRegistro/${id}?fecha=${fechaString}`,
+            {headers: {accessToken: localStorage.getItem("accessToken")},
+
+            })
+            .then((response) => {
+
+                if(response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    setRegistroAUX(response.data);
+                    console.log(response);
+                }
+
+            });
+
+
+
     }, [])
 
     const registroId = registro.id;
-    const [desayuno, setDesayuno] = useState(registro.desayuno);
-    const [almuerzo, setAlmuerzo] = useState(registro.almuerzo);
-    const [merienda, setMerienda] = useState(registro.merienda);
-    const [cena, setCena] = useState(registro.cena);
-    const [pasosDiarios, setPasosDiarios] = useState(registro.pasosDiarios);
-    const [actividadFisica, setActividadFisica] = useState(registro.actividadFisica);
-    const [horasSueno, setHorasSueno] = useState(registro.horasSueno);
-    const [tiempoAireLibre, setTiempoAireLibre] = useState(registro.tiempoAireLibre);
+
+
+    console.log(" objeto " + Object.entries(registroAUX).length);
+
+    console.log(registroId);
+
+    console.log(auxiliarId);
+
+    const initialValues = {
+        desayuno: registro.desayuno,
+        almuerzo: registro.almuerzo,
+        merienda: registro.merienda,
+        cena: registro.cena,
+        pasosDiarios: registro.pasosDiarios,
+        actividadFisica: registro.actividadFisica,
+        horasSueno: registro.horasSueno,
+        tiempoAireLibre: registro.tiempoAireLibre,
+        relacionSocial: registro.relacionSocial,
+        PersonasDependienteId: id
+    };
 
 
 
 
-    const editRegistro = () => {
-        const data = {
-            fecha: fechaString,
-            desayuno: desayuno,
-            almuerzo: almuerzo,
-            merienda: merienda,
-            cena: cena,
-            pasosDiarios: pasosDiarios,
-            actividadFisica: actividadFisica,
-            horasSueno: horasSueno,
-            tiempoAireLibre: tiempoAireLibre,
-            PersonasDependienteId: id,
-        }
+    const editRegistro = (data) => {
 
         axios.put(`http://localhost:3001/registrosDiarios/registro/edit/${registroId}`, data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
@@ -54,87 +83,107 @@ function EditRegistros(){
                     navigate(`/personaDependiente/${id}`);
                 }
             })
+
+        if(registroAUX.length === 0){
+
+            const auxiliarId = authState.id;
+
+            axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, {auxiliarId},
+                {headers: {accessToken: localStorage.getItem("accessToken"),}})
+                .then((response) => {
+
+                    if(response.data.error) {
+                        console.log(data.error);
+                    } else {
+                        navigate(`/personaDependiente/${id}`)
+                    }
+                })
+
+        }
     }
 
     return(
         <div className="App">
             <h1>Completar registro</h1>
-            <div className="loginContainer">
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues}
+                onSubmit={editRegistro}
+                //validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
 
-                <label>Desayuno:</label>
-                <input type="text"
-                       name="desayuno"
-                       defaultValue={registro.desayuno}
-                       onChange={(event) => {
-                           setDesayuno(event.target.value);
-                       }}
-                />
+                    <label>Desayuno:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="desayuno"
+                    />
 
-                <label>Almuerzo:</label>
-                <input type="text"
-                       name="almuerzo"
-                       defaultValue={registro.almuerzo}
-                       onChange={(event) => {
-                           setAlmuerzo(event.target.value);
-                       }}
-                />
+                    <label>Almuerzo:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="almuerzo"
+                    />
 
-                <label>Merienda:</label>
-                <input type="text"
-                       name="merienda"
-                       defaultValue={registro.merienda}
-                       onChange={(event) => {
-                           setMerienda(event.target.value);
-                       }}
-                />
+                    <label>Merienda:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="merienda"
+                    />
 
-                <label>Cena:</label>
-                <input type="text"
-                       name="cena"
-                       defaultValue={registro.cena}
-                       onChange={(event) => {
-                           setCena(event.target.value);
-                       }}
-                />
+                    <label>Cena:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="cena"
+                    />
 
-                <label>Pasos Diarios:</label>
-                <input type="text"
-                       name="pasosDiarios"
-                       defaultValue={registro.pasosDiarios}
-                       onChange={(event) => {
-                           setPasosDiarios(event.target.value);
-                       }}
-                />
+                    <label>Pasos Diarios:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pasosDiarios"
+                        placeholder="(Ej. 2000)"
+                    />
 
-                <label>Actividad física:</label>
-                <input type="text"
-                       name="actividadFisica"
-                       defaultValue={registro.actividadFisica}
-                       onChange={(event) => {
-                           setActividadFisica(event.target.value);
-                       }}
-                />
+                    <label>Actividad Física:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="actividadFisica"
+                        placeholder="(Ej. Andar, ejercio de fuerza...)"
+                    />
 
-                <label>Horas sueño:</label>
-                <input type="double"
-                       name="horasSueno"
-                       defaultValue={registro.horasSueno}
-                       onChange={(event) => {
-                           setHorasSueno(event.target.value);
-                       }}
-                />
+                    <label>Horas de sueño:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="horasSueno"
+                        placeholder="(Ej. 7.5)"
+                    />
 
-                <label>Tiempo aire libre:</label>
-                <input type="text"
-                       name="tiempoAireLibre"
-                       defaultValue={registro.tiempoAireLibre}
-                       onChange={(event) => {
-                           setTiempoAireLibre(event.target.value);
-                       }}
-                />
+                    <label>Tiempo al aire libre:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="tiempoAireLibre"
+                        placeholder="(Ej. 30 minutos...)"
+                    />
 
-                <button onClick={editRegistro}>Modificar</button>
-            </div>
+                    <label>Relaciones sociales:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="relacionSocial"
+                    />
+
+                    <button type="submit">Guardar registro</button>
+
+                </Form>
+            </Formik>
         </div>
     )
 }

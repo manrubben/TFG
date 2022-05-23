@@ -1,3 +1,4 @@
+
 const express = require("express");
 const router = express.Router();
 const { RegistrosDiarios, AuxiliaresRegistros } = require("../models");
@@ -6,10 +7,11 @@ const { validateToken } = require("../middlewares/AuthMiddleware");
 
 router.post("/addRegistro", validateToken, async (req, res) => {
     const {desayuno, almuerzo, merienda, cena, pasosDiarios, actividadFisica,
-        horasSueno, tiempoAireLibre, PersonasDependienteId} = req.body;
+        horasSueno, tiempoAireLibre, relacionSocial, PersonasDependienteId} = req.body;
 
     const hoy = new Date(Date.now());
     const hoyString = hoy.toLocaleDateString()
+
     const registroDiario = await RegistrosDiarios.findAll({
         where: {
             PersonasDependienteId: PersonasDependienteId,
@@ -19,26 +21,33 @@ router.post("/addRegistro", validateToken, async (req, res) => {
 
     console.log(registroDiario)
 
-    //const registro = registroDiario[0];
-    //console.log(registro);
-
     if(Object.entries(registroDiario).length === 0){
 
-        await RegistrosDiarios.create({
-            fecha: hoy.toLocaleDateString(),
-            desayuno: desayuno,
-            almuerzo: almuerzo,
-            merienda: merienda,
-            cena: cena,
-            pasosDiarios: pasosDiarios,
-            actividadFisica: actividadFisica,
-            horasSueno: horasSueno,
-            tiempoAireLibre: tiempoAireLibre,
-            PersonasDependienteId: PersonasDependienteId,
+        try {
 
-        });
+            await RegistrosDiarios.create({
+                fecha: hoy.toLocaleDateString(),
+                desayuno: desayuno,
+                almuerzo: almuerzo,
+                merienda: merienda,
+                cena: cena,
+                pasosDiarios: pasosDiarios,
+                actividadFisica: actividadFisica,
+                horasSueno: horasSueno,
+                tiempoAireLibre: tiempoAireLibre,
+                relacionSocial: relacionSocial,
+                medicacion: false,
+                PersonasDependienteId: PersonasDependienteId,
 
-        res.json("SUCCESS");
+            });
+        } catch (e) {
+            if(e) {
+                return res.json(e)
+            }
+        }
+
+       return res.json("SUCCESS");
+
     } else {
         return res.json({error: "Ya hay un registro con esta fecha"})
     }
@@ -57,21 +66,80 @@ router.post("/addAuxiliarRegistro/:id", validateToken, async (req, res) => {
             fecha: hoyString
         }
     })
+
     const registroId = registroDiario[0].id;
     const {auxiliarId} = req.body;
-    await AuxiliaresRegistros.create({
-        registroId: registroId,
-        auxiliarId: auxiliarId,
 
-    });
+    console.log(registroId)
+
+   // try {
+
+        await AuxiliaresRegistros.create({
+            registroId: registroId,
+            auxiliarId: auxiliarId,
+
+        });
+
+     /* } catch (e) {
+        if(e) {
+            return res.json(e)
+        }
+    }
+
+      */
+
     res.json("SUCCESS");
 });
+
+//VER SI AUXILIAR ESTÁ ASOCIADO AL REGISTRO
+router.get('/auxiliarRegistro/:id', validateToken, async (req, res) => {
+
+    const personaDependienteId = req.params.id;
+    const fecha = req.query.fecha;
+    const auxiliarId = req.user.id;
+    //const fechaString = fecha.toLocaleDateString()
+
+
+    console.log(personaDependienteId)
+
+    console.log(fecha)
+    const registroDiario = await RegistrosDiarios.findAll({
+        where: {
+            PersonasDependienteId: personaDependienteId,
+            fecha: fecha
+        }
+
+    })
+
+    console.log(registroDiario);
+
+    const registro = registroDiario[0];
+
+    const registroId = registro.id
+
+    console.log(registroDiario);
+
+    const registroAuxiliar = await AuxiliaresRegistros.findAll({
+        where: {
+            registroId: registroId,
+            auxiliarId: auxiliarId
+        }
+
+
+    })
+
+    const registroAUX = registroAuxiliar[0];
+
+    res.json(registroAUX);
+
+})
+
 
 
 router.put('/registro/edit/:id', validateToken, async (req, res) => {
 
     const {fecha,desayuno, almuerzo, merienda, cena, pasosDiarios, actividadFisica,
-        horasSueno, tiempoAireLibre, PersonasDependienteId} = req.body;
+        horasSueno, tiempoAireLibre, relacionSocial, PersonasDependienteId} = req.body;
     const id = req.params.id;
     const registro = await RegistrosDiarios.findByPk(id);
 
@@ -87,10 +155,14 @@ router.put('/registro/edit/:id', validateToken, async (req, res) => {
                     actividadFisica: actividadFisica,
                     horasSueno: horasSueno,
                     tiempoAireLibre: tiempoAireLibre,
+                    relacionSocial: relacionSocial,
                     PersonasDependienteId: PersonasDependienteId,
                 },
                 {where: {id: id}}
             );
+
+
+
             return res.json("SUCCESS");
         } catch (e) {
             return res.json(e)
@@ -100,7 +172,25 @@ router.put('/registro/edit/:id', validateToken, async (req, res) => {
     }
 
 })
+//VER REGISTRO POR ID
+router.get('/showRegistroEdit/:id', validateToken, async (req, res) => {
 
+    const registroId = req.params.id;
+    //const fecha = req.query.fecha;
+    //const fechaString = fecha.toLocaleDateString()
+
+    const registroDiario = await RegistrosDiarios.findAll({
+        where: {
+            id: registroId
+        }
+
+    })
+
+    const registro = registroDiario[0];
+
+    res.json(registro);
+
+})
 
 //VER REGISTRO DE UN DIA
 router.get('/showRegistro/:id', validateToken, async (req, res) => {
