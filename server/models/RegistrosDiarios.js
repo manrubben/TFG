@@ -47,8 +47,26 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
         },
 
-        medicacion: {
+        medicacionManana: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        medicacionTarde: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        medicacionNoche: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        mes: {
+            type: DataTypes.INTEGER,
             allowNull: false,
 
         },

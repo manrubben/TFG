@@ -10,6 +10,8 @@ router.post("/addRegistro", validateToken, async (req, res) => {
         horasSueno, tiempoAireLibre, relacionSocial, PersonasDependienteId} = req.body;
 
     const hoy = new Date(Date.now());
+
+    const mes = hoy.getMonth()+1;
     const hoyString = hoy.toLocaleDateString()
 
     const registroDiario = await RegistrosDiarios.findAll({
@@ -36,7 +38,10 @@ router.post("/addRegistro", validateToken, async (req, res) => {
                 horasSueno: horasSueno,
                 tiempoAireLibre: tiempoAireLibre,
                 relacionSocial: relacionSocial,
-                medicacion: false,
+                medicacionManana: false,
+                medicacionTarde: false,
+                medicacionNoche: false,
+                mes: mes,
                 PersonasDependienteId: PersonasDependienteId,
 
             });

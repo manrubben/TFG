@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { NotificacionMedicacion } = require("../models");
+const { NotificacionMedicacion, RegistrosDiarios} = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
 
@@ -56,12 +56,41 @@ router.get('/createNotificacionMedicacion/:id', validateToken, async (req, res) 
 router.get('/updateDia/:id', validateToken, async (req, res) => {
     //const {PersonasDependienteId} = req.body;
     const PersonasDependienteId = req.params.id;
+    const hoy = new Date(Date.now());
+    const hoyString = hoy.toLocaleDateString()
+    const mes = hoy.getMonth()+1;
 
     await NotificacionMedicacion.update({
             dia: true,
         },
         {where: {PersonasDependienteId: PersonasDependienteId}}
     );
+
+    const registroDiario = await RegistrosDiarios.findOne({
+        where: {
+            PersonasDependienteId: PersonasDependienteId,
+            fecha: hoyString
+        }
+
+    })
+
+    if(registroDiario === null){
+        await RegistrosDiarios.create({
+            fecha: hoyString,
+            medicacionManana: true,
+            medicacionTarde: false,
+            medicacionNoche: false,
+            mes: mes,
+            PersonasDependienteId: PersonasDependienteId
+        })
+    } else {
+        await RegistrosDiarios.update({
+            medicacionManana: true
+        },
+            {where: {PersonasDependienteId: PersonasDependienteId,
+                fecha: hoyString}
+            })
+    }
 
     res.json("SUCCES");
 
@@ -70,6 +99,9 @@ router.get('/updateDia/:id', validateToken, async (req, res) => {
 router.get('/updateTarde/:id', validateToken, async (req, res) => {
     //const {PersonasDependienteId} = req.body;
     const PersonasDependienteId = req.params.id;
+    const hoy = new Date(Date.now());
+    const hoyString = hoy.toLocaleDateString()
+    const mes = hoy.getMonth()+1;
 
     await NotificacionMedicacion.update({
             tarde: true,
@@ -77,18 +109,73 @@ router.get('/updateTarde/:id', validateToken, async (req, res) => {
         {where: {PersonasDependienteId: PersonasDependienteId}}
     );
 
+    const registroDiario = await RegistrosDiarios.findOne({
+        where: {
+            PersonasDependienteId: PersonasDependienteId,
+            fecha: hoyString
+        }
+
+    })
+
+    if(registroDiario === null){
+        await RegistrosDiarios.create({
+            fecha: hoyString,
+            medicacionManana: false,
+            medicacionTarde: true,
+            medicacionNoche: false,
+            mes: mes,
+            PersonasDependienteId: PersonasDependienteId
+        })
+    } else {
+        await RegistrosDiarios.update({
+                medicacionTarde: true
+            },
+            {where: {PersonasDependienteId: PersonasDependienteId,
+                    fecha: hoyString}
+            })
+    }
+
     res.json("SUCCES");
 
 });
 router.get('/updateNoche/:id', validateToken, async (req, res) => {
     //const {PersonasDependienteId} = req.body;
     const PersonasDependienteId = req.params.id;
+    const hoy = new Date(Date.now());
+    const hoyString = hoy.toLocaleDateString()
+    const mes = hoy.getMonth()+1;
 
     await NotificacionMedicacion.update({
             noche: true,
         },
         {where: {PersonasDependienteId: PersonasDependienteId}}
     );
+
+    const registroDiario = await RegistrosDiarios.findOne({
+        where: {
+            PersonasDependienteId: PersonasDependienteId,
+            fecha: hoyString
+        }
+
+    })
+
+    if(registroDiario === null){
+        await RegistrosDiarios.create({
+            fecha: hoyString,
+            medicacionManana: false,
+            medicacionTarde: false,
+            medicacionNoche: true,
+            mes: mes,
+            PersonasDependienteId: PersonasDependienteId
+        })
+    } else {
+        await RegistrosDiarios.update({
+                medicacionNoche: true
+            },
+            {where: {PersonasDependienteId: PersonasDependienteId,
+                    fecha: hoyString}
+            })
+    }
 
     res.json("SUCCES");
 

@@ -16,12 +16,18 @@ function ShowPersonaDependiente() {
     const {authState} = useContext(AuthContext);
     const fechaString = fechaActual.toLocaleDateString();
 
+    const {recarga, setRecarga} = useState(0);
+
     let {id} = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
     const [registro, setRegistro] = useState({});
     const [notificacion, setNotificacion] = useState({});
     const [notificacionMedicacion, setNotificacionMedicacion] = useState({});
     let navigate = useNavigate();
+
+    function refreshPage() {
+        window.location.reload(false);
+    }
 
 
     useEffect(() => {
@@ -92,6 +98,8 @@ function ShowPersonaDependiente() {
                         .then((response) => {
                             console.log(response.data);
                         });
+
+                    window.location.reload();
                 }
             });
 
@@ -113,6 +121,8 @@ function ShowPersonaDependiente() {
                         .then((response) => {
                             console.log(response.data);
                         });
+
+                    window.location.reload();
                 }
             });
 
@@ -135,6 +145,8 @@ function ShowPersonaDependiente() {
                         .then((response) => {
                             console.log(response.data);
                         });
+
+                    window.location.reload();
                 }
             });
 
