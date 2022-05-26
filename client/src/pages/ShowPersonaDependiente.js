@@ -16,7 +16,6 @@ function ShowPersonaDependiente() {
     const {authState} = useContext(AuthContext);
     const fechaString = fechaActual.toLocaleDateString();
 
-    const {recarga, setRecarga} = useState(0);
 
     let {id} = useParams();
     const [personaDependiente, setPersonaDependiente] = useState({});
@@ -25,9 +24,6 @@ function ShowPersonaDependiente() {
     const [notificacionMedicacion, setNotificacionMedicacion] = useState({});
     let navigate = useNavigate();
 
-    function refreshPage() {
-        window.location.reload(false);
-    }
 
 
     useEffect(() => {

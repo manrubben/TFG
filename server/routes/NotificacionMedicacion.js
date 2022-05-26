@@ -50,7 +50,7 @@ router.get('/createNotificacionMedicacion/:id', validateToken, async (req, res) 
         }
     }
 
-    res.json("SUCCES");
+    res.json("SUCCESS");
 });
 
 router.get('/updateDia/:id', validateToken, async (req, res) => {
@@ -60,39 +60,47 @@ router.get('/updateDia/:id', validateToken, async (req, res) => {
     const hoyString = hoy.toLocaleDateString()
     const mes = hoy.getMonth()+1;
 
-    await NotificacionMedicacion.update({
-            dia: true,
-        },
-        {where: {PersonasDependienteId: PersonasDependienteId}}
-    );
+    try {
 
-    const registroDiario = await RegistrosDiarios.findOne({
-        where: {
-            PersonasDependienteId: PersonasDependienteId,
-            fecha: hoyString
+        await NotificacionMedicacion.update({
+                dia: true,
+            },
+            {where: {PersonasDependienteId: PersonasDependienteId}}
+        );
+
+        const registroDiario = await RegistrosDiarios.findOne({
+            where: {
+                PersonasDependienteId: PersonasDependienteId,
+                fecha: hoyString
+            }
+
+        })
+
+        if(registroDiario === null){
+            await RegistrosDiarios.create({
+                fecha: hoyString,
+                medicacionManana: true,
+                medicacionTarde: false,
+                medicacionNoche: false,
+                mes: mes,
+                PersonasDependienteId: PersonasDependienteId
+            })
+        } else {
+            await RegistrosDiarios.update({
+                    medicacionManana: true
+                },
+                {where: {PersonasDependienteId: PersonasDependienteId,
+                        fecha: hoyString}
+                })
         }
 
-    })
-
-    if(registroDiario === null){
-        await RegistrosDiarios.create({
-            fecha: hoyString,
-            medicacionManana: true,
-            medicacionTarde: false,
-            medicacionNoche: false,
-            mes: mes,
-            PersonasDependienteId: PersonasDependienteId
-        })
-    } else {
-        await RegistrosDiarios.update({
-            medicacionManana: true
-        },
-            {where: {PersonasDependienteId: PersonasDependienteId,
-                fecha: hoyString}
-            })
+    } catch (e) {
+        if(e) {
+            return res.json(e)
+        }
     }
 
-    res.json("SUCCES");
+    res.json("SUCCESS");
 
 });
 
@@ -135,7 +143,7 @@ router.get('/updateTarde/:id', validateToken, async (req, res) => {
             })
     }
 
-    res.json("SUCCES");
+    res.json("SUCCESS");
 
 });
 router.get('/updateNoche/:id', validateToken, async (req, res) => {
@@ -177,7 +185,7 @@ router.get('/updateNoche/:id', validateToken, async (req, res) => {
             })
     }
 
-    res.json("SUCCES");
+    res.json("SUCCESS");
 
 });
 

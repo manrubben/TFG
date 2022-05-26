@@ -21,8 +21,6 @@ router.post("/addRegistro", validateToken, async (req, res) => {
         }
     })
 
-    console.log(registroDiario)
-
     if(Object.entries(registroDiario).length === 0){
 
         try {
@@ -75,25 +73,38 @@ router.post("/addAuxiliarRegistro/:id", validateToken, async (req, res) => {
     const registroId = registroDiario[0].id;
     const {auxiliarId} = req.body;
 
-    console.log(registroId)
-
-   // try {
-
-        await AuxiliaresRegistros.create({
+    // ver si ya existe la relacion entre auxiliar y registro
+    const auxiliarRegistro = await AuxiliaresRegistros.findAll({
+        where: {
             registroId: registroId,
-            auxiliarId: auxiliarId,
-
-        });
-
-     /* } catch (e) {
-        if(e) {
-            return res.json(e)
+            auxiliarid: auxiliarId
         }
+    })
+
+    if(Object.entries(auxiliarRegistro).length === 0) {
+
+        try {
+
+            await AuxiliaresRegistros.create({
+                registroId: registroId,
+                auxiliarId: auxiliarId,
+
+            });
+
+        } catch (e) {
+            if(e) {
+                return res.json(e)
+            }
+        }
+
+
+        res.json("SUCCESS");
+
+    } else {
+        return res.json({error: "El auxiliar ya está asociado al registro"})
     }
 
-      */
 
-    res.json("SUCCESS");
 });
 
 //VER SI AUXILIAR ESTÁ ASOCIADO AL REGISTRO
@@ -102,12 +113,7 @@ router.get('/auxiliarRegistro/:id', validateToken, async (req, res) => {
     const personaDependienteId = req.params.id;
     const fecha = req.query.fecha;
     const auxiliarId = req.user.id;
-    //const fechaString = fecha.toLocaleDateString()
 
-
-    console.log(personaDependienteId)
-
-    console.log(fecha)
     const registroDiario = await RegistrosDiarios.findAll({
         where: {
             PersonasDependienteId: personaDependienteId,
@@ -116,13 +122,9 @@ router.get('/auxiliarRegistro/:id', validateToken, async (req, res) => {
 
     })
 
-    console.log(registroDiario);
-
     const registro = registroDiario[0];
 
     const registroId = registro.id
-
-    console.log(registroDiario);
 
     const registroAuxiliar = await AuxiliaresRegistros.findAll({
         where: {
@@ -181,8 +183,6 @@ router.put('/registro/edit/:id', validateToken, async (req, res) => {
 router.get('/showRegistroEdit/:id', validateToken, async (req, res) => {
 
     const registroId = req.params.id;
-    //const fecha = req.query.fecha;
-    //const fechaString = fecha.toLocaleDateString()
 
     const registroDiario = await RegistrosDiarios.findAll({
         where: {
@@ -202,7 +202,6 @@ router.get('/showRegistro/:id', validateToken, async (req, res) => {
 
     const personaDependienteId = req.params.id;
     const fecha = req.query.fecha;
-    //const fechaString = fecha.toLocaleDateString()
 
     const registroDiario = await RegistrosDiarios.findAll({
         where: {

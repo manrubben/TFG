@@ -76,8 +76,6 @@ describe('Observaciones', () => {
     describe('Create observacion', () => {
         it('should create a new Observacion', async () => {
 
-
-
             const personaDependiente = await PersonasDependientes.findOne(
                 {where:
                         {
@@ -119,7 +117,7 @@ describe('Observaciones', () => {
                         }
 
                 })
-            console.log(observacion1)
+
             expect(response.statusCode).to.equal(200)
             expect(notificacion[0].nueva).to.equal(true)
             expect(response.body).to.equal('SUCCESS')
@@ -168,7 +166,6 @@ describe('Observaciones', () => {
 
                 })
 
-            console.log(notificacion)
 
             expect(response.statusCode).to.equal(200)
             expect(notificacion.length).to.equal(0)
@@ -332,7 +329,7 @@ describe('Observaciones', () => {
                     PersonasDependienteId: personaDependiente.id,
                 }})
 
-            //console.log(listObservaciones)
+
             const response = await request(app).get(`/observaciones/showObservaciones/${personaDependiente.id}`).set('accessToken', token2)
 
             const notificacion = await NotificacionObservacion.findAll(
@@ -356,7 +353,6 @@ describe('Observaciones', () => {
 
             const listUsers = await Users.findAll();
 
-            console.log(listUsers)
 
             const personaDependiente = await PersonasDependientes.findOne(
                 {where:
@@ -408,7 +404,6 @@ describe('Observaciones', () => {
                     UserId: user.id
                 }})
 
-            console.log(observacion)
 
             const listObservaciones = await Observaciones.findAll()
             const response = await request(app).del(`/observaciones/deleteObservacion/${observacion.id}`)
