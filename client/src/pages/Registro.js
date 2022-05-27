@@ -1,41 +1,35 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
+import {AuthContext} from "../helpers/AuthContext";
+import * as Yup from "yup";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 
 function Registros() {
 
     let { id } = useParams();
     let navigate = useNavigate();
+    const { authState } = useContext(AuthContext);
 
-    const [authState, setAuthState] = useState({
-        username: "",
-        id: 0,
-        rol: "",
-        status: false,
+    const initialValues = {
+        desayuno: "",
+        almuerzo: "",
+        merienda: "",
+        cena: "",
+        pasosDiarios: 0,
+        actividadFisica: "",
+        horasSueno: 0.0,
+        tiempoAireLibre:"",
+        relacionSocial: "",
+        PersonasDependienteId: id
+    };
+
+    const validationSchema = Yup.object().shape({
+        pasosDiarios: Yup.string().required("Debe ser un número"),
+        horasSueno: Yup.string().required("Debe ser un número"),
     });
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:3001/users/auth", {
-                headers: {
-                    accessToken: localStorage.getItem("accessToken"),
-                },
-            })
-            .then((response) => {
-                if (response.data.error) {
-                    setAuthState({...authState, status: false});
-                } else {
-                    setAuthState({
-                        username: response.data.username,
-                        id: response.data.id,
-                        rol: response.data.rol,
-                        status: true,
-                    });
-                    console.log(response.data.rol)
-                }
-            });
-    }, []);
-
+/*
     const [desayuno, setDesayuno] = useState("");
     const [almuerzo, setAlmuerzo] = useState("");
     const [merienda, setMerienda] = useState("");
@@ -46,34 +40,36 @@ function Registros() {
     const [tiempoAireLibre, setTiempoAireLibre] = useState("");
 
 
-    const crearRegistro = async() => {
-        const data = {
-            desayuno: desayuno,
-            almuerzo: almuerzo,
-            merienda: merienda,
-            cena: cena,
-            pasosDiarios: pasosDiarios,
-            actividadFisica: actividadFisica,
-            horasSueno: horasSueno,
-            tiempoAireLibre: tiempoAireLibre,
-            PersonasDependienteId: id,
+   /* const data = {
+        desayuno: desayuno,
+        almuerzo: almuerzo,
+        merienda: merienda,
+        cena: cena,
+        pasosDiarios: pasosDiarios,
+        actividadFisica: actividadFisica,
+        horasSueno: horasSueno,
+        tiempoAireLibre: tiempoAireLibre,
+        PersonasDependienteId: id,
 
 
-        }
-       await axios.post("http://localhost:3001/registrosDiarios/addRegistro", data,
+    }
+
+    */
+    const data2 = {
+        auxiliarId : authState.id,
+    }
+
+    const crearRegistro = async (data) => {
+
+        await axios.post("http://localhost:3001/registrosDiarios/addRegistro", data,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
-                if(response) {
-                    console.log(response);
+                if(response.data.error) {
+                    console.log(data.error);
                 }
             })
 
-        const data2 = {
-            auxiliarId : authState.id,
-        }
-
-
-       await axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, data2,
+         axios.post(`http://localhost:3001/registrosDiarios/addAuxiliarRegistro/${id}`, data2,
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
 
@@ -84,81 +80,94 @@ function Registros() {
                     navigate(`/personaDependiente/${id}`)
                 }
             })
+
+
     }
 
     return(
         <div className="App">
             <h1>Registro Diario</h1>
 
-            <div className="loginContainer">
+            <Formik
+                initialValues={initialValues}
+                onSubmit={crearRegistro}
+                validationSchema={validationSchema}
+            >
+                <Form className="formContainer">
 
                 <label>Desayuno:</label>
-                <input type="text"
-                       name="desayuno"
-                       onChange={(event) => {
-                           setDesayuno(event.target.value);
-                       }}
+                <Field
+                    autoComplete="off"
+                    id="inputCreatePost"
+                    name="desayuno"
                 />
 
                 <label>Almuerzo:</label>
-                <input type="text"
-                       name="almuerzo"
-                       onChange={(event) => {
-                           setAlmuerzo(event.target.value);
-                       }}
-                />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="almuerzo"
+                    />
 
                 <label>Merienda:</label>
-                <input type="text"
-                       name="merienda"
-                       onChange={(event) => {
-                           setMerienda(event.target.value);
-                       }}
-                />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="merienda"
+                    />
 
                 <label>Cena:</label>
-                <input type="text"
-                       name="cena"
-                       onChange={(event) => {
-                           setCena(event.target.value);
-                       }}
-                />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="cena"
+                    />
 
                 <label>Pasos Diarios:</label>
-                <input type="text"
-                       name="pasosDiarios"
-                       onChange={(event) => {
-                           setPasosDiarios(event.target.value);
-                       }}
-                />
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="pasosDiarios"
+                        placeholder="(Ej. 2000)"
+                    />
 
                 <label>Actividad Física:</label>
-                <input type="text"
-                       name="actividadFisica"
-                       onChange={(event) => {
-                           setActividadFisica(event.target.value);
-                       }}
-                />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="actividadFisica"
+                        placeholder="(Ej. Andar, ejercio de fuerza...)"
+                    />
 
                 <label>Horas de sueño:</label>
-                <input type="double"
-                       name="horasSueno"
-                       onChange={(event) => {
-                           setHorasSueno(event.target.value);
-                       }}
-                />
+                    <ErrorMessage name="nombre" component="span" />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="horasSueno"
+                        placeholder="(Ej. 7.5)"
+                    />
 
                 <label>Tiempo al aire libre:</label>
-                <input type="text"
-                       name="tiempoAireLibre"
-                       onChange={(event) => {
-                           setTiempoAireLibre(event.target.value);
-                       }}
-                />
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="tiempoAireLibre"
+                        placeholder="(Ej. 30 minutos...)"
+                    />
 
-                <button className="guardar-registro-button" onClick={crearRegistro}>Guardar Registro</button>
+                    <label>Relaciones sociales:</label>
+                    <Field
+                        autoComplete="off"
+                        id="inputCreatePost"
+                        name="relacionSocial"
+                    />
 
-            </div>
+                    <button type="submit">Guardar registro</button>
+
+            </Form>
+            </Formik>
         </div>
     )
 

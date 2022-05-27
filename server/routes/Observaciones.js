@@ -112,7 +112,7 @@ router.get('/showObservaciones/:id', validateToken, async (req, res) => {
     res.json(observaciones);
 
 });
-//Borrar un comentario
+//Borrar una observacion
 router.delete("/deleteObservacion/:observacionId", validateToken, async (req, res) => {
     const observacionId = req.params.observacionId;
 

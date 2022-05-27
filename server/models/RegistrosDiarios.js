@@ -8,41 +8,69 @@ module.exports = (sequelize, DataTypes) => {
 
         desayuno: {
             type: DataTypes.TEXT,
-            allowNull: false,
+
         },
         almuerzo: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.TEXT,
+
         },
         merienda: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.TEXT,
+
         },
 
         cena: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.TEXT,
+
         },
 
         pasosDiarios: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.INTEGER,
+
         },
 
         actividadFisica: {
             type: DataTypes.STRING,
-            allowNull: false,
+
         },
 
         horasSueno: {
             type: DataTypes.DOUBLE,
-            allowNull: false,
         },
 
         tiempoAireLibre: {
             type: DataTypes.STRING,
-            allowNull: false,
+
         },
+
+        relacionSocial: {
+            type: DataTypes.STRING,
+        },
+
+        medicacionManana: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        medicacionTarde: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        medicacionNoche: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+
+        },
+
+        mes: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+
+        },
+
         PersonasDependienteId: {
             type: DataTypes.INTEGER,
             allowNull: false,
