@@ -25,6 +25,9 @@ app.use("/registrosDiarios", registroRouter);
 const observacionRouter = require("./routes/Observaciones");
 app.use("/observaciones", observacionRouter);
 
+const avisoRouter = require("./routes/Avisos");
+app.use("/avisos", avisoRouter);
+
 
 db.sequelize.sync().then(() => {
     app.listen(3001, () => {

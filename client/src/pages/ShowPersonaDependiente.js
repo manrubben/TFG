@@ -21,6 +21,7 @@ function ShowPersonaDependiente() {
     const [personaDependiente, setPersonaDependiente] = useState({});
     const [registro, setRegistro] = useState({});
     const [notificacion, setNotificacion] = useState({});
+    const [notificacionAviso, setNotificacionAviso] = useState({});
     const [notificacionMedicacion, setNotificacionMedicacion] = useState({});
     let navigate = useNavigate();
 
@@ -33,6 +34,13 @@ function ShowPersonaDependiente() {
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 setNotificacion(response.data);
+
+            });
+
+        axios.get(`http://localhost:3001/avisos/notificacion/${id}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                setNotificacionAviso(response.data);
 
             });
 
@@ -65,10 +73,21 @@ function ShowPersonaDependiente() {
 
     }, [])
 
+    //Mostrar notificación de una nueva observación al familiar
     if (Object.values(notificacion).at(1) && authState.rol === "FAMILIAR") {
         Swal.fire({
-            icon: "info", title: "AVISO",
+            position: 'top-start',
+            icon: "info", title: "INFORMACIÓN",
             text: "Hay nuevas observaciones"
+        })
+    }
+
+    //Mostrar notificación de un nuevo aviso al auxiliar
+    if (Object.values(notificacionAviso).at(1) && authState.rol === "AUXILIAR") {
+        Swal.fire({
+            position: 'top-start',
+            icon: "info", title: "INFORMACIÓN",
+            text: "Hay un nuevo aviso"
         })
     }
 
@@ -149,6 +168,7 @@ function ShowPersonaDependiente() {
         }
     }
 
+    // Valores y metodo para crear una observacion
     const initialValues = {
         titulo: "",
         descripcion: "",
@@ -170,6 +190,32 @@ function ShowPersonaDependiente() {
             {headers: {accessToken: localStorage.getItem("accessToken"),}})
             .then((response) => {
                 navigate(`/personaDependiente/${id}/observaciones`)
+            })
+    }
+
+
+    // Valores y metodo para crear un aviso
+    const initialValuesAv = {
+        titulo: "",
+        descripcion: "",
+        username: authState.username,
+        PersonasDependienteId: id,
+        UserId: authState.id
+
+    };
+
+
+    const validationSchemaAv = Yup.object().shape({
+        aviso: Yup.string().required("Debes introducir un aviso"),
+    });
+
+
+
+    const addAviso = (data) => {
+        axios.post("http://localhost:3001/avisos/createAviso", data,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                navigate(`/personaDependiente/${id}/avisos`)
             })
     }
 
@@ -308,6 +354,37 @@ function ShowPersonaDependiente() {
                 navigate(`/personaDependiente/${personaDependiente.id}/observaciones`)
             }}>Observaciones
             </button>
+
+
+            <h1>AVISOS</h1>
+            {authState.rol === "FAMILIAR" &&
+            <>
+
+                <Formik
+                    initialValues={initialValuesAv}
+                    onSubmit={addAviso}
+                    validationSchema={validationSchemaAv}
+                >
+                    <Form className="formContainer">
+                        <label>Aviso: </label>
+                        <ErrorMessage name="aviso" component="span"/>
+                        <Field
+                            autoComplete="off"
+                            id="inputCreatePost"
+                            name="aviso"
+                        />
+
+                        <button type="submit">Añadir Aviso</button>
+                    </Form>
+                </Formik>
+            </>
+            }
+
+            <button className="list-observaciones-button" onClick={() => {
+                navigate(`/personaDependiente/${personaDependiente.id}/avisos`)
+            }}>Avisos
+            </button>
+
         </div>
     )
 

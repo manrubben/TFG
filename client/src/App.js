@@ -22,6 +22,7 @@ import EditRegistro from "./pages/EditRegistro";
 import Welcome from "./pages/Welcome";
 import Navbar from "./pages/Navbar";
 import Observaciones from "./pages/Observaciones";
+import Avisos from "./pages/Avisos";
 import CreateFamiliar from "./pages/CreateFamiliar";
 import GestionarFamiliares from "./pages/GestionarFamiliares"
 import ShowFamiliar from "./pages/ShowFamiliar"
@@ -87,6 +88,7 @@ function App() {
                       <Route path='/personaDependiente/:id/registro/edit' element={<EditRegistro/>} />
                       <Route path='/auxiliar/asignadas' element={<PersonasDependientesAsignadas/>} />
                       <Route path='/personaDependiente/:id/observaciones' element={<Observaciones/>} />
+                      <Route path='/personaDependiente/:id/avisos' element={<Avisos/>} />
                       <Route path='/familiar/:id' element={<ShowFamiliar/>} />
                       <Route path='/familiar/:id/edit' element={<EditFamiliar/>} />
                       <Route path='personaDependiente/:id/familiares' element={<FamiliaresAsignados/>} />
