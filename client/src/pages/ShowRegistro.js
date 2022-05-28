@@ -124,6 +124,11 @@ function ShowRegistro() {
         doc.save('Demo.pdf')
     }
 
+
+    const medicacionManana = (registro.medicacionManana === false) ? "No" : "Si";
+    const medicacionTarde = (registro.medicacionTarde === false) ? "No" : "Si";
+    const medicacionNoche = (registro.medicacionNoche === false) ? "No" : "Si";
+
     return(
         <div className="App">
             <h1>Selecciona la fecha</h1>
@@ -142,8 +147,15 @@ function ShowRegistro() {
                 <label>Almuerzo: {registro.almuerzo}</label>
                 <label>Merienda: {registro.merienda}</label>
                 <label>Cena: {registro.cena}</label>
+                <label>¿Ha tomado la medicacicón correspondiente a la mañana?: {medicacionManana}</label>
+                <label>¿Ha tomado la medicacicón correspondiente a la tarde?: {medicacionTarde}</label>
+                <label>¿Ha tomado la medicacicón correspondiente a la noche?: {medicacionNoche}</label>
                 <label>Pasos diarios: {registro.pasosDiarios}</label>
                 <label>Actividad física: {registro.actividadFisica}</label>
+                <label>Horas de sueño: {registro.horasSueno}</label>
+                <label>Tiempo al aire libre: {registro.tiempoAireLibre}</label>
+                <label>Actividad física: {registro.actividadFisica}</label>
+                <label>Relaciones sociales: {registro.relacionSocial}</label>
             </div>
             }
 
@@ -156,7 +168,7 @@ function ShowRegistro() {
             }
 
 
-            { authState.rol === "FAMILIAR" || authState.rol === "COORDINADOR" &&
+            { ((authState.rol === "FAMILIAR") || (authState.rol === "COORDINADOR")) &&
 
                 <>
                     <div>

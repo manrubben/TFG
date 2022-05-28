@@ -32,6 +32,16 @@ before( (done) => {
     })
 
     PersonasDependientes.create({
+        nombre: "Angela",
+        apellidos: "Perez",
+        enfermedad: "Alzheimer",
+        gradoDeDependencia: "60%",
+        pastillasDia: "paracetamol",
+        pastillasTarde: "aspirina",
+        pastillasNoche: "paracetamol"
+    })
+
+    PersonasDependientes.create({
         nombre: "Ana",
         apellidos: "García",
         enfermedad: "Parkinson",
@@ -451,8 +461,8 @@ describe('Registros diarios', () => {
 
     })
 
-    describe('Edit Registro', () => {
-        it('should edit registro', async () => {
+    describe('Show Registro', () => {
+        it('should show a registro', async () => {
 
             const hoy = new Date(Date.now());
             const mes = hoy.getMonth() + 1;
@@ -504,6 +514,75 @@ describe('Registros diarios', () => {
             expect(response.statusCode).to.equal(200)
             expect(response.body.desayuno).to.equal(registro.desayuno)
             expect(response.body.pasosDiarios).to.equal(registro.pasosDiarios)
+
+        })
+
+        it('should show a mes', async () => {
+
+            const personaDependiente = await PersonasDependientes.findOne(
+                {
+                    where:
+                        {
+                            nombre: "Angela",
+                            apellidos: "Perez",
+                            enfermedad: "Alzheimer",
+                            gradoDeDependencia: "60%",
+                            pastillasDia: "paracetamol",
+                            pastillasTarde: "aspirina",
+                            pastillasNoche: "paracetamol"
+                        }
+                })
+
+            await RegistrosDiarios.create({
+                fecha: "20/3/2022",
+                desayuno: "Tostada",
+                almuerzo: "Filetes a la plancha",
+                merienda: "Fruta",
+                cena: "Sopa",
+                pasosDiarios: 500,
+                actividadFisica: "Andar",
+                horasSueno: 7.5,
+                tiempoAireLibre: "tiempoAireLibre",
+                relacionSocial: "relacionSocial",
+                medicacionManana: false,
+                medicacionTarde: false,
+                medicacionNoche: false,
+                mes: 3,
+                PersonasDependienteId: personaDependiente.id
+            })
+
+            await RegistrosDiarios.create({
+                fecha: "15/3/2022",
+                desayuno: "Tostada",
+                almuerzo: "Filetes a la plancha",
+                merienda: "Fruta",
+                cena: "Sopa",
+                pasosDiarios: 500,
+                actividadFisica: "Andar",
+                horasSueno: 7.5,
+                tiempoAireLibre: "tiempoAireLibre",
+                relacionSocial: "relacionSocial",
+                medicacionManana: false,
+                medicacionTarde: false,
+                medicacionNoche: false,
+                mes: 3,
+                PersonasDependienteId: personaDependiente.id
+            })
+
+            const registrosMes = await RegistrosDiarios.findAll(
+                {
+                    where:
+                        {
+                            mes: 3,
+                            PersonasDependienteId: personaDependiente.id,
+
+                        }
+                })
+
+            const response = await request(app).get(`/registrosDiarios/showRegistrosMes/${personaDependiente.id}?mes=3`).set('accessToken', token)
+
+            expect(response.statusCode).to.equal(200)
+            expect(response.body.length).to.equal(registrosMes.length)
 
         })
 
