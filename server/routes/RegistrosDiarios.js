@@ -217,5 +217,23 @@ router.get('/showRegistro/:id', validateToken, async (req, res) => {
 
 })
 
+//OBTENER REGISTROS DE UN MES
+router.get('/showRegistrosMes/:id', validateToken, async (req, res) => {
+
+    const personaDependienteId = req.params.id;
+    const mes = req.query.mes;
+
+    const registrosMes = await RegistrosDiarios.findAll({
+        where: {
+            PersonasDependienteId: personaDependienteId,
+            mes: mes
+        }
+
+    })
+
+    res.json(registrosMes);
+
+})
+
 
 module.exports = router;
