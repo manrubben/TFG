@@ -1,0 +1,13 @@
+dist: xenial
+language: node_js
+node_js:
+  - 16
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE tfgdb_test;'
+install:
+  - cd server && npm install
+script:
+  - cd server && npm run test
+
