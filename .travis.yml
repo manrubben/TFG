@@ -1,7 +1,7 @@
 dist: xenial
 language: node_js
 node_js:
-  - 16
+  - 16.14.0
 services:
   - mysql
 before_install:
@@ -10,4 +10,9 @@ install:
   - cd server && npm install
 script:
   - cd server && npm run test
+branches:
+  only:
+    - master
+    - develop
+    - Travis-config
 
