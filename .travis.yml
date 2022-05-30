@@ -4,15 +4,22 @@ node_js:
   - 16.14.0
 services:
   - mysql
-before_install:
-  - mysql -e 'CREATE DATABASE tfgdb_test;'
 install:
   - cd server && npm install
+  - npm install codacy-coverage --save
+  - npm install mocha-lcov-reporter --save
+  - npm install --save-dev nyc
+
 script:
-  - cd server && npm run test
+  - npm run test
+  - npx nyc report --reporter=lcov
+
+after_success:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/*.info
+
 branches:
   only:
-    - master
+    - main
     - develop
     - Travis-config
 
