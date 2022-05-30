@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test mocha --exit ./test/*",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 10000 --exit ./test/*",
     "start": "nodemon index.js"
   },
   "author": "",
@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
+    "nyc": "^15.1.0",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1"
   },
