@@ -26,6 +26,7 @@ branches:
 deploy:
   provider: heroku
   api_key: 8bf4d2a1-c139-4036-89c9-32361fdf8f4d
-  app: careus-backend
+  app:
+    Travis-config: careus-backend
 
 
