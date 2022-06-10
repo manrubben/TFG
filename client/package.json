@@ -28,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "wdio": "wdio"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +48,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@wdio/cli": "^7.20.1",
+    "@wdio/local-runner": "^7.20.1",
+    "@wdio/mocha-framework": "^7.20.0",
+    "@wdio/selenium-standalone-service": "^7.20.1",
+    "@wdio/spec-reporter": "^7.20.0",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "wdio-wait-for": "^2.2.6",
+    "webdriverio": "^7.20.1"
   }
 }
