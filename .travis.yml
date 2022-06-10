@@ -1,0 +1,36 @@
+dist: xenial
+language: node_js
+node_js:
+  - 16.14.0
+services:
+  - mysql
+install:
+  - cd server && npm install
+  - npm install codacy-coverage --save
+  - npm install mocha-lcov-reporter --save
+  - npm install --save-dev nyc
+
+script:
+  - npm run test
+  - npx nyc report --reporter=lcov
+
+after_success:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/*.info
+
+branches:
+  only:
+    - main
+    - develop
+    - Travis-config
+
+before_deploy:
+  - rvm $(travis_internal_ruby) --fuzzy do ruby -S gem install faraday -v 1.10.0
+
+deploy:
+  provider: heroku
+  api_key: 8bf4d2a1-c139-4036-89c9-32361fdf8f4d
+  app:
+    Travis-config: careus-backend
+
+
+

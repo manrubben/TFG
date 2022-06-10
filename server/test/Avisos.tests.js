@@ -257,8 +257,6 @@ describe('Avisos', () => {
 
                 })
 
-
-            console.log(notificacion)
             expect(notificacion[0].nueva).to.equal(false)
             expect(response.statusCode).to.equal(200)
             expect(listAvisos.length).to.equal(response.body.length)

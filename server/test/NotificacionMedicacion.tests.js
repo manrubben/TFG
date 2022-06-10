@@ -265,7 +265,7 @@ describe('Notificacion medicacion', () => {
                 }
             })
 
-            console.log(registro)
+
 
 
             expect(response.statusCode).to.equal(200)
@@ -394,8 +394,6 @@ describe('Notificacion medicacion', () => {
                 }
             })
 
-            console.log(registro)
-
 
             expect(response.statusCode).to.equal(200)
             expect(response.body).to.equal('SUCCESS')
@@ -523,8 +521,6 @@ describe('Notificacion medicacion', () => {
                     fecha: fecha,
                 }
             })
-
-            console.log(registro)
 
 
             expect(response.statusCode).to.equal(200)
