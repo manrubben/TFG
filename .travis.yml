@@ -29,7 +29,7 @@ deploy:
   app:
     Travis-config: careus-backend
   script:
-    - gem install faraday -v 1.10.0
+    - gem install dpl && gem install faraday -v 1.10.0
 
 
 
