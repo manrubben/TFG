@@ -18,8 +18,8 @@ function FamiliaresAsignados() {
     }, [])
 
 
-    const deleteUserPersonaDependiente = (familiarId, id) => {
-        axios.delete("http://localhost:3001/userPersonaDependiente/delete",
+    const deleteUserPersonaDependiente = async (familiarId, id) => {
+        await axios.delete("http://localhost:3001/userPersonaDependiente/delete",
             {headers: {accessToken: localStorage.getItem("accessToken")},
                 data: {
                     userId: familiarId,
@@ -31,6 +31,14 @@ function FamiliaresAsignados() {
                         return familiar.id != familiarId;
                     })
                 )
+            })
+
+        await axios.delete(`http://localhost:3001/users/familiares/delete/${familiarId}`,
+            {headers: {accessToken: localStorage.getItem("accessToken"),}})
+            .then((response) => {
+                if(response.data.error) {
+                    console.log(response.data.error)
+                }
             })
 
     }
