@@ -131,7 +131,6 @@ function EditPersonaDependiente() {
 
                     <button type="submit">Actualizar</button>
                     <button type="button" onClick={deletePersonaDependiente}>Eliminar</button>
-
                 </Form>
             </Formik>
         </div>

@@ -63,6 +63,7 @@ function EditAuxiliar() {
                 enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
+                onSubmit={editAuxiliar}
             >
                 <Form className="formContainer">
                     <label>Nombre: </label>
@@ -101,8 +102,8 @@ function EditAuxiliar() {
                         placeholder="(Ej. javier97...)"
                     />
 
-                    <button onClick={editAuxiliar}>Actualizar</button>
-                    <button onClick={deleteAuxiliar}>Eliminar</button>
+                    <button type="submit">Actualizar</button>
+                    <button type="button" onClick={deleteAuxiliar}>Eliminar</button>
                 </Form>
             </Formik>
         </div>
