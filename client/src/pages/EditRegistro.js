@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {AuthContext} from "../helpers/AuthContext";
 import {ErrorMessage, Field, Form, Formik} from "formik";
+import * as Yup from "yup";
 
 function EditRegistros(){
 
@@ -70,6 +71,10 @@ function EditRegistros(){
     };
 
 
+    const validationSchema = Yup.object().shape({
+        pasosDiarios: Yup.number().typeError("Debe ser un número").min(0, "Debe ser un número").required("Debe introducir un número de pasos"),
+        horasSueno: Yup.number().typeError("Debe ser un número").min(0, "Debe ser un número").required("Debe introducir un número de horas"),
+    });
 
 
     const editRegistro = (data) => {
@@ -109,7 +114,7 @@ function EditRegistros(){
                 enableReinitialize={true}
                 initialValues={initialValues}
                 onSubmit={editRegistro}
-                //validationSchema={validationSchema}
+                validationSchema={validationSchema}
             >
                 <Form className="formContainer">
 
@@ -142,6 +147,7 @@ function EditRegistros(){
                     />
 
                     <label>Pasos Diarios:</label>
+                    <ErrorMessage name="pasosDiarios" component="span" />
                     <Field
                         autoComplete="off"
                         id="inputCreatePost"
@@ -158,6 +164,7 @@ function EditRegistros(){
                     />
 
                     <label>Horas de sueño:</label>
+                    <ErrorMessage name="horasSueno" component="span" />
                     <Field
                         autoComplete="off"
                         id="inputCreatePost"
