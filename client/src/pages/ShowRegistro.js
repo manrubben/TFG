@@ -121,7 +121,7 @@ function ShowRegistro() {
 
         }
 
-        doc.save('Demo.pdf')
+        doc.save('Registros del mes.pdf')
     }
 
 

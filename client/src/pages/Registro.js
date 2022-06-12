@@ -25,8 +25,8 @@ function Registros() {
     };
 
     const validationSchema = Yup.object().shape({
-        pasosDiarios: Yup.string().required("Debe ser un número"),
-        horasSueno: Yup.string().required("Debe ser un número"),
+        pasosDiarios: Yup.number().typeError("Debe ser un número").min(0, "Debe ser un número").required("Debe introducir un número de pasos"),
+        horasSueno: Yup.number().typeError("Debe ser un número").min(0, "Debe ser un número").required("Debe introducir un número de horas"),
     });
 
 /*
@@ -124,7 +124,7 @@ function Registros() {
                     />
 
                 <label>Pasos Diarios:</label>
-                    <ErrorMessage name="nombre" component="span" />
+                    <ErrorMessage name="pasosDiarios" component="span" />
                     <Field
                         autoComplete="off"
                         id="inputCreatePost"
@@ -141,7 +141,7 @@ function Registros() {
                     />
 
                 <label>Horas de sueño:</label>
-                    <ErrorMessage name="nombre" component="span" />
+                    <ErrorMessage name="horasSueno" component="span" />
                     <Field
                         autoComplete="off"
                         id="inputCreatePost"

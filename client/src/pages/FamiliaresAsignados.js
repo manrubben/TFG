@@ -50,11 +50,13 @@ function FamiliaresAsignados() {
                 {listOfFamiliaresAsignados.map((value, key) => {
                     return(
                         <div className="familiar-asignado">
-                            <div key={key} className="post" onClick={() => {
-                                console.log(value.id)
-                                navigate(`/familiar/${value.id}`);
-                            }}>
+                            <div key={key} className="post" >
                                 <div className="title">{value.nombre + " " + value.apellidos}</div>
+
+                                {authState.rol === "AUXILIAR" &&
+                                <div className="body">Contacto: {value.telefono}</div>
+                                }
+
                             </div>
 
                             {authState.rol === "COORDINADOR" &&

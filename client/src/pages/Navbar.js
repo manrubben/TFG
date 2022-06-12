@@ -22,9 +22,12 @@ const Navbar = () => {
  return(
      <nav className="navbar">
          <div className="container-icon">
-             <a className="primary-icon" href="/home">LOGO</a>
+             {authState.status ? (
+                 <a className="primary-icon" href="/home">CareUs!</a>
+             ) : (
+                 <a className="primary-icon" href="/">CareUs!</a>
+             )}
          </div>
-
          <ul className="nav-list">
              {authState.rol === "COORDINADOR" &&
                  <>
